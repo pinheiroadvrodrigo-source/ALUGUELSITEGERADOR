@@ -1,0 +1,153 @@
+---
+import '@fontsource-variable/archivo/standard.css';
+import '@fontsource-variable/archivo/standard-italic.css';
+import '@fontsource/jetbrains-mono/500.css';
+import '@fontsource/jetbrains-mono/700.css';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import MobileBar from '../components/MobileBar.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { SITE } from '../data/site';
+import { LOCALIDADES } from '../data/localidades';
+
+interface Crumb { label: string; href?: string }
+interface Props {
+  title: string;
+  description: string;
+  path: string; // ex.: '/', '/sobre'
+  schema?: object[];
+  crumbs?: Crumb[];
+  noindex?: boolean;
+  formOnPage?: boolean; // se o "Pedir orçamento" rola até o formulário da própria página
+  hideMobileBar?: boolean;
+  localidade?: string;
+  servico?: string;
+  geoPlacename?: string;
+}
+const {
+  title, description, path, schema = [], crumbs, noindex = false,
+  formOnPage = true, hideMobileBar = false, localidade = '', servico = '', geoPlacename = SITE.cidadeSede,
+} = Astro.props;
+const canonical = new URL(path, SITE.url).toString();
+const ogImage = new URL('/img/og-paraprime-aluguel-de-gerador-belem.jpg', SITE.url).toString();
+
+// LocalBusiness — em todas as páginas. Sem endereço de rua enquanto não houver parceiro.
+const localBusiness: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': `${SITE.url}/#organizacao`,
+  name: SITE.marcaCompleta,
+  alternateName: SITE.marca,
+  description: 'Aluguel de geradores de energia em Belém e Região Metropolitana: indústria, eventos, obras, condomínios e residências.',
+  url: SITE.url,
+  logo: `${SITE.url}/img/paraprime-aluguel-de-geradores-logo.webp`,
+  image: ogImage,
+  telephone: SITE.telefoneE164,
+  priceRange: '$$',
+  address: { '@type': 'PostalAddress', addressLocality: SITE.cidadeSede, addressRegion: SITE.uf, addressCountry: 'BR' },
+  geo: { '@type': 'GeoCoordinates', latitude: SITE.geo.lat, longitude: SITE.geo.lng },
+  openingHoursSpecification: [{ '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'], opens: '07:00', closes: '19:00' }],
+  areaServed: [{ '@type': 'City', name: 'Belém' }, ...LOCALIDADES.map((l) => ({ '@type': 'City', name: l.cidade }))],
+};
+if (SITE.email) localBusiness.email = SITE.email;
+if (SITE.redes.length) localBusiness.sameAs = SITE.redes;
+
+const breadcrumbSchema = crumbs && {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: crumbs.map((c, i) => ({
+    '@type': 'ListItem', position: i + 1, name: c.label,
+    ...(c.href ? { item: new URL(c.href, SITE.url).toString() } : {}),
+  })),
+};
+const allSchema = [localBusiness, ...(breadcrumbSchema ? [breadcrumbSchema] : []), ...schema];
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.marcaCompleta} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="geo.region" content="BR-PA" />
+    <meta name="geo.placename" content={geoPlacename} />
+    <meta name="theme-color" content="#071433" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    {allSchema.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
+    <script is:inline>window.dataLayer = window.dataLayer || [];</script>
+    {SITE.gtmId && (
+      <script is:inline define:vars={{ id: SITE.gtmId }}>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s);j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',id);
+      </script>
+    )}
+  </head>
+  <body class={hideMobileBar ? '' : 'has-mobile-bar'} data-localidade={localidade} data-servico={servico}>
+    <a class="sr-only" href="#conteudo">Pular para o conteúdo</a>
+    <Header path={path} localidade={localidade} servico={servico} />
+    {crumbs && <Breadcrumbs crumbs={crumbs} />}
+    <main id="conteudo">
+      <slot />
+    </main>
+    <Footer />
+    {!hideMobileBar && <MobileBar formOnPage={formOnPage} localidade={localidade} servico={servico} />}
+
+    <script>
+      // Tracking GA4 via dataLayer — nome do evento = {canal}_{acao}_{posicao}.
+      // Nunca envia dado pessoal. Localidade vai como parâmetro, nunca no nome.
+      type Params = Record<string, string | number | undefined>;
+      const w = window as unknown as { dataLayer: object[]; __track?: (n: string, c: string, p?: Params) => void };
+      w.dataLayer = w.dataLayer || [];
+      const ctx = () => ({
+        page_path: location.pathname,
+        page_localidade: document.body.dataset.localidade || 'belem',
+        page_servico: document.body.dataset.servico || '',
+      });
+      w.__track = (name, channel, params = {}) => {
+        w.dataLayer.push({ event: name, event_name: name, event_channel: channel, ...ctx(), ...params });
+      };
+      document.addEventListener('click', (e) => {
+        const el = (e.target as HTMLElement).closest<HTMLElement>('[data-track]');
+        if (!el) return;
+        const base = el.dataset.track!; // ex.: whatsapp_click | cta_click
+        const pos = el.dataset.ctaPosition || 'sem_posicao';
+        const channel = base.split('_')[0];
+        w.__track!(`${base}_${pos}`, channel, { cta_position: pos, link_url: (el as HTMLAnchorElement).href || '' });
+      });
+
+      // Menu mobile (drawer)
+      const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+      const drawer = document.querySelector<HTMLElement>('[data-drawer]');
+      toggle?.addEventListener('click', () => {
+        const open = drawer?.dataset.open === 'true';
+        if (drawer) drawer.dataset.open = String(!open);
+        toggle.setAttribute('aria-expanded', String(!open));
+        document.body.style.overflow = open ? '' : 'hidden';
+      });
+      drawer?.addEventListener('click', (e) => {
+        if ((e.target as HTMLElement).closest('a')) { drawer.dataset.open = 'false'; document.body.style.overflow = ''; }
+      });
+
+      // Profundidade de rolagem (proxy de engajamento)
+      const marks = [25, 50, 75, 90];
+      const sent = new Set<number>();
+      addEventListener('scroll', () => {
+        const pct = ((scrollY + innerHeight) / document.documentElement.scrollHeight) * 100;
+        for (const m of marks) if (pct >= m && !sent.has(m)) { sent.add(m); w.__track!(`scroll_depth_${m}`, 'engajamento', { percent_scrolled: m }); }
+      }, { passive: true });
+    </script>
+  </body>
+</html>

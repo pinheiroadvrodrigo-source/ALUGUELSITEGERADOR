@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { SITE, waLink } from '../data/site';
+---
+<BaseLayout title="Pedido Recebido | ParaPrime Aluguel de Geradores" description="Seu pedido de orçamento de gerador foi aberto no WhatsApp da ParaPrime. Se a conversa não abriu, use o botão desta página para falar com a gente." path="/obrigado" noindex hideMobileBar>
+  <section class="section">
+    <div class="container narrow" style="text-align:center">
+      <div class="icon-chip" style="margin:0 auto 20px"><Icon name="check" /></div>
+      <h1>Recebemos seu pedido de gerador</h1>
+      <p class="hero__lead" style="color:var(--text-muted);margin-inline:auto">A conversa com os seus dados foi aberta no WhatsApp da {SITE.marcaCompleta}. É só tocar em enviar. Respondemos no mesmo dia útil.</p>
+      <p>Se a janela do WhatsApp não abriu, use o botão abaixo.</p>
+      <a class="btn btn--primary" href={waLink(`Olá! Acabei de pedir um orçamento de gerador pelo site da ${SITE.marca}.`)} target="_blank" rel="noopener" data-track="whatsapp_click" data-cta-position="obrigado"><Icon name="whatsapp" />Falar no WhatsApp</a>
+    </div>
+  </section>
+  <script>
+    (window as any).__track?.('whatsapp_lead_obrigado_view', 'whatsapp', { cta_position: 'obrigado' });
+  </script>
+</BaseLayout>

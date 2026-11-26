@@ -1,0 +1,250 @@
+/* tokens-consolidado.css — os 8 arquivos de _ds/design-system/tokens/ em um só.
+   Gerado automaticamente. Troque APENAS os valores de cor pela paleta da nova marca;
+   mantenha os nomes das variáveis para o wireframe continuar renderizando. */
+
+/* ===== tokens/fonts.css ===== */
+/* Webfonts. NOTE: no font binaries exist on the source site (it ships system/CDN
+   template fonts), so these are documented Google Fonts substitutions:
+   - Cinzel        -> nearest match to the Trajan-style inscriptional serif in the logo wordmark
+   - Archivo       -> modern industrial grotesk for UI + display
+   - JetBrains Mono-> spec/code numerals (CBC sections, dimensions, prices)
+   Swap the @import for local @font-face rules if licensed brand files arrive. */
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap");
+
+:root{
+  --font-brand:"Cinzel",'Times New Roman',serif;
+  --font-display:"Archivo","Helvetica Neue",Helvetica,sans-serif;
+  --font-body:"Archivo","Helvetica Neue",Helvetica,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+
+/* ===== tokens/colors.css ===== */
+:root{
+  /* ---- Base: brand teal, sampled from the logo mark (#42B69C) ---- */
+  --teal-50:#EDF9F6;
+  --teal-100:#DCF2EC;
+  --teal-200:#B5E4D8;
+  --teal-300:#8AD3C1;
+  --teal-400:#63C4AE;
+  --teal-500:#42B69C; /* brand */
+  --teal-600:#2E9781;
+  --teal-700:#1F7565;
+  --teal-800:#15544A;
+  --teal-900:#0E3831;
+
+  /* ---- Base: ink / steel neutrals (cool, faintly green — reads like brushed metal) ---- */
+  --ink-000:#FFFFFF;
+  --ink-025:#F7F8F8;
+  --ink-050:#F1F3F2;
+  --ink-100:#E5E8E7;
+  --ink-200:#D2D7D5;
+  --ink-300:#B3BAB8;
+  --ink-400:#8B9391;
+  --ink-500:#67706E;
+  --ink-600:#4B5351;
+  --ink-700:#333A38;
+  --ink-800:#1E2423;
+  --ink-900:#121716;
+  --ink-950:#0B0F0E;
+  --ink-1000:#000000; /* logo wordmark black */
+
+  /* ---- Base: hardwood / brass warm accent (oak, walnut, maple photography) ---- */
+  --brass-100:#F6EEE1;
+  --brass-200:#E9D8BC;
+  --brass-400:#C79E63;
+  --brass-500:#B0854B;
+  --brass-700:#7A5A2F;
+
+  /* ---- Base: semantic hues ---- */
+  --green-500:#3F9D63;
+  --amber-500:#D89A2C;
+  --red-500:#C0463C;
+  --blue-500:#3D7FA6; /* glass / tempered-glass tint */
+
+  /* ---- Semantic: surfaces ---- */
+  --surface-page:var(--ink-000);
+  --surface-subtle:var(--ink-025);
+  --surface-sunken:var(--ink-050);
+  --surface-card:var(--ink-000);
+  --surface-card-subtle:var(--ink-025);
+  --surface-ink:var(--ink-950);
+  --surface-ink-raised:var(--ink-800);
+  --surface-brand:var(--teal-500);
+  --surface-brand-soft:var(--teal-100);
+  --surface-wood:var(--brass-100);
+  --surface-glass:rgba(255,255,255,.72);
+  --surface-glass-ink:rgba(11,15,14,.62);
+  --scrim-photo:linear-gradient(to top,rgba(11,15,14,.86) 0%,rgba(11,15,14,.55) 38%,rgba(11,15,14,.05) 78%); /* @kind color */
+  --scrim-photo-flat:rgba(11,15,14,.45);
+
+  /* ---- Semantic: text ---- */
+  --text-strong:var(--ink-950);
+  --text-body:var(--ink-700);
+  --text-muted:var(--ink-500);
+  --text-faint:var(--ink-400);
+  --text-brand:var(--teal-700);
+  --text-on-ink:#F4F6F5;
+  --text-on-ink-muted:rgba(244,246,245,.66);
+  --text-on-brand:var(--ink-950);
+  --text-link:var(--teal-700);
+  --text-link-hover:var(--teal-800);
+
+  /* ---- Semantic: borders ---- */
+  --border-hairline:var(--ink-100);
+  --border-default:var(--ink-200);
+  --border-strong:var(--ink-300);
+  --border-ink:rgba(255,255,255,.14);
+  --border-brand:var(--teal-500);
+  --focus-ring:var(--teal-600);
+
+  /* ---- Semantic: status ---- */
+  --status-success-fg:#256B41;--status-success-bg:#E7F3EB;
+  --status-warning-fg:#7A5410;--status-warning-bg:#FBF1DC;
+  --status-danger-fg:#8C2E27;--status-danger-bg:#F8E8E6;
+  --status-info-fg:#23566F;--status-info-bg:#E6F0F5;
+}
+
+/* ===== tokens/typography.css ===== */
+:root{
+  /* Sizes — display scale is tight-tracked grotesk; body is 16.5px for long service copy */
+  --fs-hero:76px; /* @kind font */
+  --lh-hero:0.96; /* @kind other */
+  --ls-hero:-0.035em; /* @kind other */
+  --fs-h1:56px; /* @kind font */
+  --lh-h1:1.02; /* @kind other */
+  --ls-h1:-0.03em; /* @kind other */
+  --fs-h2:40px; /* @kind font */
+  --lh-h2:1.08; /* @kind other */
+  --ls-h2:-0.025em; /* @kind other */
+  --fs-h3:28px; /* @kind font */
+  --lh-h3:1.16; /* @kind other */
+  --ls-h3:-0.02em; /* @kind other */
+  --fs-h4:21px; /* @kind font */
+  --lh-h4:1.28; /* @kind other */
+  --ls-h4:-0.012em; /* @kind other */
+  --fs-lead:19px; /* @kind font */
+  --lh-lead:1.55; /* @kind other */
+  --ls-lead:-0.005em; /* @kind other */
+  --fs-body:16.5px; /* @kind font */
+  --lh-body:1.65; /* @kind other */
+  --ls-body:0em; /* @kind other */
+  --fs-sm:14px; /* @kind font */
+  --lh-sm:1.55; /* @kind other */
+  --fs-xs:12.5px; /* @kind font */
+  --lh-xs:1.45; /* @kind other */
+  --fs-eyebrow:12px; /* @kind font */
+  --lh-eyebrow:1; /* @kind other */
+  --ls-eyebrow:0.22em; /* @kind other */
+  --fs-spec:13px; /* @kind font */
+  --lh-spec:1.5; /* @kind other */
+  --ls-spec:0.06em; /* @kind other */
+  --fs-wordmark:20px; /* @kind font */
+  --ls-wordmark:0.16em; /* @kind other */
+
+  /* Weights */
+  --fw-light:300; /* @kind font */
+  --fw-regular:400; /* @kind font */
+  --fw-medium:500; /* @kind font */
+  --fw-semibold:600; /* @kind font */
+  --fw-bold:700; /* @kind font */
+
+  /* Composed roles */
+  --type-hero:var(--fw-semibold) var(--fs-hero)/var(--lh-hero) var(--font-display); /* @kind font */
+  --type-h1:var(--fw-semibold) var(--fs-h1)/var(--lh-h1) var(--font-display); /* @kind font */
+  --type-h2:var(--fw-semibold) var(--fs-h2)/var(--lh-h2) var(--font-display); /* @kind font */
+  --type-h3:var(--fw-semibold) var(--fs-h3)/var(--lh-h3) var(--font-display); /* @kind font */
+  --type-h4:var(--fw-semibold) var(--fs-h4)/var(--lh-h4) var(--font-display); /* @kind font */
+  --type-lead:var(--fw-regular) var(--fs-lead)/var(--lh-lead) var(--font-body); /* @kind font */
+  --type-body:var(--fw-regular) var(--fs-body)/var(--lh-body) var(--font-body); /* @kind font */
+  --type-sm:var(--fw-regular) var(--fs-sm)/var(--lh-sm) var(--font-body); /* @kind font */
+  --type-xs:var(--fw-regular) var(--fs-xs)/var(--lh-xs) var(--font-body); /* @kind font */
+  --type-eyebrow:var(--fw-semibold) var(--fs-eyebrow)/var(--lh-eyebrow) var(--font-body); /* @kind font */
+  --type-spec:var(--fw-medium) var(--fs-spec)/var(--lh-spec) var(--font-mono); /* @kind font */
+  --type-wordmark:var(--fw-bold) var(--fs-wordmark)/1 var(--font-brand); /* @kind font */
+  --measure-prose:68ch; /* @kind other */
+  --measure-narrow:52ch; /* @kind other */
+}
+
+/* ===== tokens/spacing.css ===== */
+:root{
+  --space-0:0px;--space-1:2px;--space-2:4px;--space-3:6px;--space-4:8px;--space-5:12px;
+  --space-6:16px;--space-7:20px;--space-8:24px;--space-9:32px;--space-10:40px;
+  --space-11:56px;--space-12:72px;--space-13:96px;--space-14:128px;--space-15:160px;
+
+  /* Rhythm roles */
+  --gap-inline:10px;      /* icon -> label */
+  --gap-stack-tight:8px;  /* label -> field */
+  --gap-stack:16px;       /* paragraph rhythm */
+  --gap-card:24px;        /* card interior */
+  --gap-grid:20px;        /* card to card */
+  --pad-card:28px;
+  --pad-card-lg:36px;
+  --section-y:96px;       /* desktop section padding */
+  --section-y-lg:128px;
+  --section-y-sm:56px;
+}
+
+/* ===== tokens/radius.css ===== */
+:root{
+  /* Architectural metalwork: edges stay crisp. Nothing above 16px except pills. */
+  --radius-0:0px;
+  --radius-xs:2px;
+  --radius-sm:4px;
+  --radius-md:8px;
+  --radius-lg:12px;
+  --radius-xl:16px;
+  --radius-pill:999px;
+  --radius-photo:3px;
+  --radius-card:10px;
+  --radius-control:6px;
+  --radius-field:6px;
+}
+
+/* ===== tokens/elevation.css ===== */
+:root{
+  --shadow-0:none;
+  --shadow-1:0 1px 2px rgba(11,15,14,.06),0 1px 3px rgba(11,15,14,.04);
+  --shadow-2:0 4px 12px -2px rgba(11,15,14,.08),0 2px 6px -3px rgba(11,15,14,.06);
+  --shadow-3:0 18px 40px -14px rgba(11,15,14,.18),0 6px 14px -8px rgba(11,15,14,.10);
+  --shadow-4:0 40px 80px -28px rgba(11,15,14,.30),0 12px 28px -12px rgba(11,15,14,.14);
+  --shadow-brand:0 12px 30px -12px rgba(66,182,156,.55);
+  --shadow-inset-hairline:inset 0 0 0 1px var(--border-hairline);
+  --shadow-inset-ink:inset 0 0 0 1px rgba(255,255,255,.10);
+  --shadow-photo:0 24px 60px -24px rgba(11,15,14,.35);
+  --blur-glass:14px; /* @kind other */
+}
+
+/* ===== tokens/motion.css ===== */
+:root{
+  --ease-out:cubic-bezier(.2,.8,.25,1); /* @kind other */
+  --ease-in-out:cubic-bezier(.6,0,.3,1); /* @kind other */
+  --ease-entrance:cubic-bezier(.16,1,.3,1); /* @kind other */
+  --dur-instant:90ms; /* @kind other */
+  --dur-fast:140ms; /* @kind other */
+  --dur-base:220ms; /* @kind other */
+  --dur-slow:420ms; /* @kind other */
+  --dur-reveal:680ms; /* @kind other */
+  --lift-hover:-2px;   /* cards rise this far on hover */
+  --press-scale:0.985; /* @kind other */
+}
+
+/* ===== tokens/layout.css ===== */
+:root{
+  --container:1240px;
+  --container-wide:1440px;
+  --container-narrow:760px;
+  --gutter:24px;
+  --gutter-lg:40px;
+  --h-utilitybar:40px;
+  --h-nav:74px;
+  --h-control:44px;
+  --h-control-sm:36px;
+  --h-control-lg:54px;
+  --z-base:0; /* @kind other */
+  --z-raised:10; /* @kind other */
+  --z-sticky:100; /* @kind other */
+  --z-nav:200; /* @kind other */
+  --z-overlay:900; /* @kind other */
+  --z-modal:1000; /* @kind other */
+}
+

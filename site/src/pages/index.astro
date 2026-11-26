@@ -1,0 +1,252 @@
+---
+// TEMPLATE 1a — HOME. Corpo da Home: ZERO links de saída (topologia estrela).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EstimateForm from '../components/EstimateForm.astro';
+import Icon from '../components/Icon.astro';
+import Steps from '../components/Steps.astro';
+import PriceTable from '../components/PriceTable.astro';
+import Faq from '../components/Faq.astro';
+import Stats from '../components/Stats.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import { SITE, waLink } from '../data/site';
+import { SERVICOS } from '../data/servicos';
+import { LOCALIDADES } from '../data/localidades';
+
+const title = 'ParaPrime | Aluguel de Gerador em Belém e Região';
+const description =
+  'ParaPrime: aluguel de gerador em Belém e Região Metropolitana para indústria, eventos, obras, condomínios e casas, de 5 a 1.000+ kVA. WhatsApp (91) 99119-8584.';
+const wa = waLink(`Olá! Vim pelo site da ${SITE.marca} e quero um orçamento de aluguel de gerador em Belém.`);
+const porTicket = [...SERVICOS].sort((a, b) => a.ordemTicket - b.ordemTicket);
+const empresas = porTicket.filter((s) => s.categoria === 'empresas');
+const pessoas = porTicket.filter((s) => s.categoria === 'pessoas');
+
+const passos = [
+  { titulo: 'Levantamento da carga', texto: 'Você manda pelo WhatsApp o que precisa ligar, por quanto tempo e onde. Foto do quadro e da conta de energia ajudam.', prazo: 'MESMO DIA' },
+  { titulo: 'Dimensionamento em kVA', texto: 'Somamos as cargas que funcionam juntas, convertemos para kVA pelo fator de potência e acrescentamos folga para partida de motores.', prazo: 'ATÉ 24 H' },
+  { titulo: 'Proposta por escrito', texto: 'Potência, prazo, frete, cabos, chave de transferência e autonomia de combustível descritos antes de qualquer compromisso.', prazo: 'ATÉ 24 H' },
+  { titulo: 'Entrega e posicionamento', texto: 'Transporte com caminhão munck, base firme, ventilação e escape direcionado para longe de pessoas.', prazo: '24–72 H' },
+  { titulo: 'Ligação segura', texto: 'Conexão no quadro por eletricista habilitado, com chave de transferência que isola o gerador da rede da concessionária.', prazo: '2–8 H' },
+  { titulo: 'Operação e retirada', texto: 'Acompanhamento, abastecimento e manutenção preventiva até a desmobilização combinada.', prazo: 'CONFORME CONTRATO' },
+];
+
+const precoPotencia = [
+  { item: 'Até 50 kVA', valor: 'R$ 300 a R$ 800 / dia', obs: 'casas, festas, pequeno comércio' },
+  { item: '50 a 150 kVA', valor: 'R$ 800 a R$ 1.800 / dia', obs: 'condomínios, obras, feiras' },
+  { item: 'Acima de 250 kVA', valor: 'a partir de R$ 2.000 / dia', obs: 'indústria e shows' },
+];
+const precoContrato = [
+  { item: '25 kVA · 28 dias', valor: '≈ R$ 110 / dia', obs: 'diária equivalente' },
+  { item: '50 kVA · 28 dias', valor: '≈ R$ 165 / dia', obs: 'diária equivalente' },
+  { item: '150 kVA · 28 dias', valor: '≈ R$ 230 / dia', obs: 'diária equivalente' },
+  { item: '500 kVA · 28 dias', valor: '≈ R$ 590 a R$ 610 / dia', obs: 'diária equivalente' },
+];
+
+const faq = [
+  { pergunta: 'Quanto custa alugar um gerador em Belém?', resposta: 'Na referência de mercado, geradores de até 50 kVA ficam entre R$ 300 e R$ 800 por dia em diária avulsa, e os de 50 a 150 kVA entre R$ 800 e R$ 1.800. Em contratos de 28 dias a diária equivalente cai bastante. Combustível, frete e operador são cobrados à parte.' },
+  { pergunta: 'Como saber qual gerador eu preciso?', resposta: 'Some a potência em kW de tudo que funciona ao mesmo tempo e divida por 0,8 para chegar ao kVA. Depois, acrescente folga para motores, compressores e elevadores, que puxam mais corrente na partida. Pelo WhatsApp fazemos essa conta com você a partir da lista de equipamentos.' },
+  { pergunta: 'Vocês atendem fora de Belém?', resposta: 'Sim. Atendemos a Região Metropolitana de Belém — Ananindeua, Marituba, Benevides, Santa Bárbara do Pará, Santa Izabel do Pará, Castanhal e Barcarena. Outras cidades do Pará são avaliadas caso a caso, conforme a logística.' },
+  { pergunta: 'O gerador alugado pode ser ligado direto na tomada?', resposta: 'Não. A ligação correta é no quadro, com chave de transferência que separa o gerador da rede da concessionária. Sem ela, a energia pode voltar para a rede e colocar em risco quem trabalha nos postes.' },
+  { pergunta: 'Qual a diferença entre kVA e kW?', resposta: 'kVA é a potência aparente que o gerador entrega; kW é a potência que realmente vira trabalho. Na maioria das instalações, 1 kVA equivale a 0,8 kW. Um gerador de 100 kVA, portanto, alimenta cerca de 80 kW de carga.' },
+  { pergunta: 'O gerador funciona na chuva de Belém?', resposta: 'Sim. Geradores de locação ficam em cabine fechada e operam na chuva. O cuidado está na instalação: quadros elevados e protegidos, cabos fora de poças e ponto do gerador longe de áreas que alagam.' },
+  { pergunta: 'Com quanta antecedência devo pedir o gerador?', resposta: 'Para casas e condomínios, de 24 a 72 horas costuma bastar. Para eventos grandes e geradores acima de 250 kVA, o ideal é reservar com semanas de antecedência, principalmente em períodos de alta procura na capital, como outubro, mês do Círio.' },
+];
+
+const homeSchema = [{
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: 'Aluguel de gerador de energia',
+  provider: { '@id': `${SITE.url}/#organizacao` },
+  areaServed: { '@type': 'AdministrativeArea', name: 'Região Metropolitana de Belém - PA' },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Aluguel de geradores em Belém',
+    itemListElement: porTicket.map((s) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s.nome } })),
+  },
+}];
+---
+<BaseLayout title={title} description={description} path="/" schema={homeSchema}>
+  <!-- 02 Hero com formulário -->
+  <section class="hero">
+    <div class="hero__bg"><img src="/img/fotos/gerador-aluguel-belem-hero.webp" alt="Grupo gerador diesel em cabine silenciada pronto para locação em Belém - PA" width="1200" height="800" fetchpriority="high" /></div>
+    <div class="container">
+      <div class="on-photo">
+        <span class="eyebrow">Belém e Região Metropolitana · PA</span>
+        <h1>ParaPrime | <span class="hl">Aluguel de Gerador em Belém</span> para Indústria, Eventos e Obras</h1>
+        <p class="hero__lead">A <strong style="color:#fff">ParaPrime Aluguel de Geradores</strong> organiza a locação de geradores de energia de 5 a mais de 1.000 kVA em Belém, Ananindeua, Marituba, Benevides, Castanhal e Barcarena: contingência industrial, palcos e feiras, canteiros de obra, condomínios e residências. Dimensionamos pela carga real, ligamos com chave de transferência e entregamos em bairros como Umarizal, Nazaré, Marco e ao longo da Augusto Montenegro.</p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href={wa} target="_blank" rel="noopener" data-track="whatsapp_click" data-cta-position="hero"><Icon name="whatsapp" />Falar no WhatsApp</a>
+          <a class="btn btn--secondary" href="#orcamento" data-track="cta_click" data-cta-position="hero_orcamento">Pedir orçamento</a>
+        </div>
+        <ul class="trustbar">
+          <li><Icon name="gauge" />Dimensionamento pela carga real</li>
+          <li><Icon name="shield" />Ligação conforme NBR 5410 e NR-10</li>
+          <li><Icon name="clock" />Resposta no mesmo dia útil</li>
+        </ul>
+      </div>
+      <EstimateForm titulo="Orçamento de gerador em minutos" />
+    </div>
+  </section>
+
+  <!-- 03 Por que escolher -->
+  <section class="section">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Por que a ParaPrime</span>
+        <h2>Por que Alugar Gerador com a ParaPrime em Belém</h2>
+        <p>Quatro compromissos objetivos que você pode conferir antes de fechar qualquer locação.</p>
+      </div>
+      <div class="grid grid--4">
+        <article class="card"><div class="icon-chip"><Icon name="gauge" /></div><h3>Gerador pelo kVA certo, não pelo maior</h3><p>Somamos as cargas simultâneas, aplicamos o fator de potência 0,8 e a folga de partida. Você não paga por potência que não usa.</p></article>
+        <article class="card"><div class="icon-chip"><Icon name="shield" /></div><h3>Ligação segura com chave de transferência</h3><p>Conexão no quadro por profissional habilitado, isolando o gerador da rede da concessionária, como pedem a NBR 5410 e a NR-10.</p></article>
+        <article class="card"><div class="icon-chip"><Icon name="drop" /></div><h3>Instalação pensada para a chuva de Belém</h3><p>Quadros elevados, cabos protegidos e gerador em ponto que não alaga — Belém soma em média cerca de 3.000 mm de chuva por ano.</p></article>
+        <article class="card"><div class="icon-chip"><Icon name="doc" /></div><h3>Preço de referência aberto no site</h3><p>As faixas de valor ficam publicadas abaixo. A proposta por escrito detalha potência, frete, combustível e prazo.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 Serviços — empresas (maior ticket) -->
+  <section class="section section--subtle">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Para empresas</span>
+        <h2>Aluguel de Gerador para Indústria e Obras em Belém</h2>
+        <p>Contratos que acompanham a operação: contingência, manutenção de subestação e canteiros com grua e betoneira.</p>
+      </div>
+      <div class="grid grid--2">
+        {empresas.map((s) => (
+          <article class="service-card">
+            <div class="service-card__img"><img src={s.hero.src} alt={s.hero.alt} width="600" height="400" loading="lazy" /></div>
+            <div class="service-card__body">
+              <h3>{s.h1.split(' | ')[0]}</h3>
+              <p>{s.resumoCard}</p>
+              <span class="spec">{s.specCard}</span>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 Serviços — pessoas e eventos -->
+  <section class="section">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Para eventos, condomínios e casas</span>
+        <h2>Gerador para Eventos, Condomínios e Residências em Belém</h2>
+        <p>Do palco de show ao condomínio com elevador e à casa que precisa manter a geladeira e o ar-condicionado.</p>
+      </div>
+      <div class="grid grid--3">
+        {pessoas.map((s) => (
+          <article class="service-card">
+            <div class="service-card__img"><img src={s.hero.src} alt={s.hero.alt} width="600" height="400" loading="lazy" /></div>
+            <div class="service-card__body">
+              <h3>{s.h1.split(' | ')[0]}</h3>
+              <p>{s.resumoCard}</p>
+              <span class="spec">{s.specCard}</span>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 Equipamentos — faixa escura (única da página) -->
+  <section class="section section--ink">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Equipamento</span>
+        <h2>Equipamentos de Geração de Energia que Entregamos em Belém</h2>
+        <p>O gerador é só uma parte. Estes componentes definem se a energia chega com segurança até a carga.</p>
+      </div>
+      <div class="grid grid--4 material-scroller">
+        <article class="material-card"><img src="/img/fotos/equipamento-gerador-cabine-silenciada.webp" alt="Gerador diesel em cabine silenciada para locação em Belém - PA" width="600" height="400" loading="lazy" /><div class="material-card__body"><h3>Gerador diesel em cabine silenciada</h3><p>Carenagem acústica e vedação para operar na chuva.</p><span class="spec">5–500 KVA POR UNIDADE</span></div></article>
+        <article class="material-card"><img src="/img/fotos/equipamento-qta-transferencia-automatica.webp" alt="Quadro de transferência automática para gerador em Belém - PA" width="600" height="400" loading="lazy" /><div class="material-card__body"><h3>Quadro de transferência (QTA)</h3><p>Assume a carga quando a rede cai e devolve quando ela volta.</p><span class="spec">TRANSFERÊNCIA ~10 S</span></div></article>
+        <article class="material-card"><img src="/img/fotos/equipamento-cabos-quadros-distribuicao.webp" alt="Cabos e quadros de distribuição de energia temporária em Belém - PA" width="600" height="400" loading="lazy" /><div class="material-card__body"><h3>Cabos 1 kV e quadros com DR</h3><p>Distribuição até cada ponto, com proteção diferencial.</p><span class="spec">DR 30 MA · NBR 5410</span></div></article>
+        <article class="material-card"><img src="/img/fotos/equipamento-tanque-diesel-contencao.webp" alt="Tanque de diesel com bacia de contenção para gerador em Belém - PA" width="600" height="400" loading="lazy" /><div class="material-card__body"><h3>Tanque de diesel com contenção</h3><p>Autonomia estendida para contratos longos e contingência.</p><span class="spec">NR-20</span></div></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 Processo em 6 passos -->
+  <section class="section">
+    <div class="container process">
+      <div class="process__head section-heading">
+        <span class="eyebrow">Processo</span>
+        <h2>Processo de Aluguel de Gerador em 6 Etapas</h2>
+        <p>Da primeira mensagem no WhatsApp à retirada do equipamento, com prazo típico de cada fase.</p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href={wa} target="_blank" rel="noopener" data-track="whatsapp_click" data-cta-position="processo"><Icon name="whatsapp" />Falar no WhatsApp</a>
+          <a class="btn btn--secondary" href="#orcamento" data-track="cta_click" data-cta-position="processo_orcamento">Pedir orçamento</a>
+        </div>
+      </div>
+      <Steps passos={passos} />
+    </div>
+  </section>
+
+  <!-- 08 Faixas de preço -->
+  <section class="section section--subtle">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Preço</span>
+        <h2>Quanto Custa Alugar Gerador em Belém?</h2>
+        <p>Faixas de referência para você planejar antes de pedir a proposta. A diária cai bastante em contratos mensais.</p>
+      </div>
+      <div class="grid grid--2">
+        <PriceTable caption="Diária avulsa por potência" linhas={precoPotencia} col1="Potência" />
+        <PriceTable caption="Contrato de 28 dias (gerador diesel)" linhas={precoContrato} col1="Potência · prazo" />
+      </div>
+      <p class="price-note">Referências de mercado nacional publicadas por locadoras em 2025–2026, sem combustível, frete, instalação e operador. Não é orçamento: o valor final depende da carga, do prazo e do local.</p>
+    </div>
+  </section>
+
+  <!-- 09 Dados locais (no lugar dos depoimentos, até existirem depoimentos reais) -->
+  <section class="section">
+    <div class="container two-col two-col--top">
+      <div>
+        <span class="eyebrow">Belém em números</span>
+        <h2>O que o Clima e o Calendário de Belém Mudam no Gerador</h2>
+        <div class="prose">
+          <p>Belém tem clima quente e úmido: a série climatológica da Embrapa Amazônia Oriental registra chuva anual em torno de 3.000 mm, umidade relativa média de 84% e temperatura média perto de 26 °C. Para o gerador, isso pede cabine bem vedada, resistência anticondensação no alternador em equipamentos que ficam parados e conexões inspecionadas a cada visita.</p>
+          <p>O calendário também pesa. A procissão do Círio de Nazaré de 2025 reuniu cerca de 2,6 milhões de pessoas, segundo a Diretoria da Festa de Nazaré, e a cidade sediou a COP30 entre 10 e 21 de novembro de 2025. Em períodos assim, geradores para eventos, hotéis e comércio somem do estoque — quem planeja com antecedência garante o equipamento.</p>
+          <p>Na capital, atendemos dos bairros centrais — Umarizal, Nazaré, Batista Campos, Reduto e Marco — ao eixo da Augusto Montenegro, com seus condomínios, e aos distritos de Icoaraci e Mosqueiro.</p>
+        </div>
+      </div>
+      <Stats light itens={[
+        { valor: '1.303.403', rotulo: 'habitantes em Belém no Censo 2022', fonte: 'IBGE' },
+        { valor: '≈ 3.000 mm', rotulo: 'chuva média anual, umidade média de 84%', fonte: 'Embrapa' },
+        { valor: '2,6 milhões', rotulo: 'pessoas no Círio de Nazaré 2025', fonte: 'DFN / Agência Gov' },
+      ]} />
+    </div>
+  </section>
+
+  <!-- 10 FAQ -->
+  <section class="section section--subtle">
+    <div class="container narrow">
+      <div class="section-heading section-heading--center">
+        <span class="eyebrow">Dúvidas</span>
+        <h2>Perguntas Frequentes sobre Aluguel de Gerador em Belém</h2>
+      </div>
+      <Faq itens={faq} />
+    </div>
+  </section>
+
+  <!-- 11 Cidades atendidas (sem links no corpo da Home) -->
+  <section class="section">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Cobertura</span>
+        <h2>Cidades da Região Metropolitana de Belém onde Alugamos Geradores</h2>
+        <p>Belém e mais sete municípios da Região Metropolitana, cada um com o tipo de atendimento que mais aparece por lá.</p>
+      </div>
+      <ul class="city-grid">
+        <li><strong>Belém</strong><span>Todos os serviços — sede do atendimento</span></li>
+        {LOCALIDADES.map((l) => <li><strong>{l.cidade}</strong><span>{l.servicoAncora}</span></li>)}
+        <li><strong>Santa Bárbara do Pará</strong><span>Sob consulta de logística</span></li>
+        <li><strong>Santa Izabel do Pará</strong><span>Sob consulta de logística</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 12 CTA final -->
+  <CtaBanner eyebrow="Belém · PA" titulo="Fale agora e receba a proposta do gerador ainda hoje" texto="Mande pelo WhatsApp o que precisa ligar, onde e por quanto tempo. A gente faz a conta do kVA com você." posicao="cta_final" />
+</BaseLayout>

@@ -1,0 +1,17 @@
+---
+import type { Passo } from '../data/types';
+interface Props { passos: Passo[] }
+const { passos } = Astro.props;
+---
+<ol class="steps">
+  {passos.map((p, i) => (
+    <li class="step">
+      <span class="step__n">{String(i + 1).padStart(2, '0')}</span>
+      <div>
+        <h3>{p.titulo}</h3>
+        <p>{p.texto}</p>
+        <span class="spec">Prazo típico: {p.prazo}</span>
+      </div>
+    </li>
+  ))}
+</ol>

@@ -1,0 +1,26 @@
+---
+// MAP SLOT com fachada: imagem leve até o clique; o iframe do Google Maps só carrega depois.
+import type { Imagem } from '../data/types';
+interface Props { query: string; imagem: Imagem; localidade: string }
+const { query, imagem, localidade } = Astro.props;
+const src = `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
+---
+<div class="map-facade" data-src={src} data-localidade={localidade}>
+  <img src={imagem.src} alt={imagem.alt} width={imagem.w} height={imagem.h} loading="lazy" decoding="async" />
+  <span class="map-facade__label">{localidade}</span>
+  <button class="btn btn--primary" type="button" aria-label={`Abrir mapa interativo de ${localidade}`}>Ver mapa interativo</button>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('.map-facade').forEach((el) => {
+    el.querySelector('button')?.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = el.dataset.src!;
+      iframe.loading = 'lazy';
+      iframe.referrerPolicy = 'no-referrer-when-downgrade';
+      iframe.title = `Mapa da área de atendimento — ${el.dataset.localidade}`;
+      el.innerHTML = '';
+      el.appendChild(iframe);
+      (window as any).__track?.('mapa_open', 'mapa', { map_localidade: el.dataset.localidade });
+    });
+  });
+</script>

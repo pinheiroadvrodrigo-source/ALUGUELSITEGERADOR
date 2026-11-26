@@ -1,0 +1,266 @@
+---
+// Rota flat única: /{servico} (template 1c) e /{servico}-{cidade}-{uf} (template 1d).
+// Corpo: um único link — a marca no 1º parágrafo, apontando para a Home.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EstimateForm from '../components/EstimateForm.astro';
+import BrandLead from '../components/BrandLead.astro';
+import Icon from '../components/Icon.astro';
+import Steps from '../components/Steps.astro';
+import Stats from '../components/Stats.astro';
+import PriceTable from '../components/PriceTable.astro';
+import Faq from '../components/Faq.astro';
+import MapFacade from '../components/MapFacade.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import { SITE, waLink } from '../data/site';
+import { SERVICOS } from '../data/servicos';
+import { LOCALIDADES } from '../data/localidades';
+import type { Servico, Localidade } from '../data/types';
+
+export function getStaticPaths() {
+  return [
+    ...SERVICOS.map((s) => ({ params: { slug: s.slug }, props: { tipo: 'servico' as const, servico: s } })),
+    ...LOCALIDADES.map((l) => ({ params: { slug: l.slug }, props: { tipo: 'localidade' as const, localidade: l } })),
+  ];
+}
+type Props = { tipo: 'servico'; servico: Servico } | { tipo: 'localidade'; localidade: Localidade };
+const props = Astro.props as Props;
+const path = `/${Astro.params.slug}`;
+const iconesEscolha = ['doc', 'gauge', 'truck'];
+const sede = { query: 'Belém, PA, Brasil', imagem: { src: '/img/fotos/mapa-belem-pa.webp', alt: 'Mapa da área de atendimento de aluguel de gerador em Belém - PA', w: 1200, h: 450 } };
+---
+{props.tipo === 'servico' ? (() => {
+  const s = props.servico;
+  const wa = waLink(`Olá! Vim pelo site da ${SITE.marca} e quero um orçamento de ${s.nome.toLowerCase()} em Belém.`);
+  const serviceSchema = {
+    '@context': 'https://schema.org', '@type': 'Service', serviceType: s.h1.split(' | ')[0],
+    provider: { '@id': `${SITE.url}/#organizacao` },
+    areaServed: { '@type': 'AdministrativeArea', name: 'Região Metropolitana de Belém - PA' },
+    hasOfferCatalog: { '@type': 'OfferCatalog', name: s.nome, itemListElement: s.variacoes.itens.map((v) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: v.titulo } })) },
+  };
+  return (
+    <BaseLayout title={s.title} description={s.description} path={path} schema={[serviceSchema]} servico={s.nome}
+      crumbs={[{ label: 'Início', href: '/' }, { label: 'Serviços', href: '/servicos' }, { label: s.nome }]}>
+      {/* 02 Hero do serviço */}
+      <section class="hero">
+        <div class="hero__bg"><img src={s.hero.src} alt={s.hero.alt} width={s.hero.w} height={s.hero.h} fetchpriority="high" /></div>
+        <div class="container">
+          <div class="on-photo">
+            <span class="eyebrow">{s.eyebrow}</span>
+            <h1>{s.h1}</h1>
+            <BrandLead class="hero__lead" texto={s.lead} />
+            <div class="btn-row">
+              <a class="btn btn--primary" href={wa} target="_blank" rel="noopener" data-track="whatsapp_click" data-cta-position="hero"><Icon name="whatsapp" />Falar no WhatsApp</a>
+              <a class="btn btn--secondary" href="#orcamento" data-track="cta_click" data-cta-position="hero_orcamento">Pedir orçamento</a>
+            </div>
+            <Stats itens={s.stats} />
+          </div>
+          <EstimateForm servico={s.nome} localidade="Belém" titulo={`Orçamento de ${s.nome.toLowerCase()}`} />
+        </div>
+      </section>
+
+      {/* 03 O que é e como funciona */}
+      <section class="section">
+        <div class="container two-col">
+          <div class="prose">
+            <span class="eyebrow">Como funciona</span>
+            <h2>{s.oQueE.h2}</h2>
+            {s.oQueE.paragrafos.map((p) => <p>{p}</p>)}
+          </div>
+          <div class="photo"><img src={s.detalhe.src} alt={s.detalhe.alt} width={s.detalhe.w} height={s.detalhe.h} loading="lazy" /></div>
+        </div>
+      </section>
+
+      {/* 04 Variações */}
+      <section class="section section--subtle">
+        <div class="container">
+          <div class="section-heading"><span class="eyebrow">Modalidades</span><h2>{s.variacoes.h2}</h2></div>
+          <div class="grid grid--2">
+            {s.variacoes.itens.map((v) => <article class="card"><h3>{v.titulo}</h3><p>{v.texto}</p><span class="spec">{v.spec}</span></article>)}
+          </div>
+        </div>
+      </section>
+
+      {/* 05 Especificações e norma */}
+      <section class="section">
+        <div class="container two-col two-col--top">
+          <div>
+            <span class="eyebrow">Especificação</span>
+            <h2>{s.especificacoes.h2}</h2>
+            <p>Cada item abaixo aparece descrito na proposta por escrito, com a potência e a configuração definidas para a sua carga.</p>
+            <div class="badges">{s.especificacoes.normas.map((n) => <span class="badge">{n}</span>)}</div>
+          </div>
+          <ul class="spec-list">{s.especificacoes.itens.map((i) => <li><Icon name="check" /><span>{i}</span></li>)}</ul>
+        </div>
+      </section>
+
+      {/* 06 Equipamentos — faixa escura */}
+      <section class="section section--ink">
+        <div class="container">
+          <div class="section-heading"><span class="eyebrow">Equipamento</span><h2>{s.equipamentos.h2}</h2></div>
+          <div class="grid grid--4 material-scroller">
+            {s.equipamentos.itens.map((e) => <article class="card" style="background:var(--navy-900);border-color:var(--border-ink)"><h3>{e.titulo}</h3><p>{e.texto}</p><span class="spec">{e.spec}</span></article>)}
+          </div>
+        </div>
+      </section>
+
+      {/* 07 Processo */}
+      <section class="section">
+        <div class="container process">
+          <div class="process__head section-heading">
+            <span class="eyebrow">Processo</span>
+            <h2>{s.processo.h2}</h2>
+            <p>Prazos típicos para Belém e Região Metropolitana. A disponibilidade do equipamento é confirmada na proposta.</p>
+          </div>
+          <Steps passos={s.processo.passos} />
+        </div>
+      </section>
+
+      {/* 08 Preço */}
+      <section class="section section--subtle">
+        <div class="container narrow">
+          <div class="section-heading"><span class="eyebrow">Preço</span><h2>{s.preco.h2}</h2></div>
+          <PriceTable caption={`Faixas de referência — ${s.nome.toLowerCase()}`} linhas={s.preco.linhas} nota={s.preco.nota} />
+        </div>
+      </section>
+
+      {/* Mapa da cidade-sede (página de serviço sem geo própria) */}
+      <section class="section">
+        <div class="container">
+          <div class="section-heading"><span class="eyebrow">Área de atendimento</span><h2>{`${s.nome} em Belém e Região Metropolitana`}</h2><p>{s.relacionados}</p></div>
+          <MapFacade query={sede.query} imagem={sede.imagem} localidade="Belém - PA" />
+        </div>
+      </section>
+
+      {/* 09 FAQ */}
+      <section class="section section--subtle">
+        <div class="container narrow">
+          <div class="section-heading section-heading--center"><span class="eyebrow">Dúvidas</span><h2>{s.faq.h2}</h2></div>
+          <Faq itens={s.faq.itens} />
+        </div>
+      </section>
+
+      <CtaBanner eyebrow={s.nome} titulo={`Peça hoje o orçamento de ${s.nome.toLowerCase()}`} texto="Responda três perguntas pelo WhatsApp — o que ligar, onde e por quanto tempo — e receba a proposta por escrito." mensagem={`Olá! Vim pelo site da ${SITE.marca} e quero um orçamento de ${s.nome.toLowerCase()}.`} />
+    </BaseLayout>
+  );
+})() : (() => {
+  const l = props.localidade;
+  const wa = waLink(`Olá! Vim pelo site da ${SITE.marca} e quero um orçamento de ${l.servicoAncora.toLowerCase()} em ${l.cidade}.`);
+  const locSchema = {
+    '@context': 'https://schema.org', '@type': 'Service', serviceType: l.servicoAncora,
+    provider: { '@id': `${SITE.url}/#organizacao` },
+    areaServed: { '@type': 'City', name: `${l.cidade} - ${l.uf}` },
+    hasOfferCatalog: { '@type': 'OfferCatalog', name: `${l.servicoAncora} em ${l.cidade}`, itemListElement: l.escopo.itens.map((v) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: v.titulo } })) },
+  };
+  return (
+    <BaseLayout title={l.title} description={l.description} path={path} schema={[locSchema]} localidade={l.cidade} servico={l.servicoAncora} geoPlacename={l.cidade}
+      crumbs={[{ label: 'Início', href: '/' }, { label: 'Áreas atendidas', href: '/areas-atendidas' }, { label: `${l.servicoAncora} em ${l.cidade}` }]}>
+      {/* 02 Hero local + formulário */}
+      <section class="hero">
+        <div class="hero__bg"><img src={l.hero.src} alt={l.hero.alt} width={l.hero.w} height={l.hero.h} fetchpriority="high" /></div>
+        <div class="container">
+          <div class="on-photo">
+            <span class="eyebrow">{l.cidade}, {l.uf} · {l.regiao}</span>
+            <h1>{l.h1}</h1>
+            <BrandLead class="hero__lead" texto={l.lead} />
+            <Stats itens={l.fatos} />
+            <p class="hero__lead" style="margin-top:20px;font-size:15.5px">{l.bairrosParagrafo}</p>
+            <div class="btn-row">
+              <a class="btn btn--primary" href={wa} target="_blank" rel="noopener" data-track="whatsapp_click" data-cta-position="hero"><Icon name="whatsapp" />Falar no WhatsApp</a>
+              <a class="btn btn--secondary" href="#orcamento" data-track="cta_click" data-cta-position="hero_orcamento">Pedir orçamento</a>
+            </div>
+          </div>
+          <EstimateForm localidade={l.cidade} servico={l.servicoAncora} titulo={`Orçamento em ${l.cidade}`} />
+        </div>
+      </section>
+
+      {/* 03 Escopo na cidade */}
+      <section class="section">
+        <div class="container">
+          <div class="section-heading"><span class="eyebrow">Escopo em {l.cidade}</span><h2>{l.escopo.h2}</h2></div>
+          <div class="grid grid--2">
+            {l.escopo.itens.map((v) => <article class="card"><h3>{v.titulo}</h3><p>{v.texto}</p><span class="spec">{v.spec}</span></article>)}
+          </div>
+        </div>
+      </section>
+
+      {/* 04 Como escolher */}
+      <section class="section section--subtle">
+        <div class="container two-col">
+          <div class="photo"><img src={l.foto.src} alt={l.foto.alt} width={l.foto.w} height={l.foto.h} loading="lazy" /></div>
+          <div>
+            <span class="eyebrow">Antes de contratar</span>
+            <h2>{l.escolher.h2}</h2>
+            <div class="grid" style="gap:22px;margin-top:8px">
+              {l.escolher.itens.map((c, i) => (
+                <div style="display:grid;grid-template-columns:46px 1fr;gap:16px">
+                  <div class="icon-chip" style="margin:0"><Icon name={iconesEscolha[i] ?? 'check'} /></div>
+                  <div><h3 style="font-size:18.5px;margin-bottom:4px">{c.titulo}</h3><p style="margin:0;font-size:15.5px">{c.texto}</p></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 05 Cronograma local */}
+      <section class="section">
+        <div class="container process">
+          <div class="process__head section-heading">
+            <span class="eyebrow">Cronograma</span>
+            <h2>{l.cronograma.h2}</h2>
+            <p>Prazos típicos a partir do primeiro contato. A disponibilidade do equipamento é confirmada na proposta.</p>
+            <div class="btn-row">
+              <a class="btn btn--primary" href={wa} target="_blank" rel="noopener" data-track="whatsapp_click" data-cta-position="cronograma"><Icon name="whatsapp" />Falar no WhatsApp</a>
+              <a class="btn btn--secondary" href="#orcamento" data-track="cta_click" data-cta-position="cronograma_orcamento">Pedir orçamento</a>
+            </div>
+          </div>
+          <Steps passos={l.cronograma.passos} />
+        </div>
+      </section>
+
+      {/* Bloco variável — o 3º H2 que muda por cidade (faixa escura única) */}
+      <section class="section section--ink">
+        <div class="container two-col two-col--top">
+          <div class="prose">
+            <span class="eyebrow">{l.cidade} em detalhe</span>
+            <h2>{l.blocoVariavel.h2}</h2>
+            {l.blocoVariavel.paragrafos.map((p) => <p>{p}</p>)}
+          </div>
+          <div class="grid" style="gap:14px">
+            {l.blocoVariavel.h3?.map((c) => <article class="card" style="background:var(--navy-900);border-color:var(--border-ink)"><h3>{c.titulo}</h3><p>{c.texto}</p></article>)}
+          </div>
+        </div>
+      </section>
+
+      {/* Preço */}
+      <section class="section">
+        <div class="container narrow">
+          <div class="section-heading"><span class="eyebrow">Preço em {l.cidade}</span><h2>{l.preco.h2}</h2></div>
+          <PriceTable caption={`${l.servicoAncora} em ${l.cidade} — referências`} linhas={l.preco.linhas} nota={l.preco.nota} />
+        </div>
+      </section>
+
+      {/* 06 Prova local — bairros + mapa (depoimentos entram aqui quando existirem) */}
+      <section class="section section--subtle">
+        <div class="container">
+          <div class="section-heading section-heading--center"><span class="eyebrow">Cobertura local</span><h2>{`Bairros de ${l.cidade} que Atendemos`}</h2></div>
+          <ul class="chips" style="justify-content:center;margin-bottom:28px">{l.bairros.map((b) => <li>{b}</li>)}</ul>
+          <MapFacade query={l.mapaQuery} imagem={l.mapa} localidade={`${l.cidade} - ${l.uf}`} />
+        </div>
+      </section>
+
+      {/* 07 Cidades vizinhas (texto, sem link) + FAQ */}
+      <section class="section">
+        <div class="container narrow">
+          <div class="section-heading"><span class="eyebrow">Arredores</span><h2>{l.vizinhas.h2}</h2><p>{l.vizinhas.texto}</p></div>
+          <ul class="chips" style="margin-bottom:56px">{l.vizinhas.cidades.map((c) => <li>{c}</li>)}</ul>
+          <div class="section-heading section-heading--center"><span class="eyebrow">Dúvidas em {l.cidade}</span><h2>{l.faq.h2}</h2></div>
+          <Faq itens={l.faq.itens} />
+          <p class="price-note" style="margin-top:32px">Fontes dos dados locais: {l.fontes.join(' · ')}.</p>
+        </div>
+      </section>
+
+      <CtaBanner eyebrow={`${l.cidade} · ${l.uf}`} titulo={l.ctaTitulo} texto={`Diga o que precisa ligar em ${l.cidade} e quando. A proposta sai por escrito, com potência, frete e prazo.`} mensagem={`Olá! Vim pelo site da ${SITE.marca} e quero um orçamento de ${l.servicoAncora.toLowerCase()} em ${l.cidade}.`} />
+    </BaseLayout>
+  );
+})()}

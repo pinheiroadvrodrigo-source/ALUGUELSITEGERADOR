@@ -1,0 +1,53 @@
+---
+import Icon from './Icon.astro';
+import { SITE, waLink, googleBusca } from '../data/site';
+import { SERVICOS } from '../data/servicos';
+import { LOCALIDADES } from '../data/localidades';
+const servicos = [...SERVICOS].sort((a, b) => a.ordemTicket - b.ordemTicket);
+const ano = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="nap">
+        <a class="footer-logo" href="/"><img src="/img/paraprime-aluguel-de-geradores-logo.webp" alt={`${SITE.marcaCompleta} — logo`} width="200" height="66" loading="lazy" /></a>
+        <p><strong style="color:#fff">{SITE.marcaCompleta}</strong></p>
+        {SITE.cnpj && <p>CNPJ: <span class="mono">{SITE.cnpj}</span></p>}
+        <p>{SITE.endereco || `Atendimento em ${SITE.cidadeSede}/${SITE.uf} e ${SITE.regiao}`}</p>
+        <p>Telefone/WhatsApp:{' '}
+          <a href={waLink()} target="_blank" rel="noopener" data-track="whatsapp_click" data-cta-position="telefone_rodape"><span class="mono">{SITE.telefoneExibe}</span></a>
+        </p>
+        {SITE.email && <p>E-mail: <a href={`mailto:${SITE.email}`} data-track="cta_click" data-cta-position="email_rodape">{SITE.email}</a></p>}
+        {SITE.responsavelTecnico && <p>Responsável técnico: {SITE.responsavelTecnico}</p>}
+        <p>{SITE.horario}</p>
+        <a class="google-link" href={googleBusca} target="_blank" rel="noopener" aria-label={`Buscar ${SITE.marcaCompleta} no Google`} data-track="cta_click" data-cta-position="google_rodape">
+          <Icon name="google" /> Encontre-nos no Google
+        </a>
+      </div>
+      <div>
+        <h2>Serviços</h2>
+        <ul>{servicos.map((s) => <li><a href={`/${s.slug}`}>{s.nome}</a></li>)}</ul>
+      </div>
+      <div>
+        <h2>Áreas atendidas</h2>
+        <ul>
+          {LOCALIDADES.map((l) => <li><a href={`/${l.slug}`}>{l.cidade}</a></li>)}
+          <li><a href="/areas-atendidas">Todas as áreas</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Institucional</h2>
+        <ul>
+          <li><a href="/servicos">Todos os serviços</a></li>
+          <li><a href="/sobre">Como funciona</a></li>
+          <li><a href="/contato">Contato</a></li>
+          <li><a href="/politica-de-privacidade">Política de privacidade</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© {ano} {SITE.marcaCompleta}. Belém - PA.</span>
+      <span>Valores de referência no site não são orçamento.</span>
+    </div>
+  </div>
+</footer>

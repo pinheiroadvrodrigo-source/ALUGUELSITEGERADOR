@@ -1,0 +1,104 @@
+---
+// ESTIMATEFORM — não envia e-mail: monta a mensagem e abre o WhatsApp em nova aba;
+// a aba atual vai para /obrigado. 4 campos preenchíveis + serviço travado.
+import Icon from './Icon.astro';
+import { SITE } from '../data/site';
+import { SERVICOS } from '../data/servicos';
+interface Props { localidade?: string; servico?: string; titulo?: string; headingTag?: 'h2' | 'p' }
+const { localidade = '', servico = '', titulo = 'Peça seu orçamento de gerador', headingTag = 'h2' } = Astro.props;
+const Tag = headingTag;
+const opcoes = [...SERVICOS].sort((a, b) => a.ordemTicket - b.ordemTicket).map((s) => s.nome);
+---
+<form class="estimate" id="orcamento" data-wa-form data-telefone={SITE.whatsapp} data-marca={SITE.marcaCompleta} novalidate>
+  <Tag class="estimate__title">{titulo}</Tag>
+  <p class="estimate__sub">Preencha e a conversa abre no WhatsApp já com os seus dados. Resposta no mesmo dia útil.</p>
+  <div class="field">
+    <label for="f-nome">Nome</label>
+    <input id="f-nome" name="nome" required autocomplete="name" />
+  </div>
+  <div class="field-row">
+    <div class="field">
+      <label for="f-tel">Seu WhatsApp</label>
+      <input id="f-tel" name="telefone_cliente" required inputmode="tel" autocomplete="tel" placeholder="(91) 90000-0000" data-mask-tel />
+    </div>
+    <div class="field">
+      <label for="f-local">Cidade ou bairro</label>
+      <input id="f-local" name="local" required value={localidade} autocomplete="address-level2" />
+    </div>
+  </div>
+  <div class="field">
+    <label for="f-serv">Serviço</label>
+    {servico ? (
+      <input id="f-serv" name="servico" value={servico} readonly class="locked" />
+    ) : (
+      <select id="f-serv" name="servico">
+        {opcoes.map((o) => <option>{o}</option>)}
+      </select>
+    )}
+  </div>
+  <div class="field">
+    <label for="f-msg">O que precisa ligar? <span style="font-weight:400;color:var(--text-muted)">(opcional)</span></label>
+    <textarea id="f-msg" name="mensagem" rows="3" placeholder="Ex.: 2 elevadores e bombas, por 8 horas, no dia 12"></textarea>
+  </div>
+  <label class="consent">
+    <input type="checkbox" name="consent" required />
+    <span>Autorizo o contato e o compartilhamento dos meus dados com a locadora parceira que atende a minha região, conforme a <a href="/politica-de-privacidade">Política de Privacidade</a>.</span>
+  </label>
+  <button class="btn btn--primary" type="submit"><Icon name="whatsapp" />Enviar no WhatsApp</button>
+  <p class="estimate__note" data-form-erro hidden role="alert"></p>
+</form>
+
+<script>
+  type W = Window & { __track?: (n: string, c: string, p?: Record<string, string>) => void; dataLayer?: object[] };
+  const w = window as W;
+  document.querySelectorAll<HTMLInputElement>('[data-mask-tel]').forEach((el) => {
+    el.addEventListener('input', () => {
+      const d = el.value.replace(/\D/g, '').slice(0, 11);
+      el.value = d.length > 10 ? `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`
+        : d.length > 6 ? `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`
+        : d.length > 2 ? `(${d.slice(0, 2)}) ${d.slice(2)}` : d;
+    });
+  });
+  document.querySelectorAll<HTMLFormElement>('[data-wa-form]').forEach((form) => {
+    let started = false;
+    const erro = form.querySelector<HTMLElement>('[data-form-erro]')!;
+    form.addEventListener('input', () => {
+      if (started) return;
+      started = true;
+      w.__track?.('whatsapp_form_start', 'whatsapp', { cta_position: 'form' });
+    });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const f = new FormData(form);
+      const nome = String(f.get('nome') || '').trim();
+      const tel = String(f.get('telefone_cliente') || '').replace(/\D/g, '');
+      const local = String(f.get('local') || '').trim();
+      if (!nome || tel.length < 10 || !local || !f.get('consent')) {
+        erro.hidden = false;
+        erro.textContent = 'Preencha nome, WhatsApp com DDD e cidade, e marque a autorização para continuar.';
+        return;
+      }
+      erro.hidden = true;
+      const agora = new Date().toLocaleString('pt-BR', { timeZone: 'America/Belem' });
+      const linhas = [
+        `*NOVO ORÇAMENTO — ${form.dataset.marca}*`,
+        '━━━━━━━━━━━━━━━━━━━━',
+        `*Nome:* ${nome}`,
+        `*WhatsApp:* ${f.get('telefone_cliente')}`,
+        `*Local:* ${local}`,
+        `*Serviço:* ${f.get('servico')}`,
+      ];
+      const msg = String(f.get('mensagem') || '').trim();
+      if (msg) linhas.push('', '*O que precisa ligar:*', msg.slice(0, 600));
+      linhas.push('━━━━━━━━━━━━━━━━━━━━', `*Página:* ${location.pathname}`, `*Enviado:* ${agora}`);
+      const url = `https://wa.me/${form.dataset.telefone}?text=${encodeURIComponent(linhas.join('\n'))}`;
+
+      w.__track?.('whatsapp_form_submit', 'whatsapp', { cta_position: 'form' });
+      w.__track?.('whatsapp_lead', 'whatsapp', { lead_method: 'whatsapp_form' });
+      w.dataLayer?.push({ event: 'generate_lead', event_name: 'generate_lead', event_channel: 'whatsapp', lead_method: 'whatsapp_form', page_path: location.pathname });
+
+      window.open(url, '_blank', 'noopener');
+      setTimeout(() => { location.href = '/obrigado'; }, 300);
+    });
+  });
+</script>

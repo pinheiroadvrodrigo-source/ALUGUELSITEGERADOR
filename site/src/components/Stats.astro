@@ -1,0 +1,14 @@
+---
+import type { Stat } from '../data/types';
+interface Props { itens: Stat[]; light?: boolean }
+const { itens, light = false } = Astro.props;
+---
+<div class:list={['stats', { 'stats--light': light }]}>
+  {itens.map((s) => (
+    <div class="stat">
+      <span class="stat__valor">{s.valor}</span>
+      <span class="stat__rotulo">{s.rotulo}</span>
+      {s.fonte && <span class="stat__fonte">Fonte: {s.fonte}</span>}
+    </div>
+  ))}
+</div>

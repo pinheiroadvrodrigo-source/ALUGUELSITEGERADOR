@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../data/site';
+import BrandLead from '../components/BrandLead.astro';
+---
+<BaseLayout title="Política de Privacidade | ParaPrime Aluguel de Geradores"
+  description="Política de privacidade da ParaPrime: quais dados coletamos no pedido de orçamento de gerador, com quem compartilhamos e como pedir a exclusão (LGPD)."
+  path="/politica-de-privacidade" formOnPage={false}
+  crumbs={[{ label: 'Início', href: '/' }, { label: 'Política de privacidade' }]}>
+  <section class="section">
+    <div class="container narrow prose">
+      <h1>Política de Privacidade da ParaPrime</h1>
+      <BrandLead texto="Esta política explica como a {MARCA} trata os dados pessoais enviados pelo site, conforme a Lei Geral de Proteção de Dados (Lei nº 13.709/2018)." />
+      <h2>Quais dados de orçamento coletamos</h2>
+      <p>No formulário: nome, número de WhatsApp, cidade ou bairro, serviço desejado e a descrição opcional do que você precisa ligar. O formulário não grava esses dados em servidor: ele monta uma mensagem e abre o WhatsApp no seu aparelho, e você decide se envia.</p>
+      <h2>Para que usamos os dados</h2>
+      <p>Para responder ao seu pedido, dimensionar o gerador e encaminhar a solicitação à locadora parceira que atende a sua região, que pode entrar em contato com você para enviar a proposta.</p>
+      <h2>Com quem compartilhamos</h2>
+      <p>Somente com a empresa de locação parceira responsável pela sua região, mediante a sua autorização no formulário. Não vendemos dados.</p>
+      <h2>Dados de navegação</h2>
+      <p>O site pode usar ferramentas de medição de audiência (como o Google Analytics) para contar visitas e cliques em botões. Esses eventos não incluem nome, telefone ou outros dados pessoais.</p>
+      <h2>Seus direitos e exclusão de dados</h2>
+      <p>Você pode pedir acesso, correção ou exclusão dos seus dados a qualquer momento pelo WhatsApp <span class="mono">{SITE.telefoneExibe}</span>{SITE.email ? ` ou pelo e-mail ${SITE.email}` : ''}.</p>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,17 @@
+---
+import type { LinhaPreco } from '../data/types';
+interface Props { caption: string; linhas: LinhaPreco[]; nota?: string; col1?: string }
+const { caption, linhas, nota, col1 = 'Potência / situação' } = Astro.props;
+---
+<div class="price">
+  <table>
+    <caption>{caption}</caption>
+    <thead><tr><th scope="col">{col1}</th><th scope="col">Faixa de valor</th><th scope="col">Observação</th></tr></thead>
+    <tbody>
+      {linhas.map((l) => (
+        <tr><td>{l.item}</td><td class="valor">{l.valor}</td><td class="obs">{l.obs}</td></tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+{nota && <p class="price-note">{nota}</p>}

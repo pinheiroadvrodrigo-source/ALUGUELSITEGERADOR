@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+/* Carrega React da pasta vendor/ para o wireframe abrir OFFLINE.
+   support.js consulta window.__resources antes de ir ao CDN. */
+window.__resources = Object.assign({}, window.__resources, {
+  "https://unpkg.com/react@18.3.1/umd/react.production.min.js": "./vendor/react.production.min.js",
+  "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js": "./vendor/react-dom.production.min.js"
+});
+</script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/design-system/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/design-system/tokens/colors.css">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f0eee9;font-family:Archivo,system-ui,sans-serif}
+a{color:#1f7f6c}a:hover{color:#42B69C}
+.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}
+.dv-tid{font:600 10px 'JetBrains Mono',ui-monospace,monospace;padding:3px 7px;background:#0B0F0E;color:#fff;border-radius:4px;text-decoration:none}
+.dv-tname{font:600 13px/1.2 Archivo,system-ui,sans-serif;color:#0B0F0E}
+.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}
+.dv-oid{font:600 10.5px 'JetBrains Mono',ui-monospace,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#0B0F0E;border-radius:5px;text-decoration:none}
+.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11px/1.3 Archivo,system-ui,sans-serif;color:rgba(0,0,0,.55)}
+.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}
+.dv-opt:target .dv-oid{background:#42B69C;color:#fff}
+.dv-next{margin:22px 0 0;font:12px/1.5 Archivo,system-ui,sans-serif;color:rgba(0,0,0,.5)}
+</style></helmet>
+
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Versões mobile das mesmas páginas (360px) — o que muda em relação a <a class="dv-oid" href="#t1">1</a></span></div>
+
+<div class="dv-card" style="width:1096px;padding:22px 26px;margin:0 0 28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px">
+  <div style="display:flex;flex-direction:column;gap:9px">
+    <div style="font:700 21px/1 Caveat,cursive;color:#0B0F0E">Regras mobile globais</div>
+    <ul style="margin:0;padding-left:16px;font:400 12.5px/1.7 Archivo,sans-serif;color:#5a615f">
+      <li>Ordem das seções é a mesma do desktop. Nada de conteúdo escondido só no mobile.</li>
+      <li>Grid 3-up → 2-up em ≤900px → 1-up em ≤600px.</li>
+      <li>Colunas sticky deixam de ser sticky: título vira cabeçalho da lista.</li>
+      <li>Corpo mínimo 15px, mono 11px, alvo de toque ≥44px.</li>
+      <li>Foto em 16:9, altura máxima ~220px, sempre com scrim quando tiver texto.</li>
+    </ul>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:9px">
+    <div style="font:700 21px/1 Caveat,cursive;color:#0B0F0E">Navegação e conversão</div>
+    <ul style="margin:0;padding-left:16px;font:400 12.5px/1.7 Archivo,sans-serif;color:#5a615f">
+      <li>Header 56px: logo + ícone do WhatsApp + menu em drawer. Barra de utilidade só o horário.</li>
+      <li>Barra fixa no rodapé da tela: <b>Falar no WhatsApp</b> (primário) + <b>Pedir orçamento</b> (contorno, rola até o formulário).</li>
+      <li>Hero: H1 → lead → 2 botões, ambos terminando no WhatsApp (direto ou via formulário).</li>
+      <li>Breadcrumb em uma linha com scroll horizontal, sem quebrar.</li>
+    </ul>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:9px">
+    <div style="font:700 21px/1 Caveat,cursive;color:#0B0F0E">Blocos que se transformam</div>
+    <ul style="margin:0;padding-left:16px;font:400 12.5px/1.7 Archivo,sans-serif;color:#5a615f">
+      <li>Tabela de preço → lista de pares rótulo/valor (sem scroll lateral).</li>
+      <li>Processo → lista vertical, número acima do título, prazo em mono embaixo.</li>
+      <li>Materiais → carrossel horizontal com snap, 1,2 card visível.</li>
+      <li>Depoimentos → carrossel com snap. FAQ → toda fechada por padrão.</li>
+      <li>Cidades → 2 colunas de links, altura de linha 40px.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="dv-opts">
+
+<div class="dv-opt" id="2a">
+<div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a>Home mobile</div>
+<div class="dv-card" style="width:328px;padding:14px;display:flex;flex-direction:column;gap:8px">
+  <div style="border:1px solid #b9bfbd;border-radius:16px;padding:10px;display:flex;flex-direction:column;gap:7px;background:#fbfcfb">
+    <div style="display:flex;align-items:center;gap:6px;padding:5px 7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff">
+      <div style="flex:none;width:44px;height:11px;border-radius:2px;background:#dfe3e2"></div>
+      <div style="flex:1"></div>
+      <div style="flex:none;width:16px;height:16px;border-radius:3px;background:#42B69C"></div>
+      <div style="flex:none;width:16px;height:16px;border-radius:3px;background:#dfe3e2"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:4px;padding:7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff">
+      <div style="height:6px;width:40%;border-radius:2px;background:#42B69C"></div>
+      <div style="height:12px;width:92%;border-radius:2px;background:#dfe3e2"></div>
+      <div style="height:12px;width:64%;border-radius:2px;background:#dfe3e2"></div>
+      <div style="height:5px;width:100%;border-radius:2px;background:#eceeed"></div>
+      <div style="height:26px;border-radius:3px;background:#0B0F0E;margin-top:3px"></div>
+      <div style="height:26px;border-radius:3px;border:1px solid #b9bfbd"></div>
+    </div>
+    <div style="display:flex;gap:5px">
+      <div style="flex:1;height:26px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;align-items:center;justify-content:center;font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">PROVA</div>
+      <div style="flex:1;height:26px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;align-items:center;justify-content:center;font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">PROVA</div>
+    </div>
+    <div style="padding:7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;flex-direction:column;gap:4px">
+      <div style="font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">FORMULÁRIO (DESCE PRA CÁ)</div>
+      <div style="height:16px;background:#f4f5f4;border:1px solid #dfe3e2;border-radius:2px"></div>
+      <div style="height:16px;background:#f4f5f4;border:1px solid #dfe3e2;border-radius:2px"></div>
+      <div style="height:20px;background:#42B69C;border-radius:2px"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="height:34px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;align-items:center;justify-content:center;font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">SERVIÇO 1-UP</div>
+      <div style="height:34px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;align-items:center;justify-content:center;font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">SERVIÇO 1-UP</div>
+    </div>
+    <div style="padding:7px;border-radius:4px;background:#0B0F0E;display:flex;gap:5px;overflow:hidden">
+      <div style="flex:none;width:74px;height:44px;border-radius:3px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.09) 0 4px,rgba(255,255,255,.03) 4px 8px)"></div>
+      <div style="flex:none;width:74px;height:44px;border-radius:3px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.09) 0 4px,rgba(255,255,255,.03) 4px 8px)"></div>
+      <div style="flex:none;width:40px;height:44px;border-radius:3px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.09) 0 4px,rgba(255,255,255,.03) 4px 8px)"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:3px;padding:7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff">
+      <div style="font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">PROCESSO — LISTA VERTICAL</div>
+      <div style="height:12px;border-bottom:1px solid #e7eae9"></div><div style="height:12px;border-bottom:1px solid #e7eae9"></div><div style="height:12px;border-bottom:1px solid #e7eae9"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:3px;padding:7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff">
+      <div style="font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">PREÇO — PARES RÓTULO/VALOR</div>
+      <div style="display:flex;justify-content:space-between"><span style="width:45%;height:6px;background:#eceeed;border-radius:2px"></span><span style="width:28%;height:6px;background:#dfe3e2;border-radius:2px"></span></div>
+      <div style="display:flex;justify-content:space-between"><span style="width:52%;height:6px;background:#eceeed;border-radius:2px"></span><span style="width:24%;height:6px;background:#dfe3e2;border-radius:2px"></span></div>
+    </div>
+    <div style="display:flex;gap:5px;overflow:hidden">
+      <div style="flex:none;width:150px;height:32px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;align-items:center;justify-content:center;font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">DEPOIMENTO</div>
+      <div style="flex:none;width:110px;height:32px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:3px">
+      <div style="height:15px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"></div>
+      <div style="height:15px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"></div>
+      <div style="height:15px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"></div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:4px">
+      <div style="width:calc(50% - 2px);height:16px;border:1px dashed #c7ccca;border-radius:3px;background:#fff"></div><div style="width:calc(50% - 2px);height:16px;border:1px dashed #c7ccca;border-radius:3px;background:#fff"></div><div style="width:calc(50% - 2px);height:16px;border:1px dashed #c7ccca;border-radius:3px;background:#fff"></div><div style="width:calc(50% - 2px);height:16px;border:1px dashed #c7ccca;border-radius:3px;background:#fff"></div>
+    </div>
+    <div style="height:52px;border-radius:4px;background:#0B0F0E;display:flex;align-items:center;justify-content:center;font:500 7.5px/1 'JetBrains Mono',monospace;color:rgba(255,255,255,.55)">CTA + RODAPÉ EMPILHADO</div>
+    <div style="display:flex;gap:5px;padding:6px;border-top:1px solid #dfe3e2;background:#fff;border-radius:0 0 10px 10px">
+      <div style="flex:1;height:26px;border-radius:3px;background:#42B69C;display:flex;align-items:center;justify-content:center;font:600 7.5px/1 'JetBrains Mono',monospace;color:#04231c">WHATSAPP</div>
+      <div style="flex:1;height:26px;border-radius:3px;border:1px solid #0B0F0E;display:flex;align-items:center;justify-content:center;font:600 7.5px/1 'JetBrains Mono',monospace;color:#0B0F0E">ORÇAMENTO</div>
+    </div>
+  </div>
+  <div style="font:400 11.5px/1.55 Archivo,sans-serif;color:#5a615f">Formulário sai do hero e entra depois das duas provas. Materiais e depoimentos viram carrossel. Barra fixa WhatsApp/Orçamento acompanha o scroll.</div>
+</div>
+</div>
+
+<div class="dv-opt" id="2b">
+<div class="dv-olabel"><a class="dv-oid" href="#2b">2b</a>Índice de serviços mobile</div>
+<div class="dv-card" style="width:280px;padding:14px;display:flex;flex-direction:column;gap:8px">
+  <div style="border:1px solid #b9bfbd;border-radius:16px;padding:10px;display:flex;flex-direction:column;gap:7px;background:#fbfcfb">
+    <div style="display:flex;align-items:center;gap:6px;padding:5px 7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"><div style="flex:none;width:44px;height:11px;border-radius:2px;background:#dfe3e2"></div><div style="flex:1"></div><div style="width:16px;height:16px;border-radius:3px;background:#42B69C"></div><div style="width:16px;height:16px;border-radius:3px;background:#dfe3e2"></div></div>
+    <div style="font:500 7px/1.4 'JetBrains Mono',monospace;color:#8a918f;padding:0 2px">INÍCIO › SERVIÇOS</div>
+    <div style="padding:7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;flex-direction:column;gap:4px">
+      <div style="height:6px;width:36%;border-radius:2px;background:#42B69C"></div>
+      <div style="height:11px;width:85%;border-radius:2px;background:#dfe3e2"></div>
+      <div style="height:5px;width:100%;border-radius:2px;background:#eceeed"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="height:52px;border:1px dashed #c7ccca;border-radius:4px;background:repeating-linear-gradient(45deg,#eceeed 0 4px,#f7f8f8 4px 8px);display:flex;align-items:flex-end;padding:5px;font:500 7px/1 'JetBrains Mono',monospace;color:#5a615f">CATEGORIA</div>
+      <div style="height:52px;border:1px dashed #c7ccca;border-radius:4px;background:repeating-linear-gradient(45deg,#eceeed 0 4px,#f7f8f8 4px 8px);display:flex;align-items:flex-end;padding:5px;font:500 7px/1 'JetBrains Mono',monospace;color:#5a615f">CATEGORIA</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:4px;padding:7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff">
+      <div style="font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">LISTA DE SERVIÇOS — 1 LINHA CADA</div>
+      <div style="height:22px;border-bottom:1px solid #e7eae9"></div><div style="height:22px;border-bottom:1px solid #e7eae9"></div><div style="height:22px;border-bottom:1px solid #e7eae9"></div><div style="height:22px;border-bottom:1px solid #e7eae9"></div>
+    </div>
+    <div style="display:flex;gap:5px;overflow:hidden"><div style="flex:none;width:96px;height:38px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;align-items:center;justify-content:center;font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">MATERIAL</div><div style="flex:none;width:96px;height:38px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"></div><div style="flex:none;width:40px;height:38px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"></div></div>
+    <div style="display:flex;flex-wrap:wrap;gap:4px"><div style="width:calc(50% - 2px);height:16px;border:1px dashed #c7ccca;border-radius:3px;background:#fff"></div><div style="width:calc(50% - 2px);height:16px;border:1px dashed #c7ccca;border-radius:3px;background:#fff"></div><div style="width:calc(50% - 2px);height:16px;border:1px dashed #c7ccca;border-radius:3px;background:#fff"></div><div style="width:calc(50% - 2px);height:16px;border:1px dashed #c7ccca;border-radius:3px;background:#fff"></div></div>
+    <div style="height:44px;border-radius:4px;background:#0B0F0E;display:flex;align-items:center;justify-content:center;font:500 7.5px/1 'JetBrains Mono',monospace;color:rgba(255,255,255,.55)">CTA + RODAPÉ</div>
+    <div style="display:flex;gap:5px;padding:6px;border-top:1px solid #dfe3e2;background:#fff"><div style="flex:1;height:26px;border-radius:3px;background:#42B69C"></div><div style="flex:1;height:26px;border-radius:3px;border:1px solid #0B0F0E"></div></div>
+  </div>
+  <div style="font:400 11.5px/1.55 Archivo,sans-serif;color:#5a615f">Cards de categoria ficam grandes e tocáveis; a lista completa vira linhas de 44px. Sem formulário nesta página.</div>
+</div>
+</div>
+
+<div class="dv-opt" id="2c">
+<div class="dv-olabel"><a class="dv-oid" href="#2c">2c</a>Página de serviço mobile</div>
+<div class="dv-card" style="width:300px;padding:14px;display:flex;flex-direction:column;gap:8px">
+  <div style="border:1px solid #b9bfbd;border-radius:16px;padding:10px;display:flex;flex-direction:column;gap:7px;background:#fbfcfb">
+    <div style="display:flex;align-items:center;gap:6px;padding:5px 7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"><div style="flex:none;width:44px;height:11px;border-radius:2px;background:#dfe3e2"></div><div style="flex:1"></div><div style="width:16px;height:16px;border-radius:3px;background:#42B69C"></div><div style="width:16px;height:16px;border-radius:3px;background:#dfe3e2"></div></div>
+    <div style="font:500 7px/1.4 'JetBrains Mono',monospace;color:#8a918f;padding:0 2px">INÍCIO › SERVIÇOS › {SERVICO}</div>
+    <div style="padding:7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;flex-direction:column;gap:4px">
+      <div style="height:6px;width:34%;border-radius:2px;background:#42B69C"></div>
+      <div style="height:12px;width:90%;border-radius:2px;background:#dfe3e2"></div>
+      <div style="height:5px;width:100%;border-radius:2px;background:#eceeed"></div>
+      <div style="display:flex;gap:4px;margin-top:2px"><div style="flex:1;height:22px;border:1px dashed #c7ccca;border-radius:3px;background:#f7f8f8"></div><div style="flex:1;height:22px;border:1px dashed #c7ccca;border-radius:3px;background:#f7f8f8"></div><div style="flex:1;height:22px;border:1px dashed #c7ccca;border-radius:3px;background:#f7f8f8"></div></div>
+      <div style="height:26px;border-radius:3px;background:#0B0F0E;margin-top:3px"></div>
+    </div>
+    <div style="height:60px;border:1px dashed #c7ccca;border-radius:4px;background:repeating-linear-gradient(45deg,#eceeed 0 4px,#f7f8f8 4px 8px);display:flex;align-items:center;justify-content:center;font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">FOTO 16:9</div>
+    <div style="padding:7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;flex-direction:column;gap:3px"><div style="font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">COMO FUNCIONA — 3 PARÁGRAFOS</div><div style="height:5px;background:#eceeed;border-radius:2px"></div><div style="height:5px;background:#eceeed;border-radius:2px"></div><div style="height:5px;width:70%;background:#eceeed;border-radius:2px"></div></div>
+    <div style="display:flex;flex-direction:column;gap:5px"><div style="height:32px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;align-items:center;justify-content:center;font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">VARIAÇÃO 1-UP</div><div style="height:32px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"></div></div>
+    <div style="padding:7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;flex-direction:column;gap:3px"><div style="font:500 7px/1 'JetBrains Mono',monospace;color:#42B69C">ESPECIFICAÇÕES / {NORMA}</div><div style="height:10px;border-bottom:1px dashed #dfe3e2"></div><div style="height:10px;border-bottom:1px dashed #dfe3e2"></div><div style="height:10px;border-bottom:1px dashed #dfe3e2"></div></div>
+    <div style="padding:7px;border-radius:4px;background:#0B0F0E;display:flex;gap:5px;overflow:hidden"><div style="flex:none;width:80px;height:40px;border-radius:3px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.09) 0 4px,rgba(255,255,255,.03) 4px 8px)"></div><div style="flex:none;width:80px;height:40px;border-radius:3px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.09) 0 4px,rgba(255,255,255,.03) 4px 8px)"></div><div style="flex:none;width:36px;height:40px;border-radius:3px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.09) 0 4px,rgba(255,255,255,.03) 4px 8px)"></div></div>
+    <div style="padding:7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;flex-direction:column;gap:3px"><div style="font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">PROCESSO + PRAZOS</div><div style="height:12px;border-bottom:1px solid #e7eae9"></div><div style="height:12px;border-bottom:1px solid #e7eae9"></div><div style="height:12px;border-bottom:1px solid #e7eae9"></div></div>
+    <div style="padding:7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;flex-direction:column;gap:3px"><div style="font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">PREÇO — PARES</div><div style="display:flex;justify-content:space-between"><span style="width:50%;height:6px;background:#eceeed;border-radius:2px"></span><span style="width:26%;height:6px;background:#dfe3e2;border-radius:2px"></span></div><div style="display:flex;justify-content:space-between"><span style="width:42%;height:6px;background:#eceeed;border-radius:2px"></span><span style="width:30%;height:6px;background:#dfe3e2;border-radius:2px"></span></div></div>
+    <div style="display:flex;gap:5px;overflow:hidden"><div style="flex:none;width:120px;height:56px;border:1px dashed #c7ccca;border-radius:4px;background:repeating-linear-gradient(45deg,#eceeed 0 4px,#f7f8f8 4px 8px)"></div><div style="flex:none;width:120px;height:56px;border:1px dashed #c7ccca;border-radius:4px;background:repeating-linear-gradient(45deg,#eceeed 0 4px,#f7f8f8 4px 8px)"></div></div>
+    <div style="display:flex;flex-direction:column;gap:3px"><div style="height:15px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"></div><div style="height:15px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"></div><div style="height:15px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"></div></div>
+    <div style="height:44px;border-radius:4px;background:#0B0F0E;display:flex;align-items:center;justify-content:center;font:500 7.5px/1 'JetBrains Mono',monospace;color:rgba(255,255,255,.55)">LINKS + CTA + RODAPÉ</div>
+    <div style="display:flex;gap:5px;padding:6px;border-top:1px solid #dfe3e2;background:#fff"><div style="flex:1;height:26px;border-radius:3px;background:#42B69C"></div><div style="flex:1;height:26px;border-radius:3px;border:1px solid #0B0F0E"></div></div>
+  </div>
+  <div style="font:400 11.5px/1.55 Archivo,sans-serif;color:#5a615f">Foto sai do hero e vira bloco próprio abaixo dele. Especificações mantêm o mono (é a prova técnica) e a galeria vira carrossel.</div>
+</div>
+</div>
+
+<div class="dv-opt" id="2d">
+<div class="dv-olabel"><a class="dv-oid" href="#2d">2d</a>Cidade × serviço mobile — o template que mais converte</div>
+<div class="dv-card" style="width:312px;padding:14px;display:flex;flex-direction:column;gap:8px;border-color:#42B69C">
+  <div style="border:1px solid #b9bfbd;border-radius:16px;padding:10px;display:flex;flex-direction:column;gap:7px;background:#fbfcfb">
+    <div style="display:flex;align-items:center;gap:6px;padding:5px 7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"><div style="flex:none;width:44px;height:11px;border-radius:2px;background:#dfe3e2"></div><div style="flex:1"></div><div style="width:16px;height:16px;border-radius:3px;background:#42B69C"></div><div style="width:16px;height:16px;border-radius:3px;background:#dfe3e2"></div></div>
+    <div style="font:500 7px/1.4 'JetBrains Mono',monospace;color:#8a918f;padding:0 2px">… › {SERVICO} EM {CIDADE}</div>
+    <div style="padding:7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;flex-direction:column;gap:4px">
+      <div style="height:6px;width:44%;border-radius:2px;background:#42B69C"></div>
+      <div style="height:13px;width:95%;border-radius:2px;background:#dfe3e2"></div>
+      <div style="height:13px;width:58%;border-radius:2px;background:#dfe3e2"></div>
+      <div style="height:5px;width:100%;border-radius:2px;background:#eceeed"></div>
+      <div style="height:5px;width:88%;border-radius:2px;background:#eceeed"></div>
+      <div style="display:flex;gap:4px;margin-top:2px"><div style="flex:1;height:24px;border:1px dashed #c7ccca;border-radius:3px;background:#f7f8f8;display:flex;align-items:center;justify-content:center;font:500 6.5px/1 'JetBrains Mono',monospace;color:#8a918f">FATO</div><div style="flex:1;height:24px;border:1px dashed #c7ccca;border-radius:3px;background:#f7f8f8;display:flex;align-items:center;justify-content:center;font:500 6.5px/1 'JetBrains Mono',monospace;color:#8a918f">FATO</div><div style="flex:1;height:24px;border:1px dashed #c7ccca;border-radius:3px;background:#f7f8f8;display:flex;align-items:center;justify-content:center;font:500 6.5px/1 'JetBrains Mono',monospace;color:#8a918f">FATO</div></div>
+      <div style="height:26px;border-radius:3px;background:#0B0F0E;margin-top:3px"></div>
+      <div style="height:26px;border-radius:3px;border:1px solid #b9bfbd"></div>
+    </div>
+    <div style="padding:7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;flex-direction:column;gap:3px"><div style="font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">PARÁGRAFO DOS BAIRROS</div><div style="height:5px;background:#eceeed;border-radius:2px"></div><div style="height:5px;background:#eceeed;border-radius:2px"></div><div style="height:5px;width:72%;background:#eceeed;border-radius:2px"></div></div>
+    <div style="padding:7px;border:1px solid #42B69C;border-radius:4px;background:#eefaf6;display:flex;flex-direction:column;gap:4px">
+      <div style="font:500 7px/1 'JetBrains Mono',monospace;color:#1f7f6c">ORÇAMENTO — 1ª DOBRA DEPOIS DO HERO</div>
+      <div style="height:18px;background:#fff;border:1px solid #cfe8e0;border-radius:2px"></div>
+      <div style="height:18px;background:#fff;border:1px solid #cfe8e0;border-radius:2px"></div>
+      <div style="height:18px;background:#fff;border:1px solid #cfe8e0;border-radius:2px"></div>
+      <div style="height:22px;background:#42B69C;border-radius:2px"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:5px"><div style="height:32px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;align-items:center;justify-content:center;font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">ESCOPO 1-UP</div><div style="height:32px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"></div><div style="height:32px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"></div></div>
+    <div style="height:56px;border:1px dashed #c7ccca;border-radius:4px;background:repeating-linear-gradient(45deg,#eceeed 0 4px,#f7f8f8 4px 8px);display:flex;align-items:center;justify-content:center;font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">FOTO — COMO ESCOLHER</div>
+    <div style="display:flex;flex-direction:column;gap:4px;padding:7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff">
+      <div style="display:flex;gap:5px;align-items:center"><span style="width:14px;height:14px;border-radius:2px;background:#d6f0e8;flex:none"></span><span style="flex:1;height:6px;background:#eceeed;border-radius:2px"></span></div>
+      <div style="display:flex;gap:5px;align-items:center"><span style="width:14px;height:14px;border-radius:2px;background:#d6f0e8;flex:none"></span><span style="flex:1;height:6px;background:#eceeed;border-radius:2px"></span></div>
+      <div style="display:flex;gap:5px;align-items:center"><span style="width:14px;height:14px;border-radius:2px;background:#d6f0e8;flex:none"></span><span style="flex:1;height:6px;background:#eceeed;border-radius:2px"></span></div>
+    </div>
+    <div style="padding:7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;flex-direction:column;gap:3px"><div style="font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">CRONOGRAMA LOCAL — 4 PASSOS</div><div style="height:12px;border-bottom:1px solid #e7eae9"></div><div style="height:12px;border-bottom:1px solid #e7eae9"></div><div style="height:12px;border-bottom:1px solid #e7eae9"></div><div style="height:12px;border-bottom:1px solid #e7eae9"></div></div>
+    <div style="display:flex;gap:5px;overflow:hidden"><div style="flex:none;width:140px;height:34px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;align-items:center;justify-content:center;font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">DEPOIMENTO LOCAL</div><div style="flex:none;width:110px;height:34px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"></div></div>
+    <div style="display:flex;flex-wrap:wrap;gap:4px"><div style="width:calc(50% - 2px);height:18px;border:1px dashed #c7ccca;border-radius:3px;background:#fff"></div><div style="width:calc(50% - 2px);height:18px;border:1px dashed #c7ccca;border-radius:3px;background:#fff"></div><div style="width:calc(50% - 2px);height:18px;border:1px dashed #c7ccca;border-radius:3px;background:#fff"></div><div style="width:calc(50% - 2px);height:18px;border:1px dashed #c7ccca;border-radius:3px;background:#fff"></div></div>
+    <div style="display:flex;flex-direction:column;gap:3px"><div style="height:15px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"></div><div style="height:15px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"></div></div>
+    <div style="height:46px;border-radius:4px;background:#0B0F0E;display:flex;align-items:center;justify-content:center;font:500 7.5px/1 'JetBrains Mono',monospace;color:rgba(255,255,255,.55)">CTA COM {CIDADE} + RODAPÉ</div>
+    <div style="display:flex;gap:5px;padding:6px;border-top:1px solid #dfe3e2;background:#fff"><div style="flex:1;height:26px;border-radius:3px;background:#42B69C;display:flex;align-items:center;justify-content:center;font:600 7.5px/1 'JetBrains Mono',monospace;color:#04231c">WHATSAPP</div><div style="flex:1;height:26px;border-radius:3px;border:1px solid #0B0F0E;display:flex;align-items:center;justify-content:center;font:600 7.5px/1 'JetBrains Mono',monospace;color:#0B0F0E">ORÇAMENTO</div></div>
+  </div>
+  <div style="font:400 11.5px/1.55 Archivo,sans-serif;color:#5a615f">Aqui o formulário sobe: entra logo depois do parágrafo dos bairros, ainda na primeira rolagem. Barra fixa: WhatsApp direto + pedir orçamento. Os 3 fatos locais continuam lado a lado — são a prova de que a página não é doorway.</div>
+</div>
+</div>
+
+<div class="dv-opt" id="2e">
+<div class="dv-olabel"><a class="dv-oid" href="#2e">2e</a>Sobre mobile</div>
+<div class="dv-card" style="width:268px;padding:14px;display:flex;flex-direction:column;gap:8px">
+  <div style="border:1px solid #b9bfbd;border-radius:16px;padding:10px;display:flex;flex-direction:column;gap:7px;background:#fbfcfb">
+    <div style="display:flex;align-items:center;gap:6px;padding:5px 7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"><div style="flex:none;width:44px;height:11px;border-radius:2px;background:#dfe3e2"></div><div style="flex:1"></div><div style="width:16px;height:16px;border-radius:3px;background:#42B69C"></div><div style="width:16px;height:16px;border-radius:3px;background:#dfe3e2"></div></div>
+    <div style="padding:7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;flex-direction:column;gap:4px"><div style="height:6px;width:38%;border-radius:2px;background:#42B69C"></div><div style="height:12px;width:88%;border-radius:2px;background:#dfe3e2"></div><div style="height:5px;width:100%;border-radius:2px;background:#eceeed"></div></div>
+    <div style="height:56px;border:1px dashed #c7ccca;border-radius:4px;background:repeating-linear-gradient(45deg,#eceeed 0 4px,#f7f8f8 4px 8px);display:flex;align-items:center;justify-content:center;font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">FOTO DA OPERAÇÃO</div>
+    <div style="padding:7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;flex-direction:column;gap:3px"><div style="font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">HISTÓRIA</div><div style="height:5px;background:#eceeed;border-radius:2px"></div><div style="height:5px;background:#eceeed;border-radius:2px"></div><div style="height:5px;width:66%;background:#eceeed;border-radius:2px"></div></div>
+    <div style="display:flex;gap:4px"><div style="flex:1;height:30px;border:1px dashed #c7ccca;border-radius:3px;background:#fff;display:flex;align-items:center;justify-content:center;font:500 6.5px/1 'JetBrains Mono',monospace;color:#8a918f">NÚMERO</div><div style="flex:1;height:30px;border:1px dashed #c7ccca;border-radius:3px;background:#fff"></div></div>
+    <div style="display:flex;flex-direction:column;gap:5px"><div style="height:30px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;align-items:center;justify-content:center;font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">COMO TRABALHAMOS</div><div style="height:30px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"></div><div style="height:30px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"></div></div>
+    <div style="height:64px;border:1px dashed #c7ccca;border-radius:4px;background:#f4f5f4;display:flex;align-items:center;justify-content:center;font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">MAPA — PLACEHOLDER</div>
+    <div style="display:flex;flex-wrap:wrap;gap:4px"><div style="width:calc(50% - 2px);height:16px;border:1px dashed #c7ccca;border-radius:3px;background:#fff"></div><div style="width:calc(50% - 2px);height:16px;border:1px dashed #c7ccca;border-radius:3px;background:#fff"></div><div style="width:calc(50% - 2px);height:16px;border:1px dashed #c7ccca;border-radius:3px;background:#fff"></div><div style="width:calc(50% - 2px);height:16px;border:1px dashed #c7ccca;border-radius:3px;background:#fff"></div></div>
+    <div style="height:44px;border-radius:4px;background:#0B0F0E;display:flex;align-items:center;justify-content:center;font:500 7.5px/1 'JetBrains Mono',monospace;color:rgba(255,255,255,.55)">DEPOIMENTOS + CTA + RODAPÉ</div>
+    <div style="display:flex;gap:5px;padding:6px;border-top:1px solid #dfe3e2;background:#fff"><div style="flex:1;height:26px;border-radius:3px;background:#42B69C"></div><div style="flex:1;height:26px;border-radius:3px;border:1px solid #0B0F0E"></div></div>
+  </div>
+  <div style="font:400 11.5px/1.55 Archivo,sans-serif;color:#5a615f">Foto vem antes da história (dá contexto rápido). Credenciais em 2 colunas de números; mapa com altura fixa e lista de cidades embaixo.</div>
+</div>
+</div>
+
+<div class="dv-opt" id="2f">
+<div class="dv-olabel"><a class="dv-oid" href="#2f">2f</a>Contato mobile</div>
+<div class="dv-card" style="width:268px;padding:14px;display:flex;flex-direction:column;gap:8px">
+  <div style="border:1px solid #b9bfbd;border-radius:16px;padding:10px;display:flex;flex-direction:column;gap:7px;background:#fbfcfb">
+    <div style="display:flex;align-items:center;gap:6px;padding:5px 7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"><div style="flex:none;width:44px;height:11px;border-radius:2px;background:#dfe3e2"></div><div style="flex:1"></div><div style="width:16px;height:16px;border-radius:3px;background:#42B69C"></div><div style="width:16px;height:16px;border-radius:3px;background:#dfe3e2"></div></div>
+    <div style="padding:7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;flex-direction:column;gap:4px"><div style="height:12px;width:70%;border-radius:2px;background:#dfe3e2"></div><div style="height:5px;width:100%;border-radius:2px;background:#eceeed"></div></div>
+    <div style="display:flex;flex-direction:column;gap:4px;padding:7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff">
+      <div style="font:500 7px/1 'JetBrains Mono',monospace;color:#42B69C">CONTATO DIRETO PRIMEIRO</div>
+      <div style="display:flex;gap:5px;align-items:center"><span style="width:14px;height:14px;border-radius:2px;background:#d6f0e8;flex:none"></span><span style="flex:1;height:6px;background:#eceeed;border-radius:2px"></span></div>
+      <div style="display:flex;gap:5px;align-items:center"><span style="width:14px;height:14px;border-radius:2px;background:#d6f0e8;flex:none"></span><span style="flex:1;height:6px;background:#eceeed;border-radius:2px"></span></div>
+      <div style="display:flex;gap:5px;align-items:center"><span style="width:14px;height:14px;border-radius:2px;background:#d6f0e8;flex:none"></span><span style="flex:1;height:6px;background:#eceeed;border-radius:2px"></span></div>
+    </div>
+    <div style="padding:7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;flex-direction:column;gap:4px">
+      <div style="font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">FORMULÁRIO COMPLETO</div>
+      <div style="height:18px;background:#f4f5f4;border:1px solid #dfe3e2;border-radius:2px"></div>
+      <div style="height:18px;background:#f4f5f4;border:1px solid #dfe3e2;border-radius:2px"></div>
+      <div style="height:18px;background:#f4f5f4;border:1px solid #dfe3e2;border-radius:2px"></div>
+      <div style="height:34px;background:#f4f5f4;border:1px solid #dfe3e2;border-radius:2px"></div>
+      <div style="height:26px;background:#42B69C;border-radius:2px"></div>
+    </div>
+    <div style="height:60px;border:1px dashed #c7ccca;border-radius:4px;background:#f4f5f4;display:flex;align-items:center;justify-content:center;font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">MAPA — PLACEHOLDER</div>
+    <div style="padding:7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;flex-direction:column;gap:3px"><div style="font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">O QUE ACONTECE DEPOIS — 3 PASSOS</div><div style="height:12px;border-bottom:1px solid #e7eae9"></div><div style="height:12px;border-bottom:1px solid #e7eae9"></div><div style="height:12px;border-bottom:1px solid #e7eae9"></div></div>
+    <div style="display:flex;flex-direction:column;gap:3px"><div style="height:15px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"></div><div style="height:15px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"></div></div>
+    <div style="height:40px;border-radius:4px;background:#0B0F0E;display:flex;align-items:center;justify-content:center;font:500 7.5px/1 'JetBrains Mono',monospace;color:rgba(255,255,255,.55)">RODAPÉ</div>
+  </div>
+  <div style="font:400 11.5px/1.55 Archivo,sans-serif;color:#5a615f">No mobile o botão de WhatsApp vem antes do formulário. Sem barra fixa aqui — a página inteira já é o CTA.</div>
+</div>
+</div>
+
+<div class="dv-opt" id="2g">
+<div class="dv-olabel"><a class="dv-oid" href="#2g">2g</a>Áreas atendidas mobile</div>
+<div class="dv-card" style="width:280px;padding:14px;display:flex;flex-direction:column;gap:8px;border-color:#42B69C">
+  <div style="border:1px solid #b9bfbd;border-radius:16px;padding:10px;display:flex;flex-direction:column;gap:7px;background:#fbfcfb">
+    <div style="display:flex;align-items:center;gap:6px;padding:5px 7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"><div style="flex:none;width:44px;height:11px;border-radius:2px;background:#dfe3e2"></div><div style="flex:1"></div><div style="width:16px;height:16px;border-radius:3px;background:#42B69C"></div><div style="width:16px;height:16px;border-radius:3px;background:#dfe3e2"></div></div>
+    <div style="font:500 7px/1.4 'JetBrains Mono',monospace;color:#8a918f;padding:0 2px">INÍCIO › ÁREAS ATENDIDAS</div>
+    <div style="padding:7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;flex-direction:column;gap:4px"><div style="height:6px;width:40%;border-radius:2px;background:#42B69C"></div><div style="height:12px;width:90%;border-radius:2px;background:#dfe3e2"></div><div style="height:5px;width:100%;border-radius:2px;background:#eceeed"></div></div>
+    <div style="padding:6px 8px;border:1px solid #42B69C;border-radius:4px;background:#eefaf6;display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:2px;background:#42B69C;flex:none"></span><span style="font:500 7px/1 'JetBrains Mono',monospace;color:#1f7f6c">BUSCA "SUA CIDADE" — FILTRA A LISTA</span></div>
+    <div style="height:70px;border:1px dashed #c7ccca;border-radius:4px;background:#f4f5f4;display:flex;align-items:center;justify-content:center;font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">MAPA — ALTURA FIXA</div>
+    <div style="display:flex;gap:4px"><div style="flex:1;height:26px;border:1px dashed #c7ccca;border-radius:3px;background:#fff;display:flex;align-items:center;justify-content:center;font:500 6.5px/1 'JetBrains Mono',monospace;color:#8a918f">Nº CIDADES</div><div style="flex:1;height:26px;border:1px dashed #c7ccca;border-radius:3px;background:#fff"></div></div>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="height:40px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;align-items:center;justify-content:center;font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">CIDADE PRINCIPAL 1-UP</div>
+      <div style="height:40px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"></div>
+    </div>
+    <div style="padding:7px;border:1px dashed #c7ccca;border-radius:4px;background:#fff;display:flex;flex-direction:column;gap:4px">
+      <div style="font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">REGIÃO — ACORDEÃO FECHADO</div>
+      <div style="height:18px;border:1px solid #e7eae9;border-radius:3px"></div>
+      <div style="height:18px;border:1px solid #e7eae9;border-radius:3px"></div>
+      <div style="border:1px solid #e7eae9;border-radius:3px;padding:5px;display:flex;flex-direction:column;gap:3px"><div style="height:6px;width:60%;background:#dfe3e2;border-radius:2px"></div><div style="height:5px;background:#eceeed;border-radius:2px"></div><div style="height:5px;background:#eceeed;border-radius:2px"></div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:3px"><div style="height:15px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"></div><div style="height:15px;border:1px dashed #c7ccca;border-radius:4px;background:#fff"></div></div>
+    <div style="height:46px;border-radius:4px;background:#0B0F0E;display:flex;align-items:center;justify-content:center;text-align:center;font:500 7.5px/1.3 'JetBrains Mono',monospace;color:rgba(255,255,255,.55)">CTA “NÃO ACHOU SUA CIDADE?” + RODAPÉ</div>
+    <div style="display:flex;gap:5px;padding:6px;border-top:1px solid #dfe3e2;background:#fff"><div style="flex:1;height:26px;border-radius:3px;background:#42B69C;display:flex;align-items:center;justify-content:center;font:600 7.5px/1 'JetBrains Mono',monospace;color:#04231c">WHATSAPP</div><div style="flex:1;height:26px;border-radius:3px;border:1px solid #0B0F0E;display:flex;align-items:center;justify-content:center;font:600 7.5px/1 'JetBrains Mono',monospace;color:#0B0F0E">ORÇAMENTO</div></div>
+  </div>
+  <div style="font:400 11.5px/1.55 Archivo,sans-serif;color:#5a615f">No mobile a lista enorme de cidades vira acordeão por região, com um campo de busca no topo — ninguém rola 200 links no celular. Mapa com altura fixa, nunca full-screen.</div>
+</div>
+</div>
+
+</div>
+
+<p class="dv-next">Tente a seguir: "sobe <a class="dv-oid" href="#2d">2d</a> e <a class="dv-oid" href="#1d">1d</a> pra média fidelidade" · "escreve o briefing das duas versões pro Claude Code" · "mostra o breakpoint tablet"</p>
+</section>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Esqueleto das páginas — molde para site local (serviço × cidade)</span></div>
+
+<div class="dv-card" style="width:1096px;padding:22px 26px;margin:0 0 28px;display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:28px">
+  <div style="display:flex;flex-direction:column;gap:9px">
+    <div style="font:700 21px/1 Caveat,cursive;color:#0B0F0E">Variáveis do molde</div>
+    <div style="font:400 12.5px/1.55 Archivo,sans-serif;color:#5a615f">Troque só isso por página. Nenhuma seção muda de ordem entre cidades.</div>
+    <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:2px">
+      <span style="font:500 10px/1.4 'JetBrains Mono',monospace;letter-spacing:.05em;padding:3px 6px;border:1px dashed #c7ccca;border-radius:3px;color:#5a615f">{SERVICO}</span>
+      <span style="font:500 10px/1.4 'JetBrains Mono',monospace;letter-spacing:.05em;padding:3px 6px;border:1px dashed #c7ccca;border-radius:3px;color:#5a615f">{CIDADE}</span>
+      <span style="font:500 10px/1.4 'JetBrains Mono',monospace;letter-spacing:.05em;padding:3px 6px;border:1px dashed #c7ccca;border-radius:3px;color:#5a615f">{UF}</span>
+      <span style="font:500 10px/1.4 'JetBrains Mono',monospace;letter-spacing:.05em;padding:3px 6px;border:1px dashed #c7ccca;border-radius:3px;color:#5a615f">{BAIRROS[4]}</span>
+      <span style="font:500 10px/1.4 'JetBrains Mono',monospace;letter-spacing:.05em;padding:3px 6px;border:1px dashed #c7ccca;border-radius:3px;color:#5a615f">{FATOS_LOCAIS[3]}</span>
+      <span style="font:500 10px/1.4 'JetBrains Mono',monospace;letter-spacing:.05em;padding:3px 6px;border:1px dashed #c7ccca;border-radius:3px;color:#5a615f">{NORMA}</span>
+      <span style="font:500 10px/1.4 'JetBrains Mono',monospace;letter-spacing:.05em;padding:3px 6px;border:1px dashed #c7ccca;border-radius:3px;color:#5a615f">{TELEFONE}</span>
+      <span style="font:500 10px/1.4 'JetBrains Mono',monospace;letter-spacing:.05em;padding:3px 6px;border:1px dashed #c7ccca;border-radius:3px;color:#5a615f">{FAIXA_PRECO}</span>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:9px">
+    <div style="font:700 21px/1 Caveat,cursive;color:#0B0F0E">Regras válidas em toda página</div>
+    <ul style="margin:0;padding-left:16px;font:400 12.5px/1.7 Archivo,sans-serif;color:#5a615f">
+      <li>1 H1 por página, contendo {SERVICO} (+ {CIDADE} quando houver).</li>
+      <li>Seções alternam branco → cinza claro → branco; <b>uma</b> faixa escura no meio.</li>
+      <li>Contato só por WhatsApp: nenhum botão de ligar em nenhuma página.</li><li>Todo formulário monta a mensagem e abre o WhatsApp (wa.me) — não envia e-mail.</li>
+      <li>Toda foto sobre texto leva scrim escuro. Sem ilustração, sem emoji.</li>
+      <li>Número, dimensão ou norma em fonte mono — é a assinatura da marca.</li>
+    </ul>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:9px">
+    <div style="font:700 21px/1 Caveat,cursive;color:#0B0F0E">Legenda do wireframe</div>
+    <div style="display:flex;flex-direction:column;gap:7px">
+      <div style="display:flex;align-items:center;gap:8px"><span style="width:34px;height:16px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4;flex:none"></span><span style="font:400 12px/1.4 Archivo,sans-serif;color:#5a615f">bloco / card</span></div>
+      <div style="display:flex;align-items:center;gap:8px"><span style="width:34px;height:16px;border:1px dashed #c7ccca;border-radius:3px;background:repeating-linear-gradient(45deg,#eceeed 0 4px,#f7f8f8 4px 8px);flex:none"></span><span style="font:400 12px/1.4 Archivo,sans-serif;color:#5a615f">foto real (nunca ilustração)</span></div>
+      <div style="display:flex;align-items:center;gap:8px"><span style="width:34px;height:16px;background:#0B0F0E;border-radius:3px;flex:none"></span><span style="font:400 12px/1.4 Archivo,sans-serif;color:#5a615f">faixa escura</span></div>
+      <div style="display:flex;align-items:center;gap:8px"><span style="font:500 10px/1.4 'JetBrains Mono',monospace;color:#8a918f;flex:none;width:34px">MONO</span><span style="font:400 12px/1.4 Archivo,sans-serif;color:#5a615f">componentes a usar</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="dv-card" style="width:1096px;padding:18px 22px;margin:0 0 28px;border-color:#42B69C;background:#eefaf6;display:grid;grid-template-columns:1fr 1fr 1fr;gap:26px">
+  <div style="display:flex;flex-direction:column;gap:6px">
+    <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#1f7f6c">REGRA DE CONTATO — VALE EM TODA PÁGINA</div>
+    <div style="font:700 21px/1 Caveat,cursive;color:#0B0F0E">Só WhatsApp. Sem botão de ligar.</div>
+    <div style="font:400 12.5px/1.55 Archivo,sans-serif;color:#5a615f">Nenhum <code style="font:500 11px 'JetBrains Mono',monospace">tel:</code> em lugar nenhum — nem no header, nem no rodapé, nem nos cards. O número aparece como texto só no rodapé e na página de contato, e clicar nele também abre o WhatsApp.</div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:6px">
+    <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#1f7f6c">OS DOIS ÚNICOS CTAS</div>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="display:flex;align-items:center;gap:8px"><span style="flex:none;padding:5px 10px;border-radius:3px;background:#42B69C;font:600 10px/1.2 Archivo,sans-serif;color:#04231c">Falar no WhatsApp</span><span style="font:400 11.5px/1.4 Archivo,sans-serif;color:#5a615f">primário — abre wa.me direto</span></div>
+      <div style="display:flex;align-items:center;gap:8px"><span style="flex:none;padding:5px 10px;border-radius:3px;border:1px solid #0B0F0E;font:600 10px/1.2 Archivo,sans-serif;color:#0B0F0E">Pedir orçamento</span><span style="font:400 11.5px/1.4 Archivo,sans-serif;color:#5a615f">secundário — rola até o formulário</span></div>
+    </div>
+    <div style="font:400 12.5px/1.55 Archivo,sans-serif;color:#5a615f">Sempre nessa ordem, sempre com esse rótulo. Nunca um terceiro botão na mesma faixa.</div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:6px">
+    <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#1f7f6c">FORMULÁRIO → WHATSAPP</div>
+    <div style="font:400 12.5px/1.55 Archivo,sans-serif;color:#5a615f">O envio não manda e-mail: monta o texto e abre a conversa. Campos: nome, WhatsApp, cidade (pré-preenchida com {CIDADE}), serviço (pré-preenchido com {SERVICO}), mensagem.</div>
+    <div style="padding:7px 9px;border:1px dashed #7fcdb8;border-radius:4px;background:#fff;font:500 10.5px/1.5 'JetBrains Mono',monospace;color:#1f7f6c">wa.me/{TELEFONE}?text=Olá, quero orçamento de {SERVICO} em {CIDADE}. Meu nome é {NOME}.</div>
+    <div style="font:400 11.5px/1.5 Archivo,sans-serif;color:#5a615f">Botão de envio: “Enviar no WhatsApp” — o rótulo avisa pra onde vai.</div>
+  </div>
+</div>
+
+<div class="dv-opts">
+
+<div class="dv-opt" id="1a">
+<div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Home — página institucional principal</div>
+<div class="dv-card" style="width:520px;padding:18px;display:flex;flex-direction:column;gap:10px">
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">01</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Barra de utilidade + header fixo</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">WhatsApp, horário e licença sempre visíveis. Nav de 6 itens + botão "Falar no WhatsApp".</div>
+      <div style="display:flex;gap:6px;align-items:center;margin:2px 0">
+        <div style="flex:none;width:72px;height:14px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4;display:flex;align-items:center;justify-content:center;font:500 7.5px/1 'JetBrains Mono',monospace;color:#8a918f">LOGO</div>
+        <div style="flex:1;height:14px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div>
+        <div style="flex:none;width:60px;height:14px;border-radius:3px;background:#42B69C"></div>
+      </div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">UTILITYBAR · SITEHEADER · BUTTON</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px;background:#fbfcfb">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">02</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Hero com formulário de orçamento</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Promessa principal + captura de lead acima da dobra. H1 = {SERVICO} + região.</div>
+      <div style="display:flex;gap:8px;margin:3px 0">
+        <div style="flex:1.3;display:flex;flex-direction:column;gap:5px">
+          <div style="height:7px;width:35%;border-radius:2px;background:#42B69C"></div>
+          <div style="height:11px;width:90%;border-radius:2px;background:#dfe3e2"></div>
+          <div style="height:11px;width:70%;border-radius:2px;background:#dfe3e2"></div>
+          <div style="height:6px;width:100%;border-radius:2px;background:#eceeed"></div>
+          <div style="height:6px;width:85%;border-radius:2px;background:#eceeed"></div>
+          <div style="display:flex;gap:5px;margin-top:2px"><div style="width:74px;height:16px;border-radius:3px;background:#0B0F0E"></div><div style="width:74px;height:16px;border-radius:3px;border:1px solid #b9bfbd"></div></div>
+        </div>
+        <div style="flex:.9;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4;padding:7px;display:flex;flex-direction:column;gap:4px">
+          <div style="font:500 7.5px/1 'JetBrains Mono',monospace;color:#8a918f">FORMULÁRIO</div>
+          <div style="height:10px;background:#fff;border:1px solid #dfe3e2;border-radius:2px"></div>
+          <div style="height:10px;background:#fff;border:1px solid #dfe3e2;border-radius:2px"></div>
+          <div style="height:10px;background:#fff;border:1px solid #dfe3e2;border-radius:2px"></div>
+          <div style="height:12px;background:#42B69C;border-radius:2px"></div>
+        </div>
+      </div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">H1 · LEAD · BUTTON×2 · ESTIMATEFORM · TRUSTBAR</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">03</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Por que escolher a gente</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">4 provas objetivas, não adjetivos: licença, fabricação própria, prazo, garantia.</div>
+      <div style="display:flex;gap:6px;margin:2px 0">
+        <div style="flex:1;height:36px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div>
+        <div style="flex:1;height:36px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div>
+        <div style="flex:1;height:36px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div>
+        <div style="flex:1;height:36px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div>
+      </div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">SECTIONHEADING · CARD×4 · ICON CHIP</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">04</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Serviços — categoria A</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Grid 3-up. Cada card linka para a página do serviço. Uma linha de spec por card.</div>
+      <div style="display:flex;gap:6px;margin:2px 0">
+        <div style="flex:1;height:44px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4;display:flex;align-items:center;justify-content:center;font:500 8px/1 'JetBrains Mono',monospace;color:#8a918f">SERVIÇO</div>
+        <div style="flex:1;height:44px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4;display:flex;align-items:center;justify-content:center;font:500 8px/1 'JetBrains Mono',monospace;color:#8a918f">SERVIÇO</div>
+        <div style="flex:1;height:44px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4;display:flex;align-items:center;justify-content:center;font:500 8px/1 'JetBrains Mono',monospace;color:#8a918f">SERVIÇO</div>
+      </div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">SECTIONHEADING · SERVICECARD×3–6</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">05</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Serviços — categoria B</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Mesma grade, segundo grupo de serviços. Duas categorias no máximo na home.</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">SECTIONHEADING · SERVICECARD×3–6</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px;background:#0B0F0E;border-color:#333b39">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">06</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#fff">Materiais / equipamento — faixa escura</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:rgba(255,255,255,.62)">Âncora visual do meio da página: foto macro + nome do material com scrim.</div>
+      <div style="display:flex;gap:6px;margin:2px 0">
+        <div style="flex:1;height:40px;border-radius:3px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.08) 0 4px,rgba(255,255,255,.03) 4px 8px)"></div>
+        <div style="flex:1;height:40px;border-radius:3px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.08) 0 4px,rgba(255,255,255,.03) 4px 8px)"></div>
+        <div style="flex:1;height:40px;border-radius:3px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.08) 0 4px,rgba(255,255,255,.03) 4px 8px)"></div>
+        <div style="flex:1;height:40px;border-radius:3px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.08) 0 4px,rgba(255,255,255,.03) 4px 8px)"></div>
+      </div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:rgba(255,255,255,.5)">MATERIALCARD×4–6 · SEÇÃO INK</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">07</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Processo em 6 passos</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Título fica sticky à esquerda; passos numerados rolam à direita, com prazo em mono.</div>
+      <div style="display:flex;gap:8px;margin:2px 0">
+        <div style="flex:.7;height:52px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4;display:flex;align-items:center;justify-content:center;font:500 7.5px/1 'JetBrains Mono',monospace;color:#8a918f">STICKY</div>
+        <div style="flex:1.3;display:flex;flex-direction:column;gap:4px">
+          <div style="height:11px;border-bottom:1px solid #e7eae9"></div><div style="height:11px;border-bottom:1px solid #e7eae9"></div><div style="height:11px;border-bottom:1px solid #e7eae9"></div><div style="height:11px;border-bottom:1px solid #e7eae9"></div>
+        </div>
+      </div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">SECTIONHEADING(STICKY) · PROCESSSTEP×6</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">08</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Faixas de preço</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Duas tabelas (por tipo e por material), valores em faixa e ressalva de que não é orçamento.</div>
+      <div style="display:flex;gap:8px;margin:2px 0">
+        <div style="flex:1;height:46px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div>
+        <div style="flex:1;height:46px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div>
+      </div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">PRICETABLE×2 · NOTA EM MONO</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">09</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Depoimentos</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Três frases reais de cliente, com nome e cidade. Sem nota, sem exclamação.</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">TESTIMONIALCARD×3</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">10</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">FAQ (acordeão)</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">5 a 7 perguntas escritas como o cliente busca; a resposta repete a pergunta e resolve.</div>
+      <div style="display:flex;flex-direction:column;gap:3px;margin:2px 0">
+        <div style="height:13px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div>
+        <div style="height:13px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div>
+        <div style="height:13px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div>
+      </div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">ACCORDION · FAQPAGE SCHEMA</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">11</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Cidades atendidas</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Grid de links internos para as páginas cidade × serviço. Nenhuma cidade órfã.</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin:2px 0">
+        <div style="width:62px;height:13px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="width:62px;height:13px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="width:62px;height:13px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="width:62px;height:13px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="width:62px;height:13px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="width:62px;height:13px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div>
+      </div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">LINK GRID · 1 LINK POR CIDADE</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px;background:#0B0F0E;border-color:#333b39">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">12</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#fff">CTA final + rodapé de 4 colunas</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:rgba(255,255,255,.62)">Faixa com foto escurecida, título verbal, botão WhatsApp + botão de orçamento. Rodapé com serviços, cidades, WhatsApp e licença.</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:rgba(255,255,255,.5)">CTABANNER · SITEFOOTER</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<div class="dv-opt" id="1b">
+<div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Índice de serviços — hub que distribui autoridade</div>
+<div class="dv-card" style="width:440px;padding:18px;display:flex;flex-direction:column;gap:10px">
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">01</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Header + breadcrumb</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Início › Serviços. Breadcrumb aparece em toda página que não é a home.</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">SITEHEADER · BREADCRUMBS</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px;background:#fbfcfb">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">02</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Hero curto, sem formulário</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">H1 = "Serviços de {SERVICO}". Duas ou três frases e um botão. Aqui a intenção é navegar.</div>
+      <div style="display:flex;flex-direction:column;gap:4px;margin:2px 0">
+        <div style="height:7px;width:30%;border-radius:2px;background:#42B69C"></div>
+        <div style="height:11px;width:75%;border-radius:2px;background:#dfe3e2"></div>
+        <div style="height:6px;width:90%;border-radius:2px;background:#eceeed"></div>
+      </div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">EYEBROW · H1 · LEAD · BUTTON</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">03</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Categorias (2–3 cards grandes)</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Agrupa o catálogo antes de listar. Cada categoria tem foto e uma frase de escopo.</div>
+      <div style="display:flex;gap:6px;margin:2px 0">
+        <div style="flex:1;height:48px;border:1px dashed #c7ccca;border-radius:3px;background:repeating-linear-gradient(45deg,#eceeed 0 4px,#f7f8f8 4px 8px)"></div>
+        <div style="flex:1;height:48px;border:1px dashed #c7ccca;border-radius:3px;background:repeating-linear-gradient(45deg,#eceeed 0 4px,#f7f8f8 4px 8px)"></div>
+        <div style="flex:1;height:48px;border:1px dashed #c7ccca;border-radius:3px;background:repeating-linear-gradient(45deg,#eceeed 0 4px,#f7f8f8 4px 8px)"></div>
+      </div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">CARD×3 · FOTO 3PX RADIUS</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">04</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Lista completa por categoria</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Todo serviço do site aparece aqui, uma linha cada, com link. É o mapa interno.</div>
+      <div style="display:flex;gap:6px;margin:2px 0"><div style="flex:1;height:30px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="flex:1;height:30px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="flex:1;height:30px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div></div>
+      <div style="display:flex;gap:6px"><div style="flex:1;height:30px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="flex:1;height:30px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="flex:1;height:30px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div></div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">SERVICECARD×N · GRID 3-UP</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">05</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Prova + materiais</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Números da operação (anos, licença, prazo médio) e os materiais que você especifica.</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">STATSTRIP · TRUSTBAR · MATERIALCARD</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">06</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Cidades atendidas + FAQ curta</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Cruza o hub com as páginas locais: cada cidade recebe link daqui. FAQ de 4 itens.</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">LINK GRID · ACCORDION×4</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px;background:#0B0F0E;border-color:#333b39">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">07</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#fff">CTA + rodapé</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:rgba(255,255,255,.62)">Mesma banda escura da home, título adaptado ao catálogo.</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:rgba(255,255,255,.5)">CTABANNER · SITEFOOTER</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<div class="dv-opt" id="1c">
+<div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Página de serviço — o detalhe técnico</div>
+<div class="dv-card" style="width:520px;padding:18px;display:flex;flex-direction:column;gap:10px">
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">01</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Header + breadcrumb</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Início › Serviços › {SERVICO}. URL flat: /{servico}.</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">SITEHEADER · BREADCRUMBS</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px;background:#fbfcfb">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">02</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Hero do serviço</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">H1 = nome exato do serviço. Lead com o benefício + 3 números do escopo. Foto real ao lado.</div>
+      <div style="display:flex;gap:8px;margin:3px 0">
+        <div style="flex:1.1;display:flex;flex-direction:column;gap:5px">
+          <div style="height:7px;width:32%;border-radius:2px;background:#42B69C"></div>
+          <div style="height:11px;width:85%;border-radius:2px;background:#dfe3e2"></div>
+          <div style="height:6px;width:95%;border-radius:2px;background:#eceeed"></div>
+          <div style="display:flex;gap:4px;margin-top:2px"><div style="flex:1;height:20px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="flex:1;height:20px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="flex:1;height:20px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div></div>
+        </div>
+        <div style="flex:.9;height:64px;border:1px dashed #c7ccca;border-radius:3px;background:repeating-linear-gradient(45deg,#eceeed 0 4px,#f7f8f8 4px 8px);display:flex;align-items:center;justify-content:center;font:500 7.5px/1 'JetBrains Mono',monospace;color:#8a918f">FOTO</div>
+      </div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">EYEBROW · H1 · LEAD · STATSTRIP · BUTTON×2</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">03</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">O que é e como funciona</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Duas colunas: três parágrafos curtos sob um H2 + foto. Explica o método, não vende.</div>
+      <div style="display:flex;gap:8px;margin:2px 0">
+        <div style="flex:1;height:50px;border:1px dashed #c7ccca;border-radius:3px;background:repeating-linear-gradient(45deg,#eceeed 0 4px,#f7f8f8 4px 8px)"></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px;justify-content:center">
+          <div style="height:6px;background:#eceeed;border-radius:2px"></div><div style="height:6px;background:#eceeed;border-radius:2px"></div><div style="height:6px;width:80%;background:#eceeed;border-radius:2px"></div>
+        </div>
+      </div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">SECTIONHEADING · PROSA 68CH · FOTO</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">04</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Variações / tipos do serviço</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Grid 2-up. Cada variação com uma linha de especificação técnica em mono.</div>
+      <div style="display:flex;gap:6px;margin:2px 0"><div style="flex:1;height:38px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="flex:1;height:38px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div></div>
+      <div style="display:flex;gap:6px"><div style="flex:1;height:38px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="flex:1;height:38px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div></div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">SERVICECARD×4 · SPEC LINE</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">05</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Especificações e norma</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">A seção que prova competência: dimensões, materiais e {NORMA} citada. Tudo em mono, com selos.</div>
+      <div style="display:flex;flex-direction:column;gap:3px;margin:2px 0">
+        <div style="height:10px;border-bottom:1px dashed #dfe3e2"></div><div style="height:10px;border-bottom:1px dashed #dfe3e2"></div><div style="height:10px;border-bottom:1px dashed #dfe3e2"></div><div style="height:10px;border-bottom:1px dashed #dfe3e2"></div>
+      </div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">SPEC LIST · BADGE · ICON CHECK</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px;background:#0B0F0E;border-color:#333b39">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">06</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#fff">Materiais e acabamentos</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:rgba(255,255,255,.62)">Só os materiais que esse serviço usa — não repita a lista inteira da home.</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:rgba(255,255,255,.5)">MATERIALCARD×4 · SEÇÃO INK</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">07</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Processo do serviço (4–6 passos)</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Cada passo com prazo real em mono. Layout sticky + lista, igual à home.</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">PROCESSSTEP×4–6 · META EM MONO</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">08</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Preço + projetos</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Uma tabela de faixa só desse serviço, com ressalva. Depois 2–4 fotos de obra entregue.</div>
+      <div style="display:flex;gap:8px;margin:2px 0">
+        <div style="flex:1;height:42px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div>
+        <div style="flex:1;height:42px;border:1px dashed #c7ccca;border-radius:3px;background:repeating-linear-gradient(45deg,#eceeed 0 4px,#f7f8f8 4px 8px)"></div>
+      </div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">PRICETABLE · PHOTO GRID</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">09</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Depoimento + FAQ do serviço</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Um depoimento sobre esse serviço específico e 4–6 perguntas que só cabem nele.</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">TESTIMONIALCARD · ACCORDION×4–6</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">10</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Links relacionados + CTA + rodapé</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Serviços vizinhos e as cidades onde esse serviço é oferecido — é o que amarra a malha interna.</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">LINK GRID · CTABANNER · SITEFOOTER</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<div class="dv-opt" id="1d">
+<div class="dv-olabel"><a class="dv-oid" href="#1d">1d</a>Cidade × serviço — o template que repete (anti-doorway)</div>
+<div class="dv-card" style="width:540px;padding:18px;display:flex;flex-direction:column;gap:10px;border-color:#42B69C">
+
+  <div style="border:1px solid #42B69C;background:#eefaf6;border-radius:6px;padding:11px 13px">
+    <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#1f7f6c;margin-bottom:4px">REGRA DE PUBLICAÇÃO</div>
+    <div style="font:400 12px/1.55 Archivo,sans-serif;color:#0B0F0E">Só publique a página se ela tiver: 3 fatos verificáveis da cidade, 4+ bairros citados no corpo, 1 exigência local (norma, clima, tipo de construção), prazos reais e 1 depoimento local. Sem isso, é doorway — junte a cidade a uma página regional.</div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">01</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Header + breadcrumb</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Início › Serviços › {SERVICO} em {CIDADE}. URL flat: /{servico}-{cidade}.</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">SITEHEADER · BREADCRUMBS</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px;background:#fbfcfb">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">02</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Hero local + formulário</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Eyebrow = {CIDADE}, {UF}. H1 = "{SERVICO} em {CIDADE}, {UF}". Lead reescrito por cidade, 3 fatos locais em cards e um parágrafo citando os bairros.</div>
+      <div style="display:flex;gap:8px;margin:3px 0">
+        <div style="flex:1.3;display:flex;flex-direction:column;gap:5px">
+          <div style="height:7px;width:28%;border-radius:2px;background:#42B69C"></div>
+          <div style="height:12px;width:88%;border-radius:2px;background:#dfe3e2"></div>
+          <div style="height:6px;width:100%;border-radius:2px;background:#eceeed"></div>
+          <div style="display:flex;gap:4px"><div style="flex:1;height:24px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4;display:flex;align-items:center;justify-content:center;font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">FATO</div><div style="flex:1;height:24px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4;display:flex;align-items:center;justify-content:center;font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">FATO</div><div style="flex:1;height:24px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4;display:flex;align-items:center;justify-content:center;font:500 7px/1 'JetBrains Mono',monospace;color:#8a918f">FATO</div></div>
+          <div style="height:6px;width:92%;border-radius:2px;background:#eceeed"></div>
+          <div style="display:flex;gap:5px;margin-top:2px"><div style="width:78px;height:16px;border-radius:3px;background:#0B0F0E"></div><div style="width:78px;height:16px;border-radius:3px;border:1px solid #b9bfbd"></div></div>
+        </div>
+        <div style="flex:.9;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4;padding:7px;display:flex;flex-direction:column;gap:4px">
+          <div style="font:500 7.5px/1 'JetBrains Mono',monospace;color:#8a918f">ORÇAMENTO</div>
+          <div style="height:10px;background:#fff;border:1px solid #dfe3e2;border-radius:2px"></div>
+          <div style="height:10px;background:#fff;border:1px solid #dfe3e2;border-radius:2px"></div>
+          <div style="height:10px;background:#fff;border:1px solid #dfe3e2;border-radius:2px"></div>
+          <div style="height:10px;background:#fff;border:1px solid #dfe3e2;border-radius:2px"></div>
+          <div style="height:12px;background:#42B69C;border-radius:2px"></div>
+        </div>
+      </div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">EYEBROW · H1 · LEAD · STATSTRIP×3 · ESTIMATEFORM</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">03</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Escopo na cidade</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">4 tipos de atendimento, grid 2-up, cada um amarrado ao que a construção local exige.</div>
+      <div style="display:flex;gap:6px;margin:2px 0"><div style="flex:1;height:36px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="flex:1;height:36px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div></div>
+      <div style="display:flex;gap:6px"><div style="flex:1;height:36px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="flex:1;height:36px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div></div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">SECTIONHEADING · SERVICECARD×4</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">04</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Como escolher o profissional</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Foto à esquerda, 3 critérios com ícone à direita: experiência, portfólio, documentação.</div>
+      <div style="display:flex;gap:8px;margin:2px 0">
+        <div style="flex:1;height:54px;border:1px dashed #c7ccca;border-radius:3px;background:repeating-linear-gradient(45deg,#eceeed 0 4px,#f7f8f8 4px 8px)"></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:5px;justify-content:center">
+          <div style="display:flex;gap:5px;align-items:center"><span style="width:13px;height:13px;border-radius:2px;background:#d6f0e8;flex:none"></span><span style="flex:1;height:6px;background:#eceeed;border-radius:2px"></span></div>
+          <div style="display:flex;gap:5px;align-items:center"><span style="width:13px;height:13px;border-radius:2px;background:#d6f0e8;flex:none"></span><span style="flex:1;height:6px;background:#eceeed;border-radius:2px"></span></div>
+          <div style="display:flex;gap:5px;align-items:center"><span style="width:13px;height:13px;border-radius:2px;background:#d6f0e8;flex:none"></span><span style="flex:1;height:6px;background:#eceeed;border-radius:2px"></span></div>
+        </div>
+      </div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">FOTO · ICON CHIP×3 · H4 + P</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">05</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Cronograma local (4 passos)</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Visita → planejamento → execução → conferência. Prazo de cada etapa em mono, específico da cidade.</div>
+      <div style="display:flex;gap:8px;margin:2px 0">
+        <div style="flex:.7;height:50px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4;display:flex;align-items:center;justify-content:center;font:500 7.5px/1 'JetBrains Mono',monospace;color:#8a918f">STICKY</div>
+        <div style="flex:1.3;display:flex;flex-direction:column;gap:4px"><div style="height:10px;border-bottom:1px solid #e7eae9"></div><div style="height:10px;border-bottom:1px solid #e7eae9"></div><div style="height:10px;border-bottom:1px solid #e7eae9"></div><div style="height:10px;border-bottom:1px solid #e7eae9"></div></div>
+      </div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">PROCESSSTEP×4 · META = PRAZO</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">06</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Prova local</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Título nomeia bairros ou cidades vizinhas; 3 depoimentos com nome e cidade.</div>
+      <div style="display:flex;gap:6px;margin:2px 0"><div style="flex:1;height:34px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="flex:1;height:34px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="flex:1;height:34px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div></div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">SECTIONHEADING(CENTER) · TESTIMONIALCARD×3</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">07</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Cidades vizinhas + FAQ da cidade</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Links laterais entre páginas locais (4–8) e 4 perguntas reescritas com o nome da cidade.</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin:2px 0"><div style="width:66px;height:13px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="width:66px;height:13px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="width:66px;height:13px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="width:66px;height:13px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div></div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">LINK GRID · ACCORDION×4 · FAQPAGE SCHEMA</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px;background:#0B0F0E;border-color:#333b39">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">08</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#fff">CTA com o nome da cidade + rodapé</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:rgba(255,255,255,.62)">Eyebrow = {CIDADE}. Título verbal com prazo ("agende esta semana"). Rodapé idêntico ao resto do site.</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:rgba(255,255,255,.5)">CTABANNER · SITEFOOTER · LOCALBUSINESS SCHEMA</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<div class="dv-opt" id="1e">
+<div class="dv-olabel"><a class="dv-oid" href="#1e">1e</a>Sobre</div>
+<div class="dv-card" style="width:400px;padding:18px;display:flex;flex-direction:column;gap:10px">
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">01</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Header + breadcrumb + hero curto</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">H1 com a empresa e a região. Uma frase que resume o que vocês fabricam e há quanto tempo.</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">BREADCRUMBS · EYEBROW · H1 · LEAD</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px;background:#fbfcfb">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">02</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">História + foto da operação</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Duas colunas: 3 parágrafos factuais + foto real da oficina, frota ou equipe.</div>
+      <div style="display:flex;gap:8px;margin:2px 0">
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px;justify-content:center"><div style="height:6px;background:#eceeed;border-radius:2px"></div><div style="height:6px;background:#eceeed;border-radius:2px"></div><div style="height:6px;width:75%;background:#eceeed;border-radius:2px"></div></div>
+        <div style="flex:1;height:48px;border:1px dashed #c7ccca;border-radius:3px;background:repeating-linear-gradient(45deg,#eceeed 0 4px,#f7f8f8 4px 8px)"></div>
+      </div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">SECTIONHEADING · PROSA · FOTO</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">03</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Credenciais e números</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Licença, seguro, anos de operação, horário. Só o que é verificável.</div>
+      <div style="display:flex;gap:6px;margin:2px 0"><div style="flex:1;height:28px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="flex:1;height:28px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="flex:1;height:28px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div></div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">STATSTRIP · BADGE · TRUSTBAR</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">04</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Como trabalhamos</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">3 diferenciais de método (sem terceirizar, equipe própria, garantia). Um por card.</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">CARD×3 · ICON CHIP</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">05</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Área atendida</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Mapa (placeholder rotulado se não houver chave de API) + lista de cidades com link.</div>
+      <div style="height:40px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4;display:flex;align-items:center;justify-content:center;font:500 8px/1 'JetBrains Mono',monospace;color:#8a918f;margin:2px 0">MAPA — PLACEHOLDER ROTULADO</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">MAP SLOT · LINK GRID</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px;background:#0B0F0E;border-color:#333b39">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">06</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#fff">Depoimentos + CTA + rodapé</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:rgba(255,255,255,.62)">Fecha com prova social e o mesmo CTA do resto do site.</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:rgba(255,255,255,.5)">TESTIMONIALCARD×3 · CTABANNER · SITEFOOTER</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<div class="dv-opt" id="1f">
+<div class="dv-olabel"><a class="dv-oid" href="#1f">1f</a>Contato</div>
+<div class="dv-card" style="width:400px;padding:18px;display:flex;flex-direction:column;gap:10px">
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">01</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Header + breadcrumb + hero de 2 linhas</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">H1 direto ("Fale com a gente") e uma frase sobre o tempo de resposta.</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">BREADCRUMBS · H1 · LEAD</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px;background:#fbfcfb">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">02</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Formulário + dados de contato</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Esquerda: formulário (nome, WhatsApp, cidade, serviço, mensagem) que abre a conversa já preenchida. Direita, sticky: botão WhatsApp, endereço, horário, área atendida.</div>
+      <div style="display:flex;gap:8px;margin:2px 0">
+        <div style="flex:1.2;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4;padding:7px;display:flex;flex-direction:column;gap:4px">
+          <div style="height:10px;background:#fff;border:1px solid #dfe3e2;border-radius:2px"></div><div style="height:10px;background:#fff;border:1px solid #dfe3e2;border-radius:2px"></div><div style="height:10px;background:#fff;border:1px solid #dfe3e2;border-radius:2px"></div><div style="height:22px;background:#fff;border:1px solid #dfe3e2;border-radius:2px"></div><div style="height:12px;background:#42B69C;border-radius:2px"></div>
+        </div>
+        <div style="flex:.8;display:flex;flex-direction:column;gap:5px">
+          <div style="display:flex;gap:5px;align-items:center"><span style="width:12px;height:12px;border-radius:2px;background:#d6f0e8;flex:none"></span><span style="flex:1;height:6px;background:#eceeed;border-radius:2px"></span></div>
+          <div style="display:flex;gap:5px;align-items:center"><span style="width:12px;height:12px;border-radius:2px;background:#d6f0e8;flex:none"></span><span style="flex:1;height:6px;background:#eceeed;border-radius:2px"></span></div>
+          <div style="display:flex;gap:5px;align-items:center"><span style="width:12px;height:12px;border-radius:2px;background:#d6f0e8;flex:none"></span><span style="flex:1;height:6px;background:#eceeed;border-radius:2px"></span></div>
+          <div style="display:flex;gap:5px;align-items:center"><span style="width:12px;height:12px;border-radius:2px;background:#d6f0e8;flex:none"></span><span style="flex:1;height:6px;background:#eceeed;border-radius:2px"></span></div>
+        </div>
+      </div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">INPUT · SELECT · TEXTAREA · BUTTON · CARD STICKY</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">03</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Mapa + o que acontece depois</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Mapa da região e 3 passos do pós-envio (resposta no WhatsApp, visita, orçamento escrito) com prazo.</div>
+      <div style="height:38px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4;display:flex;align-items:center;justify-content:center;font:500 8px/1 'JetBrains Mono',monospace;color:#8a918f;margin:2px 0">MAPA — PLACEHOLDER ROTULADO</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">MAP SLOT · PROCESSSTEP×3</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px;background:#0B0F0E;border-color:#333b39">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">04</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#fff">FAQ curta + rodapé</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:rgba(255,255,255,.62)">3 perguntas sobre atendimento e cobertura. Sem CTA duplicado — o WhatsApp já está fixo no topo.</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:rgba(255,255,255,.5)">ACCORDION×3 · SITEFOOTER</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<div class="dv-opt" id="1g">
+<div class="dv-olabel"><a class="dv-oid" href="#1g">1g</a>Áreas atendidas — hub de cidades e bairros</div>
+<div class="dv-card" style="width:440px;padding:18px;display:flex;flex-direction:column;gap:10px;border-color:#42B69C">
+
+  <div style="border:1px solid #42B69C;background:#eefaf6;border-radius:6px;padding:11px 13px">
+    <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#1f7f6c">PAPEL DESTA PÁGINA</div>
+    <div style="font:400 12px/1.55 Archivo,sans-serif;color:#0B0F0E;margin-top:4px">É o mapa da malha local: toda cidade e todo bairro que você ataca sai daqui. Cidade com página própria vira link; bairro sem página é só texto na lista da cidade — nunca crie página vazia só pra ter link.</div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">01</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Header + breadcrumb + hero curto</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">H1 = "Áreas atendidas — {SERVICO} em {REGIAO}". Uma frase de cobertura e um botão de WhatsApp.</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">BREADCRUMBS · EYEBROW · H1 · LEAD · BUTTON WHATSAPP</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px;background:#fbfcfb">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">02</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Mapa da cobertura + resumo</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Mapa à esquerda (placeholder rotulado se não houver chave), à direita: nº de cidades, raio de atendimento e prazo de visita, em mono.</div>
+      <div style="display:flex;gap:8px;margin:2px 0">
+        <div style="flex:1.3;height:78px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4;display:flex;align-items:center;justify-content:center;font:500 8px/1 'JetBrains Mono',monospace;color:#8a918f">MAPA</div>
+        <div style="flex:.8;display:flex;flex-direction:column;gap:5px;justify-content:center">
+          <div style="height:20px;border:1px dashed #c7ccca;border-radius:3px;background:#fff"></div>
+          <div style="height:20px;border:1px dashed #c7ccca;border-radius:3px;background:#fff"></div>
+          <div style="height:20px;border:1px dashed #c7ccca;border-radius:3px;background:#fff"></div>
+        </div>
+      </div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">MAP SLOT · STATSTRIP×3</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">03</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Cidades principais — cards</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Grid 3-up com as cidades que têm página própria: nome, 1 linha de contexto local e 2–3 bairros citados.</div>
+      <div style="display:flex;gap:6px;margin:2px 0"><div style="flex:1;height:44px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4;display:flex;align-items:center;justify-content:center;font:500 7.5px/1 'JetBrains Mono',monospace;color:#8a918f">CIDADE</div><div style="flex:1;height:44px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="flex:1;height:44px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div></div>
+      <div style="display:flex;gap:6px"><div style="flex:1;height:44px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="flex:1;height:44px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div><div style="flex:1;height:44px;border:1px dashed #c7ccca;border-radius:3px;background:#f4f5f4"></div></div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">CARD×N · LINK → /{servico}-{cidade}</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">04</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Índice completo por região</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Colunas por região/zona. Cidade com página = link; cidade sem página = texto simples. Bairros entram como linha menor sob a cidade.</div>
+      <div style="display:flex;gap:8px;margin:2px 0">
+        <div style="flex:1;display:flex;flex-direction:column;gap:3px"><div style="height:7px;width:60%;background:#42B69C;border-radius:2px"></div><div style="height:6px;background:#eceeed;border-radius:2px"></div><div style="height:6px;background:#eceeed;border-radius:2px"></div><div style="height:6px;width:80%;background:#eceeed;border-radius:2px"></div></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:3px"><div style="height:7px;width:52%;background:#42B69C;border-radius:2px"></div><div style="height:6px;background:#eceeed;border-radius:2px"></div><div style="height:6px;background:#eceeed;border-radius:2px"></div><div style="height:6px;width:70%;background:#eceeed;border-radius:2px"></div></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:3px"><div style="height:7px;width:66%;background:#42B69C;border-radius:2px"></div><div style="height:6px;background:#eceeed;border-radius:2px"></div><div style="height:6px;background:#eceeed;border-radius:2px"></div><div style="height:6px;width:74%;background:#eceeed;border-radius:2px"></div></div>
+      </div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">LINK COLUMNS × REGIÃO · H3 POR REGIÃO</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">05</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Serviços × área</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">Faixa que cruza esta página com o índice de serviços (<a class="dv-oid" href="#1b">1b</a>): mesma lista de serviços, aqui com a chamada "em toda a região".</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">SERVICECARD×N COMPACTO</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">06</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#0B0F0E">Prova + FAQ de cobertura</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:#5a615f">3 depoimentos de cidades diferentes e 4 perguntas do tipo "vocês atendem {CIDADE}?", "cobram deslocamento?".</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:#8a918f">TESTIMONIALCARD×3 · ACCORDION×4</div>
+    </div>
+  </div>
+
+  <div style="border:1px dashed #b9bfbd;border-radius:6px;padding:11px 13px;display:grid;grid-template-columns:24px 1fr;gap:11px;background:#0B0F0E;border-color:#333b39">
+    <span style="font:600 11px/1.5 'JetBrains Mono',monospace;color:#42B69C">07</span>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="font:700 19px/1 Caveat,cursive;color:#fff">CTA "não achou sua cidade?" + rodapé</div>
+      <div style="font:400 12px/1.5 Archivo,sans-serif;color:rgba(255,255,255,.62)">Único caso em que o CTA muda de texto: manda a pessoa perguntar no WhatsApp se atende o endereço dela.</div>
+      <div style="font:500 9.5px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:rgba(255,255,255,.5)">CTABANNER (WHATSAPP) · SITEFOOTER</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+</div>
+
+<p class="dv-next">Tente a seguir: "sobe pra média fidelidade a <a class="dv-oid" href="#1d">1d</a>" · "gera o texto de cada seção da <a class="dv-oid" href="#1c">1c</a>" · "escreve isso como briefing pro Claude Code"</p>
+</section>
+
+</x-dc>
+</body>
+</html>

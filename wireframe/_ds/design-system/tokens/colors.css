@@ -1,0 +1,84 @@
+:root{
+  /* ---- Base: brand teal, sampled from the logo mark (#42B69C) ---- */
+  --teal-50:#EDF9F6;
+  --teal-100:#DCF2EC;
+  --teal-200:#B5E4D8;
+  --teal-300:#8AD3C1;
+  --teal-400:#63C4AE;
+  --teal-500:#42B69C; /* brand */
+  --teal-600:#2E9781;
+  --teal-700:#1F7565;
+  --teal-800:#15544A;
+  --teal-900:#0E3831;
+
+  /* ---- Base: ink / steel neutrals (cool, faintly green — reads like brushed metal) ---- */
+  --ink-000:#FFFFFF;
+  --ink-025:#F7F8F8;
+  --ink-050:#F1F3F2;
+  --ink-100:#E5E8E7;
+  --ink-200:#D2D7D5;
+  --ink-300:#B3BAB8;
+  --ink-400:#8B9391;
+  --ink-500:#67706E;
+  --ink-600:#4B5351;
+  --ink-700:#333A38;
+  --ink-800:#1E2423;
+  --ink-900:#121716;
+  --ink-950:#0B0F0E;
+  --ink-1000:#000000; /* logo wordmark black */
+
+  /* ---- Base: hardwood / brass warm accent (oak, walnut, maple photography) ---- */
+  --brass-100:#F6EEE1;
+  --brass-200:#E9D8BC;
+  --brass-400:#C79E63;
+  --brass-500:#B0854B;
+  --brass-700:#7A5A2F;
+
+  /* ---- Base: semantic hues ---- */
+  --green-500:#3F9D63;
+  --amber-500:#D89A2C;
+  --red-500:#C0463C;
+  --blue-500:#3D7FA6; /* glass / tempered-glass tint */
+
+  /* ---- Semantic: surfaces ---- */
+  --surface-page:var(--ink-000);
+  --surface-subtle:var(--ink-025);
+  --surface-sunken:var(--ink-050);
+  --surface-card:var(--ink-000);
+  --surface-card-subtle:var(--ink-025);
+  --surface-ink:var(--ink-950);
+  --surface-ink-raised:var(--ink-800);
+  --surface-brand:var(--teal-500);
+  --surface-brand-soft:var(--teal-100);
+  --surface-wood:var(--brass-100);
+  --surface-glass:rgba(255,255,255,.72);
+  --surface-glass-ink:rgba(11,15,14,.62);
+  --scrim-photo:linear-gradient(to top,rgba(11,15,14,.86) 0%,rgba(11,15,14,.55) 38%,rgba(11,15,14,.05) 78%); /* @kind color */
+  --scrim-photo-flat:rgba(11,15,14,.45);
+
+  /* ---- Semantic: text ---- */
+  --text-strong:var(--ink-950);
+  --text-body:var(--ink-700);
+  --text-muted:var(--ink-500);
+  --text-faint:var(--ink-400);
+  --text-brand:var(--teal-700);
+  --text-on-ink:#F4F6F5;
+  --text-on-ink-muted:rgba(244,246,245,.66);
+  --text-on-brand:var(--ink-950);
+  --text-link:var(--teal-700);
+  --text-link-hover:var(--teal-800);
+
+  /* ---- Semantic: borders ---- */
+  --border-hairline:var(--ink-100);
+  --border-default:var(--ink-200);
+  --border-strong:var(--ink-300);
+  --border-ink:rgba(255,255,255,.14);
+  --border-brand:var(--teal-500);
+  --focus-ring:var(--teal-600);
+
+  /* ---- Semantic: status ---- */
+  --status-success-fg:#256B41;--status-success-bg:#E7F3EB;
+  --status-warning-fg:#7A5410;--status-warning-bg:#FBF1DC;
+  --status-danger-fg:#8C2E27;--status-danger-bg:#F8E8E6;
+  --status-info-fg:#23566F;--status-info-bg:#E6F0F5;
+}

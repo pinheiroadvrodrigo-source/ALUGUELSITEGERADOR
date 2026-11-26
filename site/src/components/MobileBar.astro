@@ -1,0 +1,11 @@
+---
+import Icon from './Icon.astro';
+import { SITE, waLink } from '../data/site';
+interface Props { formOnPage?: boolean; localidade?: string; servico?: string }
+const { formOnPage = true, localidade = '', servico = '' } = Astro.props;
+const wa = waLink(`Olá! Vim pelo site da ${SITE.marca} e quero um orçamento${servico ? ` de ${servico.toLowerCase()}` : ' de aluguel de gerador'}${localidade ? ` em ${localidade}` : ''}.`);
+---
+<div class="mobile-bar">
+  <a class="btn btn--primary" href={wa} target="_blank" rel="noopener" data-track="whatsapp_click" data-cta-position="barra_fixa_whatsapp"><Icon name="whatsapp" />Falar no WhatsApp</a>
+  <a class="btn btn--secondary" href={formOnPage ? '#orcamento' : '/contato#orcamento'} data-track="cta_click" data-cta-position="barra_fixa_orcamento">Pedir orçamento</a>
+</div>

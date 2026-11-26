@@ -1,0 +1,8 @@
+---
+// Primeiro parágrafo das subpáginas: o ÚNICO link do corpo é o nome da marca → Home.
+import { SITE } from '../data/site';
+interface Props { texto: string; class?: string; link?: boolean }
+const { texto, class: cls, link = true } = Astro.props;
+const [antes, depois] = texto.split('{MARCA}');
+---
+<p class={cls}>{antes}{link ? <a href="/">{SITE.marcaCompleta}</a> : <strong>{SITE.marcaCompleta}</strong>}{depois}</p>

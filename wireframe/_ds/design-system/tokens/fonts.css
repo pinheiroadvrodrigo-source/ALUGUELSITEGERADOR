@@ -1,0 +1,14 @@
+/* Webfonts. NOTE: no font binaries exist on the source site (it ships system/CDN
+   template fonts), so these are documented Google Fonts substitutions:
+   - Cinzel        -> nearest match to the Trajan-style inscriptional serif in the logo wordmark
+   - Archivo       -> modern industrial grotesk for UI + display
+   - JetBrains Mono-> spec/code numerals (CBC sections, dimensions, prices)
+   Swap the @import for local @font-face rules if licensed brand files arrive. */
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap");
+
+:root{
+  --font-brand:"Cinzel",'Times New Roman',serif;
+  --font-display:"Archivo","Helvetica Neue",Helvetica,sans-serif;
+  --font-body:"Archivo","Helvetica Neue",Helvetica,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}

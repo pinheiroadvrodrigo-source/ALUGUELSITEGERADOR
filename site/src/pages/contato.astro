@@ -1,0 +1,59 @@
+---
+// TEMPLATE 1f — Contato. Sem barra fixa no mobile (a página inteira já é o CTA).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BrandLead from '../components/BrandLead.astro';
+import EstimateForm from '../components/EstimateForm.astro';
+import Icon from '../components/Icon.astro';
+import Steps from '../components/Steps.astro';
+import Faq from '../components/Faq.astro';
+import MapFacade from '../components/MapFacade.astro';
+import { SITE, waLink } from '../data/site';
+const wa = waLink(`Olá! Vim pelo site da ${SITE.marca} e quero um orçamento de aluguel de gerador.`);
+---
+<BaseLayout title="Contato | ParaPrime Aluguel de Gerador em Belém"
+  description="Fale com a ParaPrime pelo WhatsApp (91) 99119-8584 e peça o orçamento de aluguel de gerador em Belém e Região Metropolitana. Resposta no mesmo dia útil."
+  path="/contato" hideMobileBar
+  crumbs={[{ label: 'Início', href: '/' }, { label: 'Contato' }]}>
+  <section class="section" style="padding-bottom:32px">
+    <div class="container">
+      <h1>Fale com a ParaPrime sobre Aluguel de Gerador em Belém</h1>
+      <BrandLead class="hero__lead" texto="A {MARCA} responde pelo WhatsApp no mesmo dia útil. Quanto mais detalhes sobre o que precisa ligar, mais rápido sai a proposta." />
+    </div>
+  </section>
+  <section class="section" style="padding-top:0">
+    <div class="container two-col two-col--top">
+      <EstimateForm titulo="Pedir orçamento pelo WhatsApp" />
+      <aside class="card" style="position:sticky;top:calc(var(--h-nav) + 24px)">
+        <h2 style="font-size:22px">Contato direto da ParaPrime</h2>
+        <a class="btn btn--primary" style="width:100%;margin-bottom:18px" href={wa} target="_blank" rel="noopener" data-track="whatsapp_click" data-cta-position="contato_card"><Icon name="whatsapp" />Falar no WhatsApp</a>
+        <p><strong>Telefone/WhatsApp:</strong> <a href={waLink()} target="_blank" rel="noopener" data-track="whatsapp_click" data-cta-position="telefone_contato"><span class="mono">{SITE.telefoneExibe}</span></a></p>
+        {SITE.email && <p><strong>E-mail:</strong> <a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>}
+        <p><strong>Atendimento:</strong> {SITE.horario}</p>
+        <p style="margin:0"><strong>Área:</strong> Belém, Ananindeua, Marituba, Benevides, Castanhal, Barcarena e Região Metropolitana.</p>
+      </aside>
+    </div>
+  </section>
+  <section class="section section--subtle">
+    <div class="container two-col two-col--top">
+      <div>
+        <h2>O que Acontece Depois que Você Pede o Gerador</h2>
+        <Steps passos={[
+          { titulo: 'Resposta no WhatsApp', texto: 'Confirmamos o que precisa ligar e, se for o caso, pedimos foto do quadro.', prazo: 'MESMO DIA ÚTIL' },
+          { titulo: 'Visita técnica', texto: 'Para indústria, obra, evento grande e condomínio, a locadora parceira vistoria o local.', prazo: '24–48 H' },
+          { titulo: 'Proposta por escrito', texto: 'Potência, prazo, frete, combustível e cabos descritos.', prazo: 'ATÉ 24 H APÓS A VISITA' },
+        ]} />
+      </div>
+      <MapFacade query="Belém, PA, Brasil" imagem={{ src: '/img/fotos/mapa-belem-pa.webp', alt: 'Mapa de Belém - PA, sede do atendimento de aluguel de gerador', w: 1200, h: 450 }} localidade="Belém - PA" />
+    </div>
+  </section>
+  <section class="section">
+    <div class="container narrow">
+      <h2>Dúvidas sobre o Atendimento de Gerador</h2>
+      <Faq itens={[
+        { pergunta: 'Posso pedir orçamento de gerador fora do horário comercial?', resposta: 'Pode. A mensagem fica registrada no WhatsApp e é respondida no início do próximo atendimento; casos de emergência são avaliados no plantão.' },
+        { pergunta: 'Vocês atendem toda a Região Metropolitana de Belém?', resposta: 'Sim: Belém, Ananindeua, Marituba, Benevides, Santa Bárbara do Pará, Santa Izabel do Pará, Castanhal e Barcarena.' },
+        { pergunta: 'O orçamento do gerador tem custo?', resposta: 'Não. O orçamento e o dimensionamento de potência são gratuitos.' },
+      ]} />
+    </div>
+  </section>
+</BaseLayout>

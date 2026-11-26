@@ -1,0 +1,12 @@
+{
+  "name": "paraprime",
+  "private": true,
+  "description": "ParaPrime Aluguel de Geradores — projeto (site em ./site, wireframe em ./wireframe)",
+  "scripts": {
+    "postinstall": "npm --prefix site install",
+    "dev": "npm --prefix site run dev",
+    "build": "npm --prefix site run build",
+    "check": "npm --prefix site run check",
+    "preview": "npm --prefix site run preview"
+  }
+}

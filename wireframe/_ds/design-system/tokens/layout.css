@@ -1,0 +1,18 @@
+:root{
+  --container:1240px;
+  --container-wide:1440px;
+  --container-narrow:760px;
+  --gutter:24px;
+  --gutter-lg:40px;
+  --h-utilitybar:40px;
+  --h-nav:74px;
+  --h-control:44px;
+  --h-control-sm:36px;
+  --h-control-lg:54px;
+  --z-base:0; /* @kind other */
+  --z-raised:10; /* @kind other */
+  --z-sticky:100; /* @kind other */
+  --z-nav:200; /* @kind other */
+  --z-overlay:900; /* @kind other */
+  --z-modal:1000; /* @kind other */
+}

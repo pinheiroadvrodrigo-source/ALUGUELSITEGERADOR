@@ -1,0 +1,366 @@
+EXTRACAO EM TEXTO DO WIREFRAME — Padrao de Paginas
+Gerada automaticamente a partir de padrao-de-paginas.dc.html.
+Use este arquivo para ler a estrutura rapido; abra o HTML quando precisar de medidas/cores.
+==============================================================================
+
+##############################################################################
+SECAO: 1 Esqueleto das páginas — molde para site local (serviço × cidade)
+##############################################################################
+
+[NOTAS GLOBAIS] Variáveis do molde Troque só isso por página. Nenhuma seção muda de ordem entre cidades. {SERVICO} {CIDADE} {UF} {BAIRROS[4]} {FATOS_LOCAIS[3]} {NORMA} {TELEFONE} {FAIXA_PRECO} Regras válidas em toda página 1 H1 por página, contendo {SERVICO} (+ {CIDADE} quando houver). Seções alternam branco → cinza claro → branco; uma faixa escura no meio. Contato só por WhatsApp: nenhum botão de ligar em nenhuma página. Todo formulário monta a mensagem e abre o WhatsApp (wa.me) — não envia e-mail. Toda foto sobre texto leva scrim escuro. Sem ilustração, sem emoji. Número, dimensão ou norma em fonte mono — é a assinatura da marca. Legenda do wireframe bloco / card foto real (nunca ilustração) faixa escura MONO componentes a usar
+
+[NOTAS GLOBAIS] REGRA DE CONTATO — VALE EM TODA PÁGINA Só WhatsApp. Sem botão de ligar. Nenhum tel: em lugar nenhum — nem no header, nem no rodapé, nem nos cards. O número aparece como texto só no rodapé e na página de contato, e clicar nele também abre o WhatsApp. OS DOIS ÚNICOS CTAS Falar no WhatsApp primário — abre wa.me direto Pedir orçamento secundário — rola até o formulário Sempre nessa ordem, sempre com esse rótulo. Nunca um terceiro botão na mesma faixa. FORMULÁRIO → WHATSAPP O envio não manda e-mail: monta o texto e abre a conversa. Campos: nome, WhatsApp, cidade (pré-preenchida com {CIDADE}), serviço (pré-preenchido com {SERVICO}), mensagem. wa.me/{TELEFONE}?text=Olá, quero orçamento de {SERVICO} em {CIDADE}. Meu nome é {NOME}. Botão de envio: “Enviar no WhatsApp” — o rótulo avisa pra onde vai.
+
+------------------------------------------------------------------------------
+TEMPLATE 1a Home — página institucional principal
+------------------------------------------------------------------------------
+  01
+  Barra de utilidade + header fixo
+  WhatsApp, horário e licença sempre visíveis. Nav de 6 itens + botão "Falar no WhatsApp".
+  LOGO
+  UTILITYBAR · SITEHEADER · BUTTON
+  02
+  Hero com formulário de orçamento
+  Promessa principal + captura de lead acima da dobra. H1 = {SERVICO} + região.
+  FORMULÁRIO
+  H1 · LEAD · BUTTON×2 · ESTIMATEFORM · TRUSTBAR
+  03
+  Por que escolher a gente
+  4 provas objetivas, não adjetivos: licença, fabricação própria, prazo, garantia.
+  SECTIONHEADING · CARD×4 · ICON CHIP
+  04
+  Serviços — categoria A
+  Grid 3-up. Cada card linka para a página do serviço. Uma linha de spec por card.
+  SERVIÇO
+  SECTIONHEADING · SERVICECARD×3–6
+  05
+  Serviços — categoria B
+  Mesma grade, segundo grupo de serviços. Duas categorias no máximo na home.
+  SECTIONHEADING · SERVICECARD×3–6
+  06
+  Materiais / equipamento — faixa escura
+  Âncora visual do meio da página: foto macro + nome do material com scrim.
+  MATERIALCARD×4–6 · SEÇÃO INK
+  07
+  Processo em 6 passos
+  Título fica sticky à esquerda; passos numerados rolam à direita, com prazo em mono.
+  STICKY
+  SECTIONHEADING(STICKY) · PROCESSSTEP×6
+  08
+  Faixas de preço
+  Duas tabelas (por tipo e por material), valores em faixa e ressalva de que não é orçamento.
+  PRICETABLE×2 · NOTA EM MONO
+  09
+  Depoimentos
+  Três frases reais de cliente, com nome e cidade. Sem nota, sem exclamação.
+  TESTIMONIALCARD×3
+  10
+  FAQ (acordeão)
+  5 a 7 perguntas escritas como o cliente busca; a resposta repete a pergunta e resolve.
+  ACCORDION · FAQPAGE SCHEMA
+  11
+  Cidades atendidas
+  Grid de links internos para as páginas cidade × serviço. Nenhuma cidade órfã.
+  LINK GRID · 1 LINK POR CIDADE
+  12
+  CTA final + rodapé de 4 colunas
+  Faixa com foto escurecida, título verbal, botão WhatsApp + botão de orçamento. Rodapé com serviços, cidades, WhatsApp e licença.
+  CTABANNER · SITEFOOTER
+
+------------------------------------------------------------------------------
+TEMPLATE 1b Índice de serviços — hub que distribui autoridade
+------------------------------------------------------------------------------
+  01
+  Header + breadcrumb
+  Início › Serviços. Breadcrumb aparece em toda página que não é a home.
+  SITEHEADER · BREADCRUMBS
+  02
+  Hero curto, sem formulário
+  H1 = "Serviços de {SERVICO}". Duas ou três frases e um botão. Aqui a intenção é navegar.
+  EYEBROW · H1 · LEAD · BUTTON
+  03
+  Categorias (2–3 cards grandes)
+  Agrupa o catálogo antes de listar. Cada categoria tem foto e uma frase de escopo.
+  CARD×3 · FOTO 3PX RADIUS
+  04
+  Lista completa por categoria
+  Todo serviço do site aparece aqui, uma linha cada, com link. É o mapa interno.
+  SERVICECARD×N · GRID 3-UP
+  05
+  Prova + materiais
+  Números da operação (anos, licença, prazo médio) e os materiais que você especifica.
+  STATSTRIP · TRUSTBAR · MATERIALCARD
+  06
+  Cidades atendidas + FAQ curta
+  Cruza o hub com as páginas locais: cada cidade recebe link daqui. FAQ de 4 itens.
+  LINK GRID · ACCORDION×4
+  07
+  CTA + rodapé
+  Mesma banda escura da home, título adaptado ao catálogo.
+  CTABANNER · SITEFOOTER
+
+------------------------------------------------------------------------------
+TEMPLATE 1c Página de serviço — o detalhe técnico
+------------------------------------------------------------------------------
+  01
+  Header + breadcrumb
+  Início › Serviços › {SERVICO}. URL flat: /{servico}.
+  SITEHEADER · BREADCRUMBS
+  02
+  Hero do serviço
+  H1 = nome exato do serviço. Lead com o benefício + 3 números do escopo. Foto real ao lado.
+  FOTO
+  EYEBROW · H1 · LEAD · STATSTRIP · BUTTON×2
+  03
+  O que é e como funciona
+  Duas colunas: três parágrafos curtos sob um H2 + foto. Explica o método, não vende.
+  SECTIONHEADING · PROSA 68CH · FOTO
+  04
+  Variações / tipos do serviço
+  Grid 2-up. Cada variação com uma linha de especificação técnica em mono.
+  SERVICECARD×4 · SPEC LINE
+  05
+  Especificações e norma
+  A seção que prova competência: dimensões, materiais e {NORMA} citada. Tudo em mono, com selos.
+  SPEC LIST · BADGE · ICON CHECK
+  06
+  Materiais e acabamentos
+  Só os materiais que esse serviço usa — não repita a lista inteira da home.
+  MATERIALCARD×4 · SEÇÃO INK
+  07
+  Processo do serviço (4–6 passos)
+  Cada passo com prazo real em mono. Layout sticky + lista, igual à home.
+  PROCESSSTEP×4–6 · META EM MONO
+  08
+  Preço + projetos
+  Uma tabela de faixa só desse serviço, com ressalva. Depois 2–4 fotos de obra entregue.
+  PRICETABLE · PHOTO GRID
+  09
+  Depoimento + FAQ do serviço
+  Um depoimento sobre esse serviço específico e 4–6 perguntas que só cabem nele.
+  TESTIMONIALCARD · ACCORDION×4–6
+  10
+  Links relacionados + CTA + rodapé
+  Serviços vizinhos e as cidades onde esse serviço é oferecido — é o que amarra a malha interna.
+  LINK GRID · CTABANNER · SITEFOOTER
+
+------------------------------------------------------------------------------
+TEMPLATE 1d Cidade × serviço — o template que repete (anti-doorway)
+------------------------------------------------------------------------------
+  REGRA DE PUBLICAÇÃO
+  Só publique a página se ela tiver: 3 fatos verificáveis da cidade, 4+ bairros citados no corpo, 1 exigência local (norma, clima, tipo de construção), prazos reais e 1 depoimento local. Sem isso, é doorway — junte a cidade a uma página regional.
+  01
+  Header + breadcrumb
+  Início › Serviços › {SERVICO} em {CIDADE}. URL flat: /{servico}-{cidade}.
+  SITEHEADER · BREADCRUMBS
+  02
+  Hero local + formulário
+  Eyebrow = {CIDADE}, {UF}. H1 = "{SERVICO} em {CIDADE}, {UF}". Lead reescrito por cidade, 3 fatos locais em cards e um parágrafo citando os bairros.
+  FATO
+  ORÇAMENTO
+  EYEBROW · H1 · LEAD · STATSTRIP×3 · ESTIMATEFORM
+  03
+  Escopo na cidade
+  4 tipos de atendimento, grid 2-up, cada um amarrado ao que a construção local exige.
+  SECTIONHEADING · SERVICECARD×4
+  04
+  Como escolher o profissional
+  Foto à esquerda, 3 critérios com ícone à direita: experiência, portfólio, documentação.
+  FOTO · ICON CHIP×3 · H4 + P
+  05
+  Cronograma local (4 passos)
+  Visita → planejamento → execução → conferência. Prazo de cada etapa em mono, específico da cidade.
+  STICKY
+  PROCESSSTEP×4 · META = PRAZO
+  06
+  Prova local
+  Título nomeia bairros ou cidades vizinhas; 3 depoimentos com nome e cidade.
+  SECTIONHEADING(CENTER) · TESTIMONIALCARD×3
+  07
+  Cidades vizinhas + FAQ da cidade
+  Links laterais entre páginas locais (4–8) e 4 perguntas reescritas com o nome da cidade.
+  LINK GRID · ACCORDION×4 · FAQPAGE SCHEMA
+  08
+  CTA com o nome da cidade + rodapé
+  Eyebrow = {CIDADE}. Título verbal com prazo ("agende esta semana"). Rodapé idêntico ao resto do site.
+  CTABANNER · SITEFOOTER · LOCALBUSINESS SCHEMA
+
+------------------------------------------------------------------------------
+TEMPLATE 1e Sobre
+------------------------------------------------------------------------------
+  01
+  Header + breadcrumb + hero curto
+  H1 com a empresa e a região. Uma frase que resume o que vocês fabricam e há quanto tempo.
+  BREADCRUMBS · EYEBROW · H1 · LEAD
+  02
+  História + foto da operação
+  Duas colunas: 3 parágrafos factuais + foto real da oficina, frota ou equipe.
+  SECTIONHEADING · PROSA · FOTO
+  03
+  Credenciais e números
+  Licença, seguro, anos de operação, horário. Só o que é verificável.
+  STATSTRIP · BADGE · TRUSTBAR
+  04
+  Como trabalhamos
+  3 diferenciais de método (sem terceirizar, equipe própria, garantia). Um por card.
+  CARD×3 · ICON CHIP
+  05
+  Área atendida
+  Mapa (placeholder rotulado se não houver chave de API) + lista de cidades com link.
+  MAPA — PLACEHOLDER ROTULADO
+  MAP SLOT · LINK GRID
+  06
+  Depoimentos + CTA + rodapé
+  Fecha com prova social e o mesmo CTA do resto do site.
+  TESTIMONIALCARD×3 · CTABANNER · SITEFOOTER
+
+------------------------------------------------------------------------------
+TEMPLATE 1f Contato
+------------------------------------------------------------------------------
+  01
+  Header + breadcrumb + hero de 2 linhas
+  H1 direto ("Fale com a gente") e uma frase sobre o tempo de resposta.
+  BREADCRUMBS · H1 · LEAD
+  02
+  Formulário + dados de contato
+  Esquerda: formulário (nome, WhatsApp, cidade, serviço, mensagem) que abre a conversa já preenchida. Direita, sticky: botão WhatsApp, endereço, horário, área atendida.
+  INPUT · SELECT · TEXTAREA · BUTTON · CARD STICKY
+  03
+  Mapa + o que acontece depois
+  Mapa da região e 3 passos do pós-envio (resposta no WhatsApp, visita, orçamento escrito) com prazo.
+  MAPA — PLACEHOLDER ROTULADO
+  MAP SLOT · PROCESSSTEP×3
+  04
+  FAQ curta + rodapé
+  3 perguntas sobre atendimento e cobertura. Sem CTA duplicado — o WhatsApp já está fixo no topo.
+  ACCORDION×3 · SITEFOOTER
+
+------------------------------------------------------------------------------
+TEMPLATE 1g Áreas atendidas — hub de cidades e bairros
+------------------------------------------------------------------------------
+  PAPEL DESTA PÁGINA
+  É o mapa da malha local: toda cidade e todo bairro que você ataca sai daqui. Cidade com página própria vira link; bairro sem página é só texto na lista da cidade — nunca crie página vazia só pra ter link.
+  01
+  Header + breadcrumb + hero curto
+  H1 = "Áreas atendidas — {SERVICO} em {REGIAO}". Uma frase de cobertura e um botão de WhatsApp.
+  BREADCRUMBS · EYEBROW · H1 · LEAD · BUTTON WHATSAPP
+  02
+  Mapa da cobertura + resumo
+  Mapa à esquerda (placeholder rotulado se não houver chave), à direita: nº de cidades, raio de atendimento e prazo de visita, em mono.
+  MAPA
+  MAP SLOT · STATSTRIP×3
+  03
+  Cidades principais — cards
+  Grid 3-up com as cidades que têm página própria: nome, 1 linha de contexto local e 2–3 bairros citados.
+  CIDADE
+  CARD×N · LINK → /{servico}-{cidade}
+  04
+  Índice completo por região
+  Colunas por região/zona. Cidade com página = link; cidade sem página = texto simples. Bairros entram como linha menor sob a cidade.
+  LINK COLUMNS × REGIÃO · H3 POR REGIÃO
+  05
+  Serviços × área
+  Faixa que cruza esta página com o índice de serviços ( 1b ): mesma lista de serviços, aqui com a chamada "em toda a região".
+  SERVICECARD×N COMPACTO
+  06
+  Prova + FAQ de cobertura
+  3 depoimentos de cidades diferentes e 4 perguntas do tipo "vocês atendem {CIDADE}?", "cobram deslocamento?".
+  TESTIMONIALCARD×3 · ACCORDION×4
+  07
+  CTA "não achou sua cidade?" + rodapé
+  Único caso em que o CTA muda de texto: manda a pessoa perguntar no WhatsApp se atende o endereço dela.
+  CTABANNER (WHATSAPP) · SITEFOOTER
+
+##############################################################################
+SECAO: 2 Versões mobile das mesmas páginas (360px) — o que muda em relação a 1
+##############################################################################
+
+[NOTAS GLOBAIS] Regras mobile globais Ordem das seções é a mesma do desktop. Nada de conteúdo escondido só no mobile. Grid 3-up → 2-up em ≤900px → 1-up em ≤600px. Colunas sticky deixam de ser sticky: título vira cabeçalho da lista. Corpo mínimo 15px, mono 11px, alvo de toque ≥44px. Foto em 16:9, altura máxima ~220px, sempre com scrim quando tiver texto. Navegação e conversão Header 56px: logo + ícone do WhatsApp + menu em drawer. Barra de utilidade só o horário. Barra fixa no rodapé da tela: Falar no WhatsApp (primário) + Pedir orçamento (contorno, rola até o formulário). Hero: H1 → lead → 2 botões, ambos terminando no WhatsApp (direto ou via formulário). Breadcrumb em uma linha com scroll horizontal, sem quebrar. Blocos que se transformam Tabela de preço → lista de pares rótulo/valor (sem scroll lateral). Processo → lista vertical, número acima do título, prazo em mono embaixo. Materiais → carrossel horizontal com snap, 1,2 card visível. Depoimentos → carrossel com snap. FAQ → toda fechada por padrão. Cidades → 2 colunas de links, altura de linha 40px.
+
+------------------------------------------------------------------------------
+TEMPLATE 2a Home mobile
+------------------------------------------------------------------------------
+  PROVA
+  FORMULÁRIO (DESCE PRA CÁ)
+  SERVIÇO 1-UP
+  PROCESSO — LISTA VERTICAL
+  PREÇO — PARES RÓTULO/VALOR
+  DEPOIMENTO
+  CTA + RODAPÉ EMPILHADO
+  WHATSAPP
+  ORÇAMENTO
+  Formulário sai do hero e entra depois das duas provas. Materiais e depoimentos viram carrossel. Barra fixa WhatsApp/Orçamento acompanha o scroll.
+
+------------------------------------------------------------------------------
+TEMPLATE 2b Índice de serviços mobile
+------------------------------------------------------------------------------
+  INÍCIO › SERVIÇOS
+  CATEGORIA
+  LISTA DE SERVIÇOS — 1 LINHA CADA
+  MATERIAL
+  CTA + RODAPÉ
+  Cards de categoria ficam grandes e tocáveis; a lista completa vira linhas de 44px. Sem formulário nesta página.
+
+------------------------------------------------------------------------------
+TEMPLATE 2c Página de serviço mobile
+------------------------------------------------------------------------------
+  INÍCIO › SERVIÇOS › {SERVICO}
+  FOTO 16:9
+  COMO FUNCIONA — 3 PARÁGRAFOS
+  VARIAÇÃO 1-UP
+  ESPECIFICAÇÕES / {NORMA}
+  PROCESSO + PRAZOS
+  PREÇO — PARES
+  LINKS + CTA + RODAPÉ
+  Foto sai do hero e vira bloco próprio abaixo dele. Especificações mantêm o mono (é a prova técnica) e a galeria vira carrossel.
+
+------------------------------------------------------------------------------
+TEMPLATE 2d Cidade × serviço mobile — o template que mais converte
+------------------------------------------------------------------------------
+  … › {SERVICO} EM {CIDADE}
+  FATO
+  PARÁGRAFO DOS BAIRROS
+  ORÇAMENTO — 1ª DOBRA DEPOIS DO HERO
+  ESCOPO 1-UP
+  FOTO — COMO ESCOLHER
+  CRONOGRAMA LOCAL — 4 PASSOS
+  DEPOIMENTO LOCAL
+  CTA COM {CIDADE} + RODAPÉ
+  WHATSAPP
+  ORÇAMENTO
+  Aqui o formulário sobe: entra logo depois do parágrafo dos bairros, ainda na primeira rolagem. Barra fixa: WhatsApp direto + pedir orçamento. Os 3 fatos locais continuam lado a lado — são a prova de que a página não é doorway.
+
+------------------------------------------------------------------------------
+TEMPLATE 2e Sobre mobile
+------------------------------------------------------------------------------
+  FOTO DA OPERAÇÃO
+  HISTÓRIA
+  NÚMERO
+  COMO TRABALHAMOS
+  MAPA — PLACEHOLDER
+  DEPOIMENTOS + CTA + RODAPÉ
+  Foto vem antes da história (dá contexto rápido). Credenciais em 2 colunas de números; mapa com altura fixa e lista de cidades embaixo.
+
+------------------------------------------------------------------------------
+TEMPLATE 2f Contato mobile
+------------------------------------------------------------------------------
+  CONTATO DIRETO PRIMEIRO
+  FORMULÁRIO COMPLETO
+  MAPA — PLACEHOLDER
+  O QUE ACONTECE DEPOIS — 3 PASSOS
+  RODAPÉ
+  No mobile o botão de WhatsApp vem antes do formulário. Sem barra fixa aqui — a página inteira já é o CTA.
+
+------------------------------------------------------------------------------
+TEMPLATE 2g Áreas atendidas mobile
+------------------------------------------------------------------------------
+  INÍCIO › ÁREAS ATENDIDAS
+  BUSCA "SUA CIDADE" — FILTRA A LISTA
+  MAPA — ALTURA FIXA
+  Nº CIDADES
+  CIDADE PRINCIPAL 1-UP
+  REGIÃO — ACORDEÃO FECHADO
+  CTA “NÃO ACHOU SUA CIDADE?” + RODAPÉ
+  WHATSAPP
+  ORÇAMENTO
+  No mobile a lista enorme de cidades vira acordeão por região, com um campo de busca no topo — ninguém rola 200 links no celular. Mapa com altura fixa, nunca full-screen.

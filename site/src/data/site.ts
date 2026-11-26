@@ -10,7 +10,7 @@ export const SITE = {
   slogan: 'Aluguel de geradores em Belém e Região Metropolitana',
 
   // [TROCAR] domínio definitivo. Usado em canonical, sitemap, schema e OG.
-  url: 'https://www.paraprimegeradores.com.br',
+  url: 'https://paraprimegeradores.netlify.app',
 
   // Telefone = WhatsApp (mesmo número). E.164 sem "+" para o wa.me.
   whatsapp: '5591991198584',

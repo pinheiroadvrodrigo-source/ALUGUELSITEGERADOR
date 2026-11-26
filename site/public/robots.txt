@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /obrigado
 
-Sitemap: https://www.paraprimegeradores.com.br/sitemap-index.xml
+Sitemap: https://paraprimegeradores.netlify.app/sitemap-index.xml

@@ -9,6 +9,8 @@ import Faq from '../components/Faq.astro';
 import MapFacade from '../components/MapFacade.astro';
 import { SITE, waLink } from '../data/site';
 const wa = waLink(`Olá! Vim pelo site da ${SITE.marca} e quero um orçamento de aluguel de gerador.`);
+import Gallery from '../components/Gallery.astro';
+import { GALERIA_CONTATO } from '../data/galerias';
 ---
 <BaseLayout title="Contato | ParaPrime Aluguel de Gerador em Belém"
   description="Fale com a ParaPrime pelo WhatsApp (91) 99119-8584 e peça o orçamento de aluguel de gerador em Belém e Região Metropolitana. Resposta no mesmo dia útil."
@@ -46,6 +48,7 @@ const wa = waLink(`Olá! Vim pelo site da ${SITE.marca} e quero um orçamento de
       <MapFacade query="Belém, PA, Brasil" imagem={{ src: '/img/fotos/mapa-belem-pa.webp', alt: 'Mapa de Belém - PA, sede do atendimento de aluguel de gerador', w: 1200, h: 450 }} localidade="Belém - PA" />
     </div>
   </section>
+  <section class="section"><div class="container"><Gallery galeria={GALERIA_CONTATO} /></div></section>
   <section class="section">
     <div class="container narrow">
       <h2>Dúvidas sobre o Atendimento de Gerador</h2>

@@ -10,6 +10,8 @@ import CtaBanner from '../components/CtaBanner.astro';
 import EstimateForm from '../components/EstimateForm.astro';
 import { SITE } from '../data/site';
 import { LOCALIDADES } from '../data/localidades';
+import Gallery from '../components/Gallery.astro';
+import { GALERIA_SOBRE } from '../data/galerias';
 ---
 <BaseLayout title="Como Funciona a ParaPrime | Aluguel de Gerador em Belém"
   description="Como funciona a ParaPrime: central de aluguel de gerador em Belém que dimensiona a carga e conecta você à locadora da sua região. WhatsApp (91) 99119-8584."
@@ -37,6 +39,7 @@ import { LOCALIDADES } from '../data/localidades';
     </div>
   </section>
 
+  <section class="section"><div class="container"><Gallery galeria={GALERIA_SOBRE} /></div></section>
   <section class="section section--subtle">
     <div class="container">
       <div class="section-heading"><span class="eyebrow">Números</span><h2>Dados do Atendimento de Geradores na Grande Belém</h2></div>

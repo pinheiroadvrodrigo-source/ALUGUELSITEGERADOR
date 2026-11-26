@@ -1,0 +1,14 @@
+---
+import type { Galeria } from '../data/types';
+interface Props { galeria: Galeria; eyebrow?: string }
+const { galeria, eyebrow = 'Fotos' } = Astro.props;
+---
+<div class="section-heading"><span class="eyebrow">{eyebrow}</span><h2>{galeria.h2}</h2></div>
+<div class="grid grid--3 gallery">
+  {galeria.itens.map((g) => (
+    <figure class="gallery__item">
+      <img src={g.src} alt={g.alt} width={g.w} height={g.h} loading="lazy" decoding="async" />
+      <figcaption>{g.legenda}</figcaption>
+    </figure>
+  ))}
+</div>

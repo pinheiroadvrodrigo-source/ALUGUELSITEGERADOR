@@ -1,4 +1,5 @@
 import type { Servico } from './types';
+import { GALERIAS } from './galerias';
 
 const img = (nome: string, alt: string, w = 1200, h = 800) => ({
   src: `/img/fotos/${nome}.webp`,
@@ -10,7 +11,7 @@ const img = (nome: string, alt: string, w = 1200, h = 800) => ({
 const NOTA_PRECO =
   'Faixas de referência de mercado (2025–2026) para diária de gerador diesel, sem combustível, frete e operador. Não é orçamento: o valor final depende da carga, do prazo e do local de instalação.';
 
-export const SERVICOS: Servico[] = [
+const BASE: Omit<Servico, 'galeria'>[] = [
   // ─────────────────────────────────────────────────────────────── 1
   {
     slug: 'locacao-de-gerador-industrial',
@@ -477,5 +478,7 @@ export const SERVICOS: Servico[] = [
     detalhe: img('aluguel-de-gerador-residencial-belem-chave-reversora', 'Chave reversora instalada no quadro de casa para gerador alugado em Belém - PA', 800, 600),
   },
 ];
+
+export const SERVICOS: Servico[] = BASE.map((x) => ({ ...x, galeria: GALERIAS[x.slug] }));
 
 export const servicoPorSlug = (slug: string) => SERVICOS.find((s) => s.slug === slug);

@@ -11,6 +11,7 @@ import PriceTable from '../components/PriceTable.astro';
 import Faq from '../components/Faq.astro';
 import MapFacade from '../components/MapFacade.astro';
 import CtaBanner from '../components/CtaBanner.astro';
+import Gallery from '../components/Gallery.astro';
 import { SITE, waLink } from '../data/site';
 import { SERVICOS } from '../data/servicos';
 import { LOCALIDADES } from '../data/localidades';
@@ -79,6 +80,8 @@ const sede = { query: 'Belém, PA, Brasil', imagem: { src: '/img/fotos/mapa-bele
           </div>
         </div>
       </section>
+
+      <section class="section"><div class="container"><Gallery galeria={s.galeria} eyebrow="Em operação" /></div></section>
 
       {/* 05 Especificações e norma */}
       <section class="section">
@@ -201,6 +204,8 @@ const sede = { query: 'Belém, PA, Brasil', imagem: { src: '/img/fotos/mapa-bele
           </div>
         </div>
       </section>
+
+      <section class="section"><div class="container"><Gallery galeria={l.galeria} eyebrow={`Fotos em ${l.cidade}`} /></div></section>
 
       {/* 05 Cronograma local */}
       <section class="section">

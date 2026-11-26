@@ -316,3 +316,6 @@ a.service-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-3);
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
 .field input[readonly] { background: var(--ink-050); color: var(--ink-600); }
 .two-col .stats { grid-template-columns: 1fr; }
+.gallery__item { margin: 0; background: #fff; border: 1px solid var(--border-hairline); border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-1); }
+.gallery__item img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: var(--navy-900); }
+.gallery__item figcaption { padding: 12px 16px; font-size: 14px; color: var(--text-muted); }

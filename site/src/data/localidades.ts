@@ -1,4 +1,5 @@
 import type { Localidade } from './types';
+import { GALERIAS } from './galerias';
 
 const foto = (slug: string, nome: string, alt: string, w = 1200, h = 800) => ({
   src: `/img/fotos/${slug}/${nome}.webp`,
@@ -12,7 +13,7 @@ const NOTA =
 
 // Ordem = prioridade (ticket do serviço-âncora × potencial da cidade).
 // Cada cidade tem UM serviço-âncora exclusivo — nenhuma repete outra.
-export const LOCALIDADES: Localidade[] = [
+const BASE: Omit<Localidade, 'galeria'>[] = [
   // ───────────────────────────────────────────────────────────── BARCARENA
   {
     slug: 'gerador-industrial-barcarena-pa',
@@ -505,5 +506,7 @@ export const LOCALIDADES: Localidade[] = [
     resumoArea: 'Benfica, Murinin, Santa Maria e sítios — gerador para festas e casamentos.',
   },
 ];
+
+export const LOCALIDADES: Localidade[] = BASE.map((x) => ({ ...x, galeria: GALERIAS[x.slug] }));
 
 export const localidadePorSlug = (slug: string) => LOCALIDADES.find((l) => l.slug === slug);

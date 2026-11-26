@@ -4,6 +4,8 @@ export interface Passo { titulo: string; texto: string; prazo: string }
 export interface Stat { valor: string; rotulo: string; fonte?: string }
 export interface LinhaPreco { item: string; valor: string; obs?: string }
 export interface Imagem { src: string; alt: string; w: number; h: number }
+export interface Foto extends Imagem { legenda: string }
+export interface Galeria { h2: string; itens: Foto[] }
 
 export interface Servico {
   slug: string;
@@ -28,6 +30,7 @@ export interface Servico {
   relacionados: string; // menção em texto, sem link
   hero: Imagem;
   detalhe: Imagem;
+  galeria: Galeria;
 }
 
 export interface Localidade {
@@ -56,6 +59,7 @@ export interface Localidade {
   hero: Imagem;
   foto: Imagem;
   mapa: Imagem;
+  galeria: Galeria;
   resumoArea: string; // linha de contexto para o card da página de áreas
   regiao: string;
 }

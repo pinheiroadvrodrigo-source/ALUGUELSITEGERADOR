@@ -69,7 +69,7 @@ export const GALERIAS: Record<string, Galeria> = {
   'gerador-para-empresas-castanhal-pa': {
     h2: 'Gerador para Empresas em Castanhal: Atacados e Câmaras Frias',
     itens: [
-      f('castanhal-pa', 'gerador-para-empresas-castanhal-camara-fria', 'Câmara fria de distribuidora mantida por gerador alugado em Castanhal - PA', 'Câmara fria mantida na falta de energia'),
+      f('castanhal-pa', 'gerador-para-empresas-castanhal-interior-camara-fria', 'Interior de câmara fria de distribuidora mantida por gerador alugado em Castanhal - PA', 'Câmara fria mantida na falta de energia'),
       f('castanhal-pa', 'gerador-para-empresas-castanhal-atacado-br-316', 'Gerador alugado ao lado de atacado na BR-316 em Castanhal - PA', 'Atacado às margens da BR-316'),
       f('castanhal-pa', 'gerador-para-empresas-castanhal-industria-alimentos', 'Gerador alugado em indústria de alimentos em Castanhal - PA', 'Linha de indústria de alimentos'),
     ],

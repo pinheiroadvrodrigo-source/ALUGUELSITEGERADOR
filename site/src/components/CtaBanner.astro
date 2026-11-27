@@ -3,7 +3,7 @@ import Icon from './Icon.astro';
 import { SITE, waLink } from '../data/site';
 interface Props { eyebrow?: string; titulo: string; texto: string; formOnPage?: boolean; mensagem?: string; posicao?: string; somenteWhatsapp?: boolean }
 const { eyebrow, titulo, texto, formOnPage = true, mensagem, posicao = 'cta_final', somenteWhatsapp = false } = Astro.props;
-const wa = waLink(mensagem ?? `Olá! Vim pelo site da ${SITE.marca} e quero um orçamento de aluguel de gerador.`);
+const wa = waLink();
 ---
 <section class="cta-banner on-photo">
   <img src="/img/fotos/cta-gerador-aluguel-belem-noite.webp" alt="" width="1200" height="500" loading="lazy" aria-hidden="true" />

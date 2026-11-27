@@ -37,8 +37,12 @@ export const SITE = {
   redes: [] as string[], // ex.: ['https://www.instagram.com/paraprime']
 };
 
-export const waLink = (texto?: string) =>
-  `https://wa.me/${SITE.whatsapp}${texto ? `?text=${encodeURIComponent(texto)}` : ''}`;
+// Mensagem padrão de todos os botões de WhatsApp do site.
+export const MSG_WHATSAPP =
+  'Olá! Estava navegando pelo site da ParaPrimeGeradores e gostaria de solicitar um orçamento para aluguel de gerador.';
+
+export const waLink = (texto: string = MSG_WHATSAPP) =>
+  `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(texto)}`;
 
 export const googleBusca = `https://www.google.com/search?q=${encodeURIComponent(
   `${SITE.marcaCompleta} ${SITE.cidadeSede} ${SITE.uf}`,

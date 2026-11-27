@@ -1,0 +1,199 @@
+---
+// Botão flutuante de WhatsApp (pulsando) + assistente virtual com respostas
+// automáticas tiradas do conteúdo do site. Fica fora do <main>, como o menu.
+import Icon from './Icon.astro';
+import { waLink } from '../data/site';
+const wa = waLink();
+---
+<div class="cw" data-cw>
+  <section class="cw__panel" id="cw-panel" data-cw-panel hidden aria-label="Assistente virtual">
+    <header class="cw__head">
+      <img src="/img/atendimento-paraprime-aluguel-de-gerador-belem.webp" alt="" width="40" height="40" />
+      <div>
+        <strong>Assistente ParaPrime</strong>
+        <span><i class="cw__on"></i> On-line agora</span>
+      </div>
+      <button type="button" class="cw__close" data-cw-close aria-label="Fechar assistente">×</button>
+    </header>
+    <div class="cw__body" data-cw-body aria-live="polite"></div>
+    <div class="cw__chips" data-cw-chips></div>
+    <form class="cw__form" data-cw-form>
+      <input type="text" name="q" placeholder="Digite sua dúvida…" aria-label="Digite sua dúvida" autocomplete="off" maxlength="200" />
+      <button type="submit" aria-label="Enviar">➤</button>
+    </form>
+    <a class="cw__wa" href={wa} target="_blank" rel="noopener" data-track="whatsapp_click" data-cta-position="chatbot"><Icon name="whatsapp" />Falar com atendente no WhatsApp</a>
+  </section>
+  <div class="cw__hello" data-cw-hello hidden>
+    <button type="button" class="cw__hello-close" data-cw-hello-close aria-label="Fechar aviso">×</button>
+    <button type="button" class="cw__hello-text" data-cw-open-from="balao">
+      <strong>Estamos on-line!</strong> Em que posso ajudar?
+    </button>
+  </div>
+
+  <button type="button" class="cw__launcher" data-cw-open-from="avatar" aria-label="Abrir assistente virtual da ParaPrime" aria-expanded="false" aria-controls="cw-panel">
+    <img src="/img/atendimento-paraprime-aluguel-de-gerador-belem.webp" alt="Assistente virtual da ParaPrime Aluguel de Geradores" width="56" height="56" loading="lazy" decoding="async" />
+    <span class="cw__dot" aria-hidden="true"></span>
+  </button>
+
+
+  <a class="wa-float" href={wa} target="_blank" rel="noopener" aria-label="Falar no WhatsApp" data-track="whatsapp_click" data-cta-position="flutuante">
+    <Icon name="whatsapp" />
+  </a>
+</div>
+
+<script>
+  type T = { id: string; q: string; k: string[]; a: string };
+  const TOPICOS: T[] = [
+    { id: 'preco', q: 'Quanto custa alugar?', k: ['quanto', 'preco', 'preço', 'valor', 'custa', 'diaria', 'diária', 'barato', 'caro', 'orcamento', 'orçamento'],
+      a: 'Na referência de mercado, geradores de até 50 kVA ficam entre R$ 300 e R$ 800 por dia, e os de 50 a 150 kVA entre R$ 800 e R$ 1.800. Acima de 250 kVA, a partir de R$ 2.000/dia. Em contrato de 28 dias a diária cai bastante. Combustível, frete e operador são à parte. Para o valor exato, fale no WhatsApp.' },
+    { id: 'potencia', q: 'Qual gerador eu preciso?', k: ['qual', 'tamanho', 'kva', 'kw', 'potencia', 'potência', 'dimensionar', 'preciso', 'capacidade'],
+      a: 'Some a potência em kW de tudo que funciona ao mesmo tempo e divida por 0,8 para chegar ao kVA. Depois acrescente folga para motores, elevadores e compressores, que puxam mais na partida. Mande a lista de equipamentos no WhatsApp que fazemos a conta com você.' },
+    { id: 'cidades', q: 'Vocês atendem minha cidade?', k: ['cidade', 'atende', 'atendem', 'ananindeua', 'marituba', 'benevides', 'castanhal', 'barcarena', 'icoaraci', 'mosqueiro', 'santa', 'onde', 'regiao', 'região', 'bairro'],
+      a: 'Atendemos Belém e a Região Metropolitana: Ananindeua, Marituba, Benevides, Santa Bárbara do Pará, Santa Izabel do Pará, Castanhal e Barcarena. Outras cidades do Pará são avaliadas caso a caso, conforme a logística.' },
+    { id: 'eventos', q: 'Gerador para festa ou evento', k: ['festa', 'evento', 'casamento', 'show', 'palco', 'aniversario', 'aniversário', 'sitio', 'sítio', 'chacara', 'chácara', 'balneario', 'balneário', 'feira'],
+      a: 'Para eventos usamos geradores de 15 a 500 kVA em cabine silenciada, com cabos e quadros até palco, cozinha e iluminação, e gerador reserva para o que não pode apagar. Casamento em sítio costuma pedir de 30 a 80 kVA.' },
+    { id: 'obra', q: 'Gerador para obra ou indústria', k: ['obra', 'canteiro', 'grua', 'betoneira', 'solda', 'industria', 'indústria', 'fabrica', 'fábrica', 'empresa', 'galpao', 'galpão', 'contingencia', 'contingência', 'subestacao', 'subestação'],
+      a: 'Para obras: 20 a 250 kVA, com contrato mensal e troca de porte conforme a obra avança. Para indústria: 100 a mais de 1.000 kVA, com paralelismo e quadro de transferência automática (QTA) para contingência e manutenção de subestação.' },
+    { id: 'casa', q: 'Gerador para casa ou condomínio', k: ['casa', 'residencia', 'residência', 'residencial', 'condominio', 'condomínio', 'predio', 'prédio', 'elevador', 'bomba', 'apartamento', 'falta de luz', 'apagao', 'apagão'],
+      a: 'Para casas: 5 a 30 kVA, a gasolina ou diesel, ligado por chave reversora (geladeira, iluminação, bomba e ar-condicionado). Para condomínios: 50 a 150 kVA, silenciado, para elevadores, bombas d’água, portões e segurança.' },
+    { id: 'prazo', q: 'Com quanta antecedência pedir?', k: ['prazo', 'quando', 'antecedencia', 'antecedência', 'hoje', 'amanha', 'amanhã', 'urgente', 'rapido', 'rápido', 'entrega'],
+      a: 'Para casas e condomínios, 24 a 72 horas costuma bastar. Para eventos grandes e geradores acima de 250 kVA, reserve com semanas de antecedência, principalmente em outubro, mês do Círio. Respondemos no mesmo dia útil.' },
+    { id: 'ligacao', q: 'Pode ligar direto na tomada?', k: ['tomada', 'ligar', 'ligacao', 'ligação', 'instalar', 'instalacao', 'instalação', 'quadro', 'chave', 'seguro', 'nr-10', 'nbr'],
+      a: 'Não. A ligação correta é no quadro, com chave de transferência que separa o gerador da rede da concessionária, feita por profissional habilitado (NBR 5410 e NR-10). Sem ela a energia pode voltar para a rede e colocar em risco quem trabalha nos postes.' },
+    { id: 'chuva', q: 'Funciona na chuva?', k: ['chuva', 'chover', 'molhar', 'agua', 'água', 'alaga', 'tempo'],
+      a: 'Sim. Os geradores ficam em cabine fechada e operam na chuva. O cuidado está na instalação: quadros elevados e protegidos, cabos fora de poças e o gerador longe de áreas que alagam.' },
+    { id: 'combustivel', q: 'E o combustível?', k: ['combustivel', 'combustível', 'diesel', 'gasolina', 'abastecer', 'tanque', 'consumo', 'autonomia'],
+      a: 'O combustível é cobrado à parte. Para contratos longos e contingência, oferecemos tanque de diesel com bacia de contenção (NR-20) para estender a autonomia, e o abastecimento pode ser combinado na proposta.' },
+  ];
+  const CHIPS = ['preco', 'potencia', 'cidades', 'eventos', 'prazo'];
+
+  const root = document.querySelector<HTMLElement>('[data-cw]')!;
+  const panel = root.querySelector<HTMLElement>('[data-cw-panel]')!;
+  const body = root.querySelector<HTMLElement>('[data-cw-body]')!;
+  const chips = root.querySelector<HTMLElement>('[data-cw-chips]')!;
+  const hello = root.querySelector<HTMLElement>('[data-cw-hello]')!;
+  const launcher = root.querySelector<HTMLButtonElement>('.cw__launcher')!;
+  const form = root.querySelector<HTMLFormElement>('[data-cw-form]')!;
+  const track = (n: string, p: Record<string, string> = {}) =>
+    (window as unknown as { __track?: (n: string, c: string, p?: object) => void }).__track?.(n, 'chatbot', p);
+
+  const msg = (texto: string, quem: 'bot' | 'eu') => {
+    const el = document.createElement('div');
+    el.className = `cw__msg cw__msg--${quem}`;
+    el.textContent = texto;
+    body.appendChild(el);
+    body.scrollTop = body.scrollHeight;
+  };
+  const responder = (texto: string, delay = 500) => {
+    const dig = document.createElement('div');
+    dig.className = 'cw__msg cw__msg--bot cw__typing';
+    dig.innerHTML = '<span></span><span></span><span></span>';
+    body.appendChild(dig); body.scrollTop = body.scrollHeight;
+    setTimeout(() => { dig.remove(); msg(texto, 'bot'); }, delay);
+  };
+  const renderChips = (usados: string[] = []) => {
+    chips.innerHTML = '';
+    TOPICOS.filter((t) => CHIPS.includes(t.id) && !usados.includes(t.id)).forEach((t) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'cw__chip'; b.textContent = t.q;
+      b.addEventListener('click', () => perguntar(t));
+      chips.appendChild(b);
+    });
+  };
+  const usados: string[] = [];
+  const perguntar = (t: T) => {
+    msg(t.q, 'eu'); responder(t.a);
+    usados.push(t.id); renderChips(usados);
+    track('chatbot_pergunta_widget', { chat_topico: t.id });
+  };
+  const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const input = form.elements.namedItem('q') as HTMLInputElement;
+    const q = input.value.trim(); if (!q) return;
+    input.value = ''; msg(q, 'eu');
+    const nq = norm(q);
+    let best: T | null = null; let score = 0;
+    for (const t of TOPICOS) {
+      const s = t.k.reduce((acc, k) => acc + (nq.includes(norm(k)) ? 1 : 0), 0);
+      if (s > score) { score = s; best = t; }
+    }
+    if (best) { responder(best.a); track('chatbot_pergunta_widget', { chat_topico: best.id }); }
+    else { responder('Essa eu prefiro responder com calma pelo WhatsApp. Toque no botão verde abaixo e um atendente continua a conversa com você.'); track('chatbot_sem_resposta_widget'); }
+  });
+
+  let iniciado = false;
+  const abrir = (origem: string) => {
+    panel.hidden = false; hello.hidden = true; launcher.setAttribute('aria-expanded', 'true');
+    root.classList.add('is-open');
+    if (!iniciado) {
+      iniciado = true;
+      msg('Olá! 👋 Estamos on-line. Em que posso ajudar?', 'bot');
+      msg('Escolha uma pergunta abaixo ou digite a sua. Para orçamento, fale direto no WhatsApp.', 'bot');
+      renderChips();
+    }
+    track(`chatbot_open_${origem}`);
+  };
+  const fechar = () => { panel.hidden = true; root.classList.remove('is-open'); launcher.setAttribute('aria-expanded', 'false'); };
+  root.querySelectorAll<HTMLElement>('[data-cw-open-from]').forEach((b) =>
+    b.addEventListener('click', () => (panel.hidden ? abrir(b.dataset.cwOpenFrom!) : fechar())));
+  root.querySelector('[data-cw-close]')!.addEventListener('click', fechar);
+  addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) fechar(); });
+
+  // Balão "Estamos on-line" aparece depois de 3 s, uma vez por sessão.
+  let visto = false;
+  try { visto = sessionStorage.getItem('cw_hello') === '1'; } catch {}
+  if (!visto) setTimeout(() => { if (panel.hidden) hello.hidden = false; }, 3000);
+  root.querySelector('[data-cw-hello-close]')!.addEventListener('click', () => {
+    hello.hidden = true; try { sessionStorage.setItem('cw_hello', '1'); } catch {}
+  });
+</script>
+
+<style is:global>
+  .cw [hidden] { display: none !important; }
+  .cw { position: fixed; right: 18px; bottom: 18px; z-index: 110; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; font-family: inherit; }
+  .wa-float { width: 60px; height: 60px; border-radius: 50%; background: #25d366; color: #fff; display: grid; place-items: center; box-shadow: 0 8px 24px rgba(0,0,0,.25); position: relative; animation: wa-pulse 2s infinite; }
+  .wa-float svg { width: 32px; height: 32px; }
+  .wa-float:hover { transform: scale(1.06); }
+  @keyframes wa-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(37,211,102,.65), 0 8px 24px rgba(0,0,0,.25); }
+    70% { box-shadow: 0 0 0 18px rgba(37,211,102,0), 0 8px 24px rgba(0,0,0,.25); }
+    100% { box-shadow: 0 0 0 0 rgba(37,211,102,0), 0 8px 24px rgba(0,0,0,.25); }
+  }
+  .cw__launcher { width: 56px; height: 56px; padding: 0; border-radius: 50%; border: 0; background: none; cursor: pointer; position: relative; filter: drop-shadow(0 6px 14px rgba(2,11,31,.35)); }
+  .cw__launcher img { width: 56px; height: 56px; border-radius: 50%; display: block; }
+  .cw__dot { position: absolute; right: 3px; bottom: 3px; width: 13px; height: 13px; border-radius: 50%; background: #25d366; border: 2px solid #fff; }
+  .cw__hello { position: relative; background: #fff; color: #071433; border-radius: 14px 14px 4px 14px; box-shadow: 0 10px 28px rgba(2,11,31,.22); max-width: 220px; margin-bottom: -4px; }
+  .cw__hello-text { all: unset; cursor: pointer; display: block; padding: 10px 26px 10px 14px; font-size: 14px; line-height: 1.35; }
+  .cw__hello-close { position: absolute; top: 2px; right: 4px; border: 0; background: none; font-size: 18px; line-height: 1; cursor: pointer; color: #6b7280; padding: 4px; }
+  .cw__panel { width: min(340px, calc(100vw - 36px)); max-height: min(520px, calc(100vh - 200px)); background: #fff; border-radius: 16px; box-shadow: 0 18px 48px rgba(2,11,31,.35); display: flex; flex-direction: column; overflow: hidden; }
+  .cw__head { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: #071433; color: #fff; border-bottom: 3px solid #ffc400; }
+  .cw__head img { width: 40px; height: 40px; border-radius: 50%; }
+  .cw__head div { display: flex; flex-direction: column; font-size: 14px; line-height: 1.25; flex: 1; }
+  .cw__head span { font-size: 12px; opacity: .85; display: flex; align-items: center; gap: 5px; }
+  .cw__on { width: 8px; height: 8px; border-radius: 50%; background: #25d366; display: inline-block; }
+  .cw__close { border: 0; background: none; color: #fff; font-size: 24px; cursor: pointer; padding: 0 4px; }
+  .cw__body { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 8px; background: #f4f6fb; min-height: 160px; }
+  .cw__msg { max-width: 86%; padding: 9px 12px; border-radius: 14px; font-size: 14px; line-height: 1.45; }
+  .cw__msg--bot { background: #fff; color: #071433; border-bottom-left-radius: 4px; align-self: flex-start; box-shadow: 0 1px 2px rgba(0,0,0,.06); }
+  .cw__msg--eu { background: #071433; color: #fff; border-bottom-right-radius: 4px; align-self: flex-end; }
+  .cw__typing { display: flex; gap: 4px; }
+  .cw__typing span { width: 6px; height: 6px; border-radius: 50%; background: #9ca3af; animation: cw-dot 1s infinite; }
+  .cw__typing span:nth-child(2) { animation-delay: .15s; } .cw__typing span:nth-child(3) { animation-delay: .3s; }
+  @keyframes cw-dot { 0%, 80%, 100% { opacity: .3; } 40% { opacity: 1; } }
+  .cw__chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 12px 0; background: #f4f6fb; }
+  .cw__chip { border: 1px solid #071433; background: #fff; color: #071433; border-radius: 999px; padding: 6px 10px; font-size: 12.5px; cursor: pointer; }
+  .cw__chip:hover { background: #ffc400; border-color: #ffc400; }
+  .cw__form { display: flex; gap: 6px; padding: 10px 12px; background: #f4f6fb; }
+  .cw__form input { flex: 1; min-width: 0; border: 1px solid #d1d5db; border-radius: 999px; padding: 9px 14px; font-size: 16px; }
+  .cw__form button { border: 0; background: #071433; color: #ffc400; width: 40px; border-radius: 50%; cursor: pointer; font-size: 16px; }
+  .cw__wa { display: flex; align-items: center; justify-content: center; gap: 8px; background: #25d366; color: #fff; font-weight: 700; font-size: 14.5px; padding: 12px; text-decoration: none; }
+  .cw__wa svg { width: 20px; height: 20px; }
+  .cw.is-open .wa-float { display: none; }
+  @media (max-width: 1080px) {
+    body.has-mobile-bar .cw { bottom: 86px; right: 12px; }
+    .wa-float { width: 54px; height: 54px; }
+    .cw__launcher, .cw__launcher img { width: 48px; height: 48px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .wa-float { animation: none; } }
+</style>

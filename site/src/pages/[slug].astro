@@ -31,7 +31,7 @@ const sede = { query: 'Belém, PA, Brasil', imagem: { src: '/img/fotos/mapa-bele
 ---
 {props.tipo === 'servico' ? (() => {
   const s = props.servico;
-  const wa = waLink(`Olá! Vim pelo site da ${SITE.marca} e quero um orçamento de ${s.nome.toLowerCase()} em Belém.`);
+  const wa = waLink();
   const serviceSchema = {
     '@context': 'https://schema.org', '@type': 'Service', serviceType: s.h1.split(' | ')[0],
     provider: { '@id': `${SITE.url}/#organizacao` },
@@ -147,7 +147,7 @@ const sede = { query: 'Belém, PA, Brasil', imagem: { src: '/img/fotos/mapa-bele
   );
 })() : (() => {
   const l = props.localidade;
-  const wa = waLink(`Olá! Vim pelo site da ${SITE.marca} e quero um orçamento de ${l.servicoAncora.toLowerCase()} em ${l.cidade}.`);
+  const wa = waLink();
   const locSchema = {
     '@context': 'https://schema.org', '@type': 'Service', serviceType: l.servicoAncora,
     provider: { '@id': `${SITE.url}/#organizacao` },

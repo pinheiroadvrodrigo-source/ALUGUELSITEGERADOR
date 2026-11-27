@@ -15,7 +15,7 @@ import { LOCALIDADES } from '../data/localidades';
 const title = 'ParaPrime | Aluguel de Gerador em Belém e Região';
 const description =
   'ParaPrime: aluguel de gerador em Belém e Região Metropolitana para indústria, eventos, obras, condomínios e casas, de 5 a 1.000+ kVA. WhatsApp (91) 99119-8584.';
-const wa = waLink(`Olá! Vim pelo site da ${SITE.marca} e quero um orçamento de aluguel de gerador em Belém.`);
+const wa = waLink();
 const porTicket = [...SERVICOS].sort((a, b) => a.ordemTicket - b.ordemTicket);
 const empresas = porTicket.filter((s) => s.categoria === 'empresas');
 const pessoas = porTicket.filter((s) => s.categoria === 'pessoas');

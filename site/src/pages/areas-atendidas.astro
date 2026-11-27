@@ -12,7 +12,7 @@ import { SITE, waLink } from '../data/site';
 import { SERVICOS } from '../data/servicos';
 import { LOCALIDADES } from '../data/localidades';
 
-const wa = waLink(`Olá! Vim pelo site da ${SITE.marca}. Vocês atendem o meu endereço?`);
+const wa = waLink();
 const regioes = [
   { nome: 'Belém (capital)', cidades: [{ nome: 'Belém', bairros: 'Umarizal, Nazaré, Batista Campos, Reduto, Marco, Pedreira, Marambaia, Augusto Montenegro, Icoaraci, Mosqueiro' }] },
   { nome: 'Eixo BR-316', cidades: LOCALIDADES.filter((l) => ['Ananindeua', 'Marituba', 'Benevides'].includes(l.cidade)).map((l) => ({ nome: l.cidade, slug: l.slug, bairros: l.bairros.join(', ') })) },

@@ -12,7 +12,7 @@ import { SERVICOS } from '../data/servicos';
 import { LOCALIDADES } from '../data/localidades';
 
 const porTicket = [...SERVICOS].sort((a, b) => a.ordemTicket - b.ordemTicket);
-const wa = waLink(`Olá! Vim pelo site da ${SITE.marca} e quero ajuda para escolher o gerador.`);
+const wa = waLink();
 const faq = [
   { pergunta: 'Qual serviço de aluguel de gerador eu devo escolher?', resposta: 'Pelo uso: indústria e grandes consumidores ficam na locação industrial; canteiros, no gerador para obras; shows, feiras e casamentos, no gerador para eventos; prédios, no gerador para condomínio; e casas e sítios, no gerador residencial.' },
   { pergunta: 'Todos os serviços atendem a Região Metropolitana de Belém?', resposta: 'Sim. Todos os serviços atendem Belém, Ananindeua, Marituba, Benevides, Castanhal e Barcarena, com frete calculado pela distância.' },

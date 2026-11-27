@@ -5,8 +5,7 @@ import { SERVICOS } from '../data/servicos';
 import { LOCALIDADES } from '../data/localidades';
 interface Props { path: string; localidade?: string; servico?: string }
 const { path, localidade = '', servico = '' } = Astro.props;
-const msg = `Olá! Vim pelo site da ${SITE.marca} e quero um orçamento${servico ? ` de ${servico.toLowerCase()}` : ' de aluguel de gerador'}${localidade ? ` em ${localidade}` : ''}.`;
-const wa = waLink(msg);
+const wa = waLink();
 const cur = (href: string) => (path === href ? 'page' : undefined);
 const servicos = [...SERVICOS].sort((a, b) => a.ordemTicket - b.ordemTicket);
 ---

@@ -3,7 +3,7 @@ import sitemap from '@astrojs/sitemap';
 
 // [TROCAR] domínio definitivo — o mesmo de src/data/site.ts
 export default defineConfig({
-  site: 'https://paraprimegeradores.netlify.app',
+  site: 'https://paraprimegeradores.com.br',
   trailingSlash: 'never',
   build: { format: 'file', inlineStylesheets: 'auto' },
   integrations: [

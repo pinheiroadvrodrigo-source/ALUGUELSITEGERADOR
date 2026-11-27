@@ -3,7 +3,7 @@
 ## Briefing confirmado
 
 - **Marca:** ParaPrime Aluguel de Geradores (logo e favicon fornecidos)
-- **Domínio:** provisório `paraprimegeradores.netlify.app` — **[TROCAR]** em `site/src/data/site.ts` e `site/astro.config.mjs`
+- **Domínio:** `paraprimegeradores.com.br` (Netlify, DNS no Registro.br)
 - **Serviço principal:** aluguel de gerador de energia — indústria, eventos, obras, condomínios e residências
 - **Cidade-sede:** Belém/PA — 1.303.403 hab. (IBGE, Censo 2022)
 - **Satélites:** Barcarena, Ananindeua, Castanhal, Marituba, Benevides

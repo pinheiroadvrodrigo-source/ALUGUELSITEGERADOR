@@ -38,10 +38,10 @@ const servicos = [...SERVICOS].sort((a, b) => a.ordemTicket - b.ordemTicket);
       <a href="/contato" aria-current={cur('/contato')}>Contato</a>
     </nav>
     <div class="header-actions">
-      <ChatWidget />
       <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" data-menu-toggle><Icon name="menu" /></button>
     </div>
   </div>
+  <ChatWidget />
   <div class="drawer" data-drawer data-open="false">
     <h2>Serviços</h2>
     <ul>{servicos.map((s) => <li><a href={`/${s.slug}`}>{s.nome}</a></li>)}</ul>

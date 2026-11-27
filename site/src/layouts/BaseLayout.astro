@@ -135,6 +135,8 @@ const allSchema = [localBusiness, ...(breadcrumbSchema ? [breadcrumbSchema] : []
       const drawer = document.querySelector<HTMLElement>('[data-drawer]');
       toggle?.addEventListener('click', () => {
         const open = drawer?.dataset.open === 'true';
+        const hb = document.querySelector('.site-header')?.getBoundingClientRect().bottom ?? 0;
+        drawer?.style.setProperty('--drawer-top', `${Math.max(0, hb)}px`);
         if (drawer) drawer.dataset.open = String(!open);
         toggle.setAttribute('aria-expanded', String(!open));
         document.body.style.overflow = open ? '' : 'hidden';

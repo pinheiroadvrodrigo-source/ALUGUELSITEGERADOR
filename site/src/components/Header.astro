@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import ChatWidget from './ChatWidget.astro';
 import { SITE, waLink } from '../data/site';
 import { SERVICOS } from '../data/servicos';
 import { LOCALIDADES } from '../data/localidades';
@@ -37,9 +38,7 @@ const servicos = [...SERVICOS].sort((a, b) => a.ordemTicket - b.ordemTicket);
       <a href="/contato" aria-current={cur('/contato')}>Contato</a>
     </nav>
     <div class="header-actions">
-      <a class="btn btn--primary" href={wa} target="_blank" rel="noopener" data-track="whatsapp_click" data-cta-position="header" aria-label="Falar no WhatsApp">
-        <Icon name="whatsapp" /><span>Falar no WhatsApp</span>
-      </a>
+      <ChatWidget />
       <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" data-menu-toggle><Icon name="menu" /></button>
     </div>
   </div>

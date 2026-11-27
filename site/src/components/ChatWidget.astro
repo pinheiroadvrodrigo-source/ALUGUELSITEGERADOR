@@ -31,14 +31,11 @@ const wa = waLink();
   </div>
 
   <button type="button" class="cw__launcher" data-cw-open-from="avatar" aria-label="Abrir assistente virtual da ParaPrime" aria-expanded="false" aria-controls="cw-panel">
-    <img src="/img/atendimento-paraprime-aluguel-de-gerador-belem.webp" alt="Assistente virtual da ParaPrime Aluguel de Geradores" width="56" height="56" loading="lazy" decoding="async" />
+    <img src="/img/atendimento-paraprime-aluguel-de-gerador-belem.webp" alt="Assistente virtual da ParaPrime Aluguel de Geradores" width="48" height="48" loading="lazy" decoding="async" />
     <span class="cw__dot" aria-hidden="true"></span>
   </button>
 
 
-  <a class="wa-float" href={wa} target="_blank" rel="noopener" aria-label="Falar no WhatsApp" data-track="whatsapp_click" data-cta-position="flutuante">
-    <Icon name="whatsapp" />
-  </a>
 </div>
 
 <script>
@@ -69,11 +66,12 @@ const wa = waLink();
 
   const root = document.querySelector<HTMLElement>('[data-cw]')!;
   const panel = root.querySelector<HTMLElement>('[data-cw-panel]')!;
-  const body = root.querySelector<HTMLElement>('[data-cw-body]')!;
-  const chips = root.querySelector<HTMLElement>('[data-cw-chips]')!;
+  document.body.appendChild(panel); // fora do cabeçalho (backdrop-filter prende position: fixed)
+  const body = panel.querySelector<HTMLElement>('[data-cw-body]')!;
+  const chips = panel.querySelector<HTMLElement>('[data-cw-chips]')!;
   const hello = root.querySelector<HTMLElement>('[data-cw-hello]')!;
   const launcher = root.querySelector<HTMLButtonElement>('.cw__launcher')!;
-  const form = root.querySelector<HTMLFormElement>('[data-cw-form]')!;
+  const form = panel.querySelector<HTMLFormElement>('[data-cw-form]')!;
   const track = (n: string, p: Record<string, string> = {}) =>
     (window as unknown as { __track?: (n: string, c: string, p?: object) => void }).__track?.(n, 'chatbot', p);
 
@@ -124,6 +122,8 @@ const wa = waLink();
 
   let iniciado = false;
   const abrir = (origem: string) => {
+    const hb = document.querySelector('.site-header')?.getBoundingClientRect().bottom ?? 80;
+    panel.style.top = `${Math.max(hb, 0) + 10}px`;
     panel.hidden = false; hello.hidden = true; launcher.setAttribute('aria-expanded', 'true');
     root.classList.add('is-open');
     if (!iniciado) {
@@ -137,7 +137,8 @@ const wa = waLink();
   const fechar = () => { panel.hidden = true; root.classList.remove('is-open'); launcher.setAttribute('aria-expanded', 'false'); };
   root.querySelectorAll<HTMLElement>('[data-cw-open-from]').forEach((b) =>
     b.addEventListener('click', () => (panel.hidden ? abrir(b.dataset.cwOpenFrom!) : fechar())));
-  root.querySelector('[data-cw-close]')!.addEventListener('click', fechar);
+  panel.querySelector('[data-cw-close]')!.addEventListener('click', fechar);
+  document.addEventListener('click', (e) => { const t = e.target as Node; if (t.isConnected && !panel.hidden && !panel.contains(t) && !root.contains(t)) fechar(); });
   addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) fechar(); });
 
   // Balão "Estamos on-line" aparece depois de 3 s, uma vez por sessão.
@@ -150,23 +151,17 @@ const wa = waLink();
 </script>
 
 <style is:global>
-  .cw [hidden] { display: none !important; }
-  .cw { position: fixed; right: 18px; bottom: 18px; z-index: 110; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; font-family: inherit; }
-  .wa-float { width: 60px; height: 60px; border-radius: 50%; background: #25d366; color: #fff; display: grid; place-items: center; box-shadow: 0 8px 24px rgba(0,0,0,.25); position: relative; animation: wa-pulse 2s infinite; }
-  .wa-float svg { width: 32px; height: 32px; }
-  .wa-float:hover { transform: scale(1.06); }
-  @keyframes wa-pulse {
-    0% { box-shadow: 0 0 0 0 rgba(37,211,102,.65), 0 8px 24px rgba(0,0,0,.25); }
-    70% { box-shadow: 0 0 0 18px rgba(37,211,102,0), 0 8px 24px rgba(0,0,0,.25); }
-    100% { box-shadow: 0 0 0 0 rgba(37,211,102,0), 0 8px 24px rgba(0,0,0,.25); }
-  }
-  .cw__launcher { width: 56px; height: 56px; padding: 0; border-radius: 50%; border: 0; background: none; cursor: pointer; position: relative; filter: drop-shadow(0 6px 14px rgba(2,11,31,.35)); }
-  .cw__launcher img { width: 56px; height: 56px; border-radius: 50%; display: block; }
+  .cw [hidden], .cw__panel[hidden] { display: none !important; }
+  .cw { position: relative; display: flex; align-items: center; font-family: inherit; }
+  .cw__panel { position: fixed; right: 16px; top: 120px; z-index: 120; }
+  .cw__hello { position: absolute; top: calc(100% + 10px); right: 0; z-index: 120; width: 210px; border-radius: 14px 4px 14px 14px !important; margin: 0 !important; }
+  .cw__launcher { width: 48px; height: 48px; padding: 0; border-radius: 50%; border: 0; background: none; cursor: pointer; position: relative; filter: drop-shadow(0 6px 14px rgba(2,11,31,.35)); }
+  .cw__launcher img { width: 48px; height: 48px; border-radius: 50%; display: block; }
   .cw__dot { position: absolute; right: 3px; bottom: 3px; width: 13px; height: 13px; border-radius: 50%; background: #25d366; border: 2px solid #fff; }
-  .cw__hello { position: relative; background: #fff; color: #071433; border-radius: 14px 14px 4px 14px; box-shadow: 0 10px 28px rgba(2,11,31,.22); max-width: 220px; margin-bottom: -4px; }
+  .cw__hello { background: #fff; color: #071433; border-radius: 14px 14px 4px 14px; box-shadow: 0 10px 28px rgba(2,11,31,.22); max-width: 220px; margin-bottom: -4px; }
   .cw__hello-text { all: unset; cursor: pointer; display: block; padding: 10px 26px 10px 14px; font-size: 14px; line-height: 1.35; }
   .cw__hello-close { position: absolute; top: 2px; right: 4px; border: 0; background: none; font-size: 18px; line-height: 1; cursor: pointer; color: #6b7280; padding: 4px; }
-  .cw__panel { width: min(340px, calc(100vw - 36px)); max-height: min(520px, calc(100vh - 200px)); background: #fff; border-radius: 16px; box-shadow: 0 18px 48px rgba(2,11,31,.35); display: flex; flex-direction: column; overflow: hidden; }
+  .cw__panel { width: min(340px, calc(100vw - 36px)); max-height: min(540px, calc(100vh - 140px)); background: #fff; border-radius: 16px; box-shadow: 0 18px 48px rgba(2,11,31,.35); display: flex; flex-direction: column; overflow: hidden; }
   .cw__head { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: #071433; color: #fff; border-bottom: 3px solid #ffc400; }
   .cw__head img { width: 40px; height: 40px; border-radius: 50%; }
   .cw__head div { display: flex; flex-direction: column; font-size: 14px; line-height: 1.25; flex: 1; }
@@ -189,11 +184,4 @@ const wa = waLink();
   .cw__form button { border: 0; background: #071433; color: #ffc400; width: 40px; border-radius: 50%; cursor: pointer; font-size: 16px; }
   .cw__wa { display: flex; align-items: center; justify-content: center; gap: 8px; background: #25d366; color: #fff; font-weight: 700; font-size: 14.5px; padding: 12px; text-decoration: none; }
   .cw__wa svg { width: 20px; height: 20px; }
-  .cw.is-open .wa-float { display: none; }
-  @media (max-width: 1080px) {
-    body.has-mobile-bar .cw { bottom: 86px; right: 12px; }
-    .wa-float { width: 54px; height: 54px; }
-    .cw__launcher, .cw__launcher img { width: 48px; height: 48px; }
-  }
-  @media (prefers-reduced-motion: reduce) { .wa-float { animation: none; } }
 </style>
